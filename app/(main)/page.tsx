@@ -3,6 +3,7 @@ import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
 import space from "@/public/space.png"
 import arrow from "@/public/arrow.svg"
+import news from "@/public/브릿지경제.png"
 
 import React, { useRef, useEffect, useState } from 'react';
 // import { useDraggable } from 'react-use-draggable-scroll';
@@ -17,6 +18,9 @@ export default function Home() {
             <BaramPage />
             <BaramFeaturePage />
             <PortfolioPage />
+            <DocumentationPage />
+            <InThePressPage />
+            <PartnershipPage />
         </div>
     );
 }
@@ -210,4 +214,266 @@ const PortfolioPage = () => {
     );
 };
 
-const 
+const DocumentationPage = () => {
+    const documentation1 = [
+        "BARAM의 Real Time Simulator 성능 평가",
+        "BARAM v25.3 Release Notes",
+        "BARAM Validation – Pressure based solver",
+        "BARAM Validation – Density based solver",
+        "BaramMesh Tips",
+        "ParaView Tips",
+        "공개 소스 CFD 프로그램 BARAM의 개발 방법 및 현황",
+        "BARAM 서브스크립션과 서비스",
+        "BARAM v25.2 Release Notes",
+        "BARAM v25.1 Release notes"
+    ];
+
+    const documentation2 = [
+        "오픈 소스를 이용한 CFD Workflow 혁신",
+        "CFD 패러다임의 전환",
+        "전산유체역학(CFD)이란",
+        "전산유체역학(CFD) 해석 절차서",
+        "NextFOAM 이란?",
+        "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질",
+        "대기 오염물질 확산 CFD SaaS 개발",
+        "Open Source CFD, OpenFOAM에 대한 오해",
+        "Cavitation 해석 사례",
+        "CFD Workflow 최적화"
+    ];
+    return (
+        <div className="bg-black w-full h-[260vh] flex flex-col p-[1rem]">
+            <Index text={"DOCUMENTATION"} className={"mt-[8rem] mb-[8rem]"} />
+            {documentation1.map((text) => (
+                <div className="relative">
+                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                        {text}
+                    </div>
+                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                </div>
+            ))}
+            <div className="mb-[8rem]"></div>
+            {documentation2.map((text) => (
+                <div className="relative">
+                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                        {text}
+                    </div>
+                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+const InThePressPage = () => {
+    const newsItems = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    return (
+        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+            <Index text={"IN THE PRESS"} className={"mt-[8rem]"} />
+            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+                IN THE PRESS
+            </div>
+
+            <div className="overflow-hidden">
+                <div className="flex animate-scroll">
+                    {/* 첫 번째 세트 */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`first-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                    {/* 두 번째 세트 */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`second-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                    {/* 세 번째 세트 (더 부드러운 전환을 위해) */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`third-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <style jsx>{`
+                @keyframes scroll {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(calc(-100% / 3));
+                    }
+                }
+
+                .animate-scroll {
+                    animation: scroll 40s linear infinite;
+                    width: max-content;
+                }
+            `}</style>
+        </div>
+    );
+};
+
+
+const PartnershipPage = () => {
+    // 이미지 URL 리스트 (무한 확장 가능)
+    const logoImages = [
+        'https://cdn.simpleicons.org/google/ffffff',
+        'https://cdn.simpleicons.org/apple/ffffff',
+        'https://cdn.simpleicons.org/microsoft/ffffff',
+        'https://cdn.simpleicons.org/amazon/ffffff',
+        'https://cdn.simpleicons.org/meta/ffffff',
+        'https://cdn.simpleicons.org/netflix/ffffff',
+        'https://cdn.simpleicons.org/spotify/ffffff',
+        'https://cdn.simpleicons.org/nike/ffffff',
+        'https://cdn.simpleicons.org/adidas/ffffff',
+        'https://cdn.simpleicons.org/tesla/ffffff',
+        'https://cdn.simpleicons.org/samsung/ffffff',
+        'https://cdn.simpleicons.org/sony/ffffff',
+        'https://cdn.simpleicons.org/intel/ffffff',
+        'https://cdn.simpleicons.org/nvidia/ffffff',
+        'https://cdn.simpleicons.org/amd/ffffff',
+        'https://cdn.simpleicons.org/adobe/ffffff',
+        'https://cdn.simpleicons.org/ibm/ffffff',
+        'https://cdn.simpleicons.org/oracle/ffffff',
+        'https://cdn.simpleicons.org/salesforce/ffffff',
+        'https://cdn.simpleicons.org/airbnb/ffffff',
+        'https://cdn.simpleicons.org/uber/ffffff',
+        'https://cdn.simpleicons.org/twitter/ffffff',
+        'https://cdn.simpleicons.org/linkedin/ffffff',
+        'https://cdn.simpleicons.org/github/ffffff',
+        'https://cdn.simpleicons.org/stripe/ffffff',
+        'https://cdn.simpleicons.org/shopify/ffffff',
+        'https://cdn.simpleicons.org/slack/ffffff',
+        'https://cdn.simpleicons.org/zoom/ffffff',
+        'https://cdn.simpleicons.org/dropbox/ffffff',
+        'https://cdn.simpleicons.org/notion/ffffff',
+    ];
+
+    // 3줄로 나누기
+    const rowCount = 3;
+    const itemsPerRow = Math.ceil(logoImages.length / rowCount);
+
+    const rows = [
+        logoImages.slice(0, itemsPerRow),
+        logoImages.slice(itemsPerRow, itemsPerRow * 2),
+        logoImages.slice(itemsPerRow * 2)
+    ];
+
+    return (
+        <div className="bg-black w-full h-[270vh] flex flex-col p-[1rem]">
+            <Index text={"PARTNERSHIP"} className={"mt-[8rem]"} />
+            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+                CLIENT WE WORK WITH
+            </div>
+            {rows.map((rowLogos, rowIndex) => (
+                <div key={rowIndex} className="overflow-hidden py-8">
+                    <div
+                        className="flex animate-scroll"
+                        style={{
+                            animationDirection: rowIndex % 2 === 0 ? 'normal' : 'reverse',
+                            animationDuration: `${30 + rowIndex * 5}s`
+                        }}
+                    >
+                        {/* 첫 번째 세트 */}
+                        {rowLogos.map((logo, index) => (
+                            <div
+                                key={`${rowIndex}-first-${index}`}
+                                className="flex items-center justify-center px-12 min-w-[200px]"
+                            >
+                                <img
+                                    src={logo}
+                                    alt={`Logo ${index + 1}`}
+                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                />
+                            </div>
+                        ))}
+                        {/* 두 번째 세트 */}
+                        {rowLogos.map((logo, index) => (
+                            <div
+                                key={`${rowIndex}-second-${index}`}
+                                className="flex items-center justify-center px-12 min-w-[200px]"
+                            >
+                                <img
+                                    src={logo}
+                                    alt={`Logo ${index + 1}`}
+                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                />
+                            </div>
+                        ))}
+                        {/* 세 번째 세트 */}
+                        {rowLogos.map((logo, index) => (
+                            <div
+                                key={`${rowIndex}-third-${index}`}
+                                className="flex items-center justify-center px-12 min-w-[200px]"
+                            >
+                                <img
+                                    src={logo}
+                                    alt={`Logo ${index + 1}`}
+                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
+
+            <style jsx>{`
+                @keyframes scroll {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(calc(-100% / 3));
+                    }
+                }
+
+                .animate-scroll {
+                    animation: scroll 30s linear infinite;
+                    width: max-content;
+                }
+            `}</style>
+        </div>
+    );
+};
