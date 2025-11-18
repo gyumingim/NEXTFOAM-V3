@@ -21,6 +21,10 @@ export default function Home() {
             <DocumentationPage />
             <InThePressPage />
             <PartnershipPage />
+            <ReleasePage />
+            <CompanyNewsPage />
+            <JoinTeamPage />
+            <FooterPage />
         </div>
     );
 }
@@ -356,9 +360,16 @@ const InThePressPage = () => {
 };
 
 
-const PartnershipPage = () => {
-    // 이미지 URL 리스트 (무한 확장 가능)
-    const logoImages = [
+interface LogoRow {
+    logos: string[];
+    speed: number;
+    direction: 1 | -1;
+}
+
+const PartnershipPage: React.FC = () => {
+    const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+
+    const logoImages: string[] = [
         'https://cdn.simpleicons.org/google/ffffff',
         'https://cdn.simpleicons.org/apple/ffffff',
         'https://cdn.simpleicons.org/meta/ffffff',
@@ -384,89 +395,315 @@ const PartnershipPage = () => {
         'https://cdn.simpleicons.org/notion/ffffff',
     ];
 
-    // 3줄로 나누기
     const rowCount = 3;
     const itemsPerRow = Math.ceil(logoImages.length / rowCount);
 
-    const rows = [
-        logoImages.slice(0, itemsPerRow),
-        logoImages.slice(itemsPerRow, itemsPerRow * 2),
-        logoImages.slice(itemsPerRow * 2)
+    const rows: LogoRow[] = [
+        { logos: logoImages.slice(0, itemsPerRow), speed: 0.5, direction: 1 },
+        { logos: logoImages.slice(itemsPerRow, itemsPerRow * 2), speed: 0.6, direction: 1 },
+        { logos: logoImages.slice(itemsPerRow * 2), speed: 0.7, direction: 1 }
     ];
 
     return (
-        <div className="bg-black w-full h-[270vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[130vh] flex flex-col p-[1rem]">
             <Index text={"PARTNERSHIP"} className={"mt-[8rem]"} />
             <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
                 CLIENT WE WORK WITH
             </div>
-            {rows.map((rowLogos, rowIndex) => (
-                <div key={rowIndex} className="overflow-hidden py-8">
-                    <div
-                        className="flex animate-scroll"
-                        style={{
-                            animationDirection: rowIndex % 2 === 0 ? 'normal' : 'reverse',
-                            animationDuration: `${30 + rowIndex * 5}s`
-                        }}
-                    >
-                        {/* 첫 번째 세트 */}
-                        {rowLogos.map((logo, index) => (
-                            <div
-                                key={`${rowIndex}-first-${index}`}
-                                className="flex items-center justify-center px-12 min-w-[200px]"
-                            >
-                                <img
-                                    src={logo}
-                                    alt={`Logo ${index + 1}`}
-                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
-                                />
-                            </div>
-                        ))}
-                        {/* 두 번째 세트 */}
-                        {rowLogos.map((logo, index) => (
-                            <div
-                                key={`${rowIndex}-second-${index}`}
-                                className="flex items-center justify-center px-12 min-w-[200px]"
-                            >
-                                <img
-                                    src={logo}
-                                    alt={`Logo ${index + 1}`}
-                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
-                                />
-                            </div>
-                        ))}
-                        {/* 세 번째 세트 */}
-                        {rowLogos.map((logo, index) => (
-                            <div
-                                key={`${rowIndex}-third-${index}`}
-                                className="flex items-center justify-center px-12 min-w-[200px]"
-                            >
-                                <img
-                                    src={logo}
-                                    alt={`Logo ${index + 1}`}
-                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
-                                />
-                            </div>
-                        ))}
-                    </div>
-                </div>
+            {rows.map((row, rowIndex) => (
+                <InfiniteScrollRow
+                    key={rowIndex}
+                    logos={row.logos}
+                    speed={row.speed}
+                    direction={row.direction}
+                    isHovered={hoveredRow === rowIndex}
+                    onHoverChange={(hovered) => setHoveredRow(hovered ? rowIndex : null)}
+                />
             ))}
+        </div>
+    );
+};
 
-            <style jsx>{`
-                @keyframes scroll {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(calc(-100% / 3));
-                    }
-                }
+interface InfiniteScrollRowProps {
+    logos: string[];
+    speed: number;
+    direction: 1 | -1;
+    isHovered: boolean;
+    onHoverChange: (hovered: boolean) => void;
+}
 
-                .animate-scroll {
-                    animation: scroll 30s linear infinite;
-                    width: max-content;
+const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
+    logos,
+    speed,
+    direction,
+    isHovered,
+    onHoverChange
+}) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const animationRef = useRef<number>(0);
+    const positionRef = useRef<number>(0);
+    const targetSpeedRef = useRef<number>(speed);
+    const currentSpeedRef = useRef<number>(speed);
+
+    useEffect(() => {
+        targetSpeedRef.current = isHovered ? speed * 3 : speed;
+    }, [isHovered, speed]);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const animate = () => {
+            // 부드러운 속도 전환 (lerp)
+            currentSpeedRef.current += (targetSpeedRef.current - currentSpeedRef.current) * 0.1;
+
+            // 위치 업데이트
+            positionRef.current += currentSpeedRef.current * direction;
+
+            // 컨테이너 너비의 1/3 지점에서 리셋 (3세트 중 1세트 통과)
+            const resetPoint = container.scrollWidth / 3;
+
+            if (direction === 1) {
+                if (positionRef.current >= resetPoint) {
+                    positionRef.current -= resetPoint;
                 }
-            `}</style>
+            } else {
+                if (positionRef.current <= -resetPoint) {
+                    positionRef.current += resetPoint;
+                }
+            }
+
+            container.style.transform = `translateX(${-positionRef.current}px)`;
+            animationRef.current = requestAnimationFrame(animate);
+        };
+
+        animationRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
+    }, [direction]);
+
+    return (
+        <div
+            className="overflow-hidden py-12"
+            onMouseEnter={() => onHoverChange(true)}
+            onMouseLeave={() => onHoverChange(false)}
+        >
+            <div ref={containerRef} className="flex" style={{ width: 'max-content' }}>
+                {[...Array(3)].map((_, setIndex) => (
+                    <React.Fragment key={setIndex}>
+                        {logos.map((logo, index) => (
+                            <div
+                                key={`${setIndex}-${index}`}
+                                className="flex items-center justify-center px-12 min-w-[200px]"
+                            >
+                                <img
+                                    src={logo}
+                                    alt={`Logo ${index + 1}`}
+                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                />
+                            </div>
+                        ))}
+                    </React.Fragment>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const ReleasePage = () => {
+    return (
+        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+            <Index text={"RELEASE"} className={"mt-[8rem]"} />
+            <div className="flex justify-end mt-[2rem]">
+                <button className="text-white text-lg underline">
+                    More
+                </button>
+            </div>
+
+            <div className="flex gap-8 mt-8">
+                {[1, 2, 3].map((item) => (
+                    <div key={item} className="flex-1 flex flex-col">
+                        <div className="w-full aspect-square relative overflow-hidden">
+                            <Image src={space} alt="" className="w-full h-full object-cover" />
+                        </div>
+
+                        <div className="flex justify-between mt-[.75rem]">
+                            <span className="text-white/60 text-sm">FREE RELEASE</span>
+                            <span className="text-white/60 text-sm">2025.10.24</span>
+                        </div>
+
+                        <h3 className="text-white text-xl mt-[1.5rem]">
+                            IWC Schaffhausen and Vast Enter into a Strategic Collaboration
+                        </h3>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const CompanyNewsPage = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const newsItems = [
+        {
+            id: 1,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 2,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 3,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 4,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 5,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        }
+    ];
+
+    const visibleItems = 3;
+    const maxIndex = newsItems.length - visibleItems;
+
+    const handlePrev = () => {
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
+    };
+
+    const handleNext = () => {
+        setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+    };
+
+    const handlePause = () => {
+        setIsPaused(!isPaused);
+    };
+
+    return (
+        <div className="bg-black w-full min-h-screen flex flex-col p-[1rem]">
+            <Index text={"COMPANY NEWS"} className={"mt-[8rem]"} />
+            <div className="flex justify-end gap-[2rem] mt-8 mb-8">
+                <button
+                    onClick={handlePrev}
+                    disabled={currentIndex === 0}
+                    className="text-white text-3xl disabled:opacity-30"
+                >
+                    <Image src={arrow} alt="" className="w-full h-full object-cover scale-x-[-1]" />
+                </button>
+                <button
+                    onClick={handleNext}
+                    disabled={currentIndex === maxIndex}
+                    className="text-white text-3xl disabled:opacity-30"
+                >
+                    <Image src={arrow} alt="" />
+                </button>
+            </div>
+
+            <div className="overflow-hidden  border-y-1 border-white/30">
+                <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{ transform: `translateX(-${currentIndex * (100 / visibleItems)}%)` }}
+                >
+                    {newsItems.map((item) => (
+                        <div key={item.id} className="min-w-[calc(33.333%)] flex flex-row gap-4 items-center py-[1rem]">
+                            <div className="w-32 h-20 relative overflow-hidden flex-shrink-0">
+                                <Image src={item.image} alt="" className="w-full h-full object-cover" />
+                            </div>
+
+                            <h3 className="text-white text-base leading-tight">
+                                {item.title}
+                            </h3>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const JoinTeamPage = () => {
+    return (
+        <div className="relative w-full h-[120vh] overflow-hidden select-none">
+            {/* 배경 이미지 */}
+            <div className="absolute inset-0 w-full h-full">
+                <Image
+                    src={space}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                    priority
+                />
+            </div>
+
+            {/* 오버레이 (선택사항 - 텍스트 가독성 높이기) */}
+            <div className="absolute inset-0 bg-black/40"></div>
+
+            {/* 컨텐츠 */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                <h1 className="text-white text-7xl font-light mb-8">
+                    Join our<br />team
+                </h1>
+
+                <p className="text-white text-lg max-w-2xl mb-12 leading-relaxed">
+                    Join the only space station company fully funded to design,
+                    manufacture, launch, and send a crew to the world's first
+                    commercial space station.
+                </p>
+
+                <button className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300">
+                    View open positions
+                </button>
+            </div>
+        </div>
+    );
+};
+
+const FooterPage = () => {
+    return (
+        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between p-8 select-none overflow-hidden">
+            <div className="mt-[8rem]">
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    서울 금천구 디지털로9길 32 A동 1106호 <span className="text-white/20">ASDNVOI IVHOAS</span> Github<span className="text-white/20"> BJZM</span> Naver Blog <span className="text-white/20">VUIXJNOBIZBWE</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    marketing@nextfoam.co.kr <span className="text-white/20">ASDVASD K DJSOPV SDA </span>Youtube<span className="text-white/20"> ASD </span>Baram Portal<span className="text-white/20">SAIND CIASJDS</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    070-8796-3019 <span className="text-white/20">BIASNUD USDHAJW DK AKSL ASDAI </span>Linkedin<span className="text-white/20"> LUX </span>Nextfoam Blog<span className="text-white/20"> BNOAJIBXND</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    찾아오는 길 <span className="text-white/20">AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>Instagram<span className="text-white/20"> GHOQL ZLFG PQND SGJAA KJS</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGOUZ </span>Facebook<span className="text-white/20"> ZM OV HGQ JSHGAIBG PPXUSN</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    Privacy Policy <span className="text-white/20">NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG</span> @Nextfoam
+                </div>
+            </div>
+            <div className="text-white text-[clamp(23vw,23vw,23vw)] absolute left-0 bottom-0 leading-[17vw]">
+                Nextfoam
+            </div>
         </div>
     );
 };

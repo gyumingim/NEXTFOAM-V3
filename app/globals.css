@@ -13,6 +13,21 @@ img {
   user-drag: none;
 }
 
+*,
+*::before,
+*::after {
+  -webkit-user-select: none; /* Chrome/Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE10+ */
+  user-select: none;         /* 표준 */
+  -webkit-user-drag: none;   /* 이미지 등 드래그(크롬/사파리) */
+}
+
+/* 이미지나 링크에 추가 안전장치 */
+img, a {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
