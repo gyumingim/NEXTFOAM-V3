@@ -1,0 +1,709 @@
+"use client"
+import { Header } from "@/widgets/header/Header";
+import Image from "next/image";
+import space from "@/public/space.png"
+import arrow from "@/public/arrow.svg"
+import news from "@/public/브릿지경제.png"
+
+import React, { useRef, useEffect, useState } from 'react';
+// import { useDraggable } from 'react-use-draggable-scroll';
+
+export default function Home() {
+    return (
+        <div className="w-full h-full">
+            <Header />
+            <HeroPage />
+            <DescriptionPage />
+            <PurposePage />
+            <BaramPage />
+            <BaramFeaturePage />
+            <PortfolioPage />
+            <DocumentationPage />
+            <InThePressPage />
+            <PartnershipPage />
+            <ReleasePage />
+            <CompanyNewsPage />
+            <JoinTeamPage />
+            <FooterPage />
+        </div>
+    );
+}
+
+const HeroPage = () => {
+    return (
+        <div className="w-full h-[100vh] overflow-hidden">
+            <Image src={space} alt="null" className="overflow-hidden" />
+            <div className="absolute bottom-[1rem] left-[1rem] text-white text-[6rem] leading-[5.875rem]">
+                Opening <br />
+                next-generation <br />
+                CFD simulation
+            </div>
+        </div>
+    )
+}
+
+const Index = ({ text, className }: { text: string, className?: string }) => {
+    return (
+        <div className={className}>
+            <span className="text-black bg-white px-[.5rem] py-[.25rem]">{text}</span>
+            <span className="text-white px-[.5rem]">{text}</span>
+        </div>
+    )
+}
+
+const DescriptionPage = () => {
+    return (
+        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+            <Index text={"INTRODUCE"} className={"mt-[8rem] mb-[6rem]"} />
+            <div className="text-white text-[3.5rem] leading-[4rem]">
+                Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living and thriving in space. Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living and thriving in space. Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living
+            </div>
+        </div>
+    )
+}
+
+const PurposePage = () => {
+    return (
+        <div className="bg-black w-full h-[190vh] flex flex-col p-[1rem]">
+            <Index text={"PURPOSE"} className={"mt-[8rem] mb-[2rem]"} />
+            <div className="flex-row flex p-[3rem] justify-between">
+                <div className="text-white text-[3rem] leading-[3.5rem]">
+                    Free CFD software making <br />
+                    computational fluid dynamics <br />
+                    accessible to everyone.
+                </div>
+                <div className="flex justify-between flex-col">
+                    <div className="text-white">
+                        In November 2025, Haven Demo achieved mission success after deploying from <br />
+                        SpaceX’s Bandwagon-4 flight. The spacecraft captured 4K video of its solar <br />
+                        array deployment and is now power-positive.
+                    </div>
+                    <div className="flex flex-row items-center gap-[1rem]">
+                        <Image src={arrow} alt="none" />
+                        <div className="text-white">Leam more</div>
+                    </div>
+                </div>
+            </div>
+            <div className="p-[3rem]">
+                <Image src={space} alt="" />
+                <div className="text-white/50 text-right">Launch video Courtesy of spaceX</div>
+            </div>
+
+        </div>
+    )
+}
+
+const BaramPage = () => {
+    return (
+        <div className="bg-black w-full h-[120vh] flex flex-col p-[1rem]">
+            <Index text={"BARAM"} className={"mt-[8rem] mb-[8rem]"} />
+            <div className="w-screen h-[50%] flex items-center justify-center">
+                <div className="text-white/30 text-[clamp(5rem,100vw,28.5rem)] left-0 absolute">
+                    BARAM
+                </div>
+            </div>
+
+            <div className="flex-row flex justify-between p-[1rem]">
+                <div className="text-white">
+                    The world’s first commercial <br />
+                    space station
+                </div>
+                <div className="text-white">
+                    2019-2025
+                </div>
+            </div>
+            <div className="flex-row flex items-center p-[1rem] gap-[1rem]">
+                <Image src={arrow} alt="" />
+                <div className="text-white">Learn more</div>
+            </div>
+
+        </div>
+    )
+}
+const BaramFeaturePage: React.FC = () => {
+    const scrollRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
+    // const { events } = useDraggable(scrollRef);
+    const [isPaused, setIsPaused] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const totalItems = 3;
+
+    const scrollToIndex = (index: number) => {
+        if (scrollRef.current) {
+            const scrollWidth = scrollRef.current.scrollWidth / totalItems;
+            scrollRef.current.scrollTo({ left: scrollWidth * index, behavior: 'smooth' });
+            setCurrentIndex(index);
+        }
+    };
+
+    const handlePrev = () => scrollToIndex(currentIndex === 0 ? totalItems - 1 : currentIndex - 1);
+    const handleNext = () => scrollToIndex((currentIndex + 1) % totalItems);
+
+    useEffect(() => {
+        if (isPaused) return;
+        const interval = setInterval(handleNext, 3000);
+        return () => clearInterval(interval);
+    }, [currentIndex, isPaused]);
+
+    return (
+        <div className="bg-black w-full h-[150vh] flex flex-col p-[1rem]">
+            <Index text={"BARAM FEATURE"} className={"mt-[8rem] mb-[8rem]"} />
+            <div
+                ref={scrollRef}
+                // {...events}
+                className="flex flex-row overflow-x-auto gap-8 scrollbar-hide cursor-grab active:cursor-grabbing"
+            >
+                {[1, 2, 3].map((item) => (
+                    <div key={item} className="w-[70rem] h-[40rem] relative min-w-[70rem] overflow-hidden">
+                        <div className="text-white text-[4rem] font-light mb-4">SUBSCRIPTION {item}</div>
+                        <Image src={space} alt="" />
+                        <div className="bg-white/60 absolute z-10 bottom-0 text-xl backdrop-blur-sm px-2 py-1 ">
+                            BARAM® offers software maintenance, technical <br />
+                            support, and training services through a subscription <br />
+                            agreement with Nextfoam. When necessary, <br />
+                            verification can be performed through BMT. The <br />
+                            development priorities of BARAM are determined <br />
+                            primarily based on the requests of subscription <br />
+                            customers. Two subscription tiers—Workgroup and <br />
+                            Enterprise—are available to meet different customer <br />
+                            needs.
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            <div className="flex flex-col items-center gap-4 mt-8">
+                <div className="w-full h-1 bg-white/20 relative">
+                    <div
+                        className="absolute h-full bg-white transition-all duration-1000"
+                        style={{ width: `${((currentIndex + 1) / totalItems) * 100}%` }}
+                    />
+                </div>
+                <div className="flex gap-4">
+                    <button onClick={handlePrev} className="text-white text-2xl px-4 py-2">←</button>
+                    <button onClick={() => setIsPaused(!isPaused)} className="text-white text-2xl px-4 py-2">
+                        {isPaused ? '▶' : '||'}
+                    </button>
+                    <button onClick={handleNext} className="text-white text-2xl px-4 py-2">→</button>
+                </div>
+            </div>
+
+            <style jsx>{`
+                .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                }
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            `}</style>
+        </div>
+    );
+};
+
+const PortfolioPage = () => {
+    const items = [1, 2, 3, 4, 5, 6, 7, 8]; // 8개 아이템 예시
+
+    return (
+        <div className="bg-black w-full h-[370vh] flex flex-col p-[1rem]">
+            <Index text={"PORTFOLIO"} className={"mt-[8rem] mb-[8rem]"} />
+            <div className="grid grid-cols-2 gap-4">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
+                    <div key={key} className="text-white h-[35rem] relative">
+                        <Image src={space} alt="" className="w-full h-full object-cover rounded-sm" />
+                        <div className="absolute bottom-[.25rem] left-[.75rem] z-100 text-[1.5rem]">CFD를 이용한 폭발 시뮬레이션</div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const DocumentationPage = () => {
+    const documentation1 = [
+        "BARAM의 Real Time Simulator 성능 평가",
+        "BARAM v25.3 Release Notes",
+        "BARAM Validation – Pressure based solver",
+        "BARAM Validation – Density based solver",
+        "BaramMesh Tips",
+        "ParaView Tips",
+        "공개 소스 CFD 프로그램 BARAM의 개발 방법 및 현황",
+        "BARAM 서브스크립션과 서비스",
+        "BARAM v25.2 Release Notes",
+        "BARAM v25.1 Release notes"
+    ];
+
+    const documentation2 = [
+        "오픈 소스를 이용한 CFD Workflow 혁신",
+        "CFD 패러다임의 전환",
+        "전산유체역학(CFD)이란",
+        "전산유체역학(CFD) 해석 절차서",
+        "NextFOAM 이란?",
+        "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질",
+        "대기 오염물질 확산 CFD SaaS 개발",
+        "Open Source CFD, OpenFOAM에 대한 오해",
+        "Cavitation 해석 사례",
+        "CFD Workflow 최적화"
+    ];
+    return (
+        <div className="bg-black w-full h-[260vh] flex flex-col p-[1rem]">
+            <Index text={"DOCUMENTATION"} className={"mt-[8rem] mb-[8rem]"} />
+            {documentation1.map((text) => (
+                <div className="relative">
+                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                        {text}
+                    </div>
+                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                </div>
+            ))}
+            <div className="mb-[8rem]"></div>
+            {documentation2.map((text) => (
+                <div className="relative">
+                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                        {text}
+                    </div>
+                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                </div>
+            ))}
+        </div>
+    )
+}
+
+const InThePressPage = () => {
+    const newsItems = [1, 2, 3, 4, 5, 6, 7, 8];
+
+    return (
+        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+            <Index text={"IN THE PRESS"} className={"mt-[8rem]"} />
+            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+                IN THE PRESS
+            </div>
+
+            <div className="overflow-hidden">
+                <div className="flex animate-scroll">
+                    {/* 첫 번째 세트 */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`first-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                    {/* 두 번째 세트 */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`second-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                    {/* 세 번째 세트 (더 부드러운 전환을 위해) */}
+                    {newsItems.map((key) => (
+                        <div
+                            key={`third-${key}`}
+                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                        >
+                            <Image src={news} alt="" />
+                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
+                                BARAM® offers software
+                                maintenance, technical support,
+                                and training services through a
+                                subscription agreement with
+                                Nextfoam. When necessary,
+                                verification can be performed When
+                                necessary, verification can be
+                                performed verification can be
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            <style jsx>{`
+                @keyframes scroll {
+                    0% {
+                        transform: translateX(0);
+                    }
+                    100% {
+                        transform: translateX(calc(-100% / 3));
+                    }
+                }
+
+                .animate-scroll {
+                    animation: scroll 40s linear infinite;
+                    width: max-content;
+                }
+            `}</style>
+        </div>
+    );
+};
+
+
+interface LogoRow {
+    logos: string[];
+    speed: number;
+    direction: 1 | -1;
+}
+
+const PartnershipPage: React.FC = () => {
+    const [hoveredRow, setHoveredRow] = useState<number | null>(null);
+
+    const logoImages: string[] = [
+        'https://cdn.simpleicons.org/google/ffffff',
+        'https://cdn.simpleicons.org/apple/ffffff',
+        'https://cdn.simpleicons.org/meta/ffffff',
+        'https://cdn.simpleicons.org/netflix/ffffff',
+        'https://cdn.simpleicons.org/spotify/ffffff',
+        'https://cdn.simpleicons.org/nike/ffffff',
+        'https://cdn.simpleicons.org/adidas/ffffff',
+        'https://cdn.simpleicons.org/tesla/ffffff',
+        'https://cdn.simpleicons.org/samsung/ffffff',
+        'https://cdn.simpleicons.org/sony/ffffff',
+        'https://cdn.simpleicons.org/intel/ffffff',
+        'https://cdn.simpleicons.org/nvidia/ffffff',
+        'https://cdn.simpleicons.org/amd/ffffff',
+        'https://cdn.simpleicons.org/salesforce/ffffff',
+        'https://cdn.simpleicons.org/airbnb/ffffff',
+        'https://cdn.simpleicons.org/uber/ffffff',
+        'https://cdn.simpleicons.org/github/ffffff',
+        'https://cdn.simpleicons.org/stripe/ffffff',
+        'https://cdn.simpleicons.org/shopify/ffffff',
+        'https://cdn.simpleicons.org/slack/ffffff',
+        'https://cdn.simpleicons.org/zoom/ffffff',
+        'https://cdn.simpleicons.org/dropbox/ffffff',
+        'https://cdn.simpleicons.org/notion/ffffff',
+    ];
+
+    const rowCount = 3;
+    const itemsPerRow = Math.ceil(logoImages.length / rowCount);
+
+    const rows: LogoRow[] = [
+        { logos: logoImages.slice(0, itemsPerRow), speed: 0.5, direction: 1 },
+        { logos: logoImages.slice(itemsPerRow, itemsPerRow * 2), speed: 0.6, direction: 1 },
+        { logos: logoImages.slice(itemsPerRow * 2), speed: 0.7, direction: 1 }
+    ];
+
+    return (
+        <div className="bg-black w-full h-[130vh] flex flex-col p-[1rem]">
+            <Index text={"PARTNERSHIP"} className={"mt-[8rem]"} />
+            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+                CLIENT WE WORK WITH
+            </div>
+            {rows.map((row, rowIndex) => (
+                <InfiniteScrollRow
+                    key={rowIndex}
+                    logos={row.logos}
+                    speed={row.speed}
+                    direction={row.direction}
+                    isHovered={hoveredRow === rowIndex}
+                    onHoverChange={(hovered) => setHoveredRow(hovered ? rowIndex : null)}
+                />
+            ))}
+        </div>
+    );
+};
+
+interface InfiniteScrollRowProps {
+    logos: string[];
+    speed: number;
+    direction: 1 | -1;
+    isHovered: boolean;
+    onHoverChange: (hovered: boolean) => void;
+}
+
+const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
+    logos,
+    speed,
+    direction,
+    isHovered,
+    onHoverChange
+}) => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const animationRef = useRef<number>(0);
+    const positionRef = useRef<number>(0);
+    const targetSpeedRef = useRef<number>(speed);
+    const currentSpeedRef = useRef<number>(speed);
+
+    useEffect(() => {
+        targetSpeedRef.current = isHovered ? speed * 3 : speed;
+    }, [isHovered, speed]);
+
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const animate = () => {
+            // 부드러운 속도 전환 (lerp)
+            currentSpeedRef.current += (targetSpeedRef.current - currentSpeedRef.current) * 0.1;
+
+            // 위치 업데이트
+            positionRef.current += currentSpeedRef.current * direction;
+
+            // 컨테이너 너비의 1/3 지점에서 리셋 (3세트 중 1세트 통과)
+            const resetPoint = container.scrollWidth / 3;
+
+            if (direction === 1) {
+                if (positionRef.current >= resetPoint) {
+                    positionRef.current -= resetPoint;
+                }
+            } else {
+                if (positionRef.current <= -resetPoint) {
+                    positionRef.current += resetPoint;
+                }
+            }
+
+            container.style.transform = `translateX(${-positionRef.current}px)`;
+            animationRef.current = requestAnimationFrame(animate);
+        };
+
+        animationRef.current = requestAnimationFrame(animate);
+
+        return () => {
+            if (animationRef.current) {
+                cancelAnimationFrame(animationRef.current);
+            }
+        };
+    }, [direction]);
+
+    return (
+        <div
+            className="overflow-hidden py-12"
+            onMouseEnter={() => onHoverChange(true)}
+            onMouseLeave={() => onHoverChange(false)}
+        >
+            <div ref={containerRef} className="flex" style={{ width: 'max-content' }}>
+                {[...Array(3)].map((_, setIndex) => (
+                    <React.Fragment key={setIndex}>
+                        {logos.map((logo, index) => (
+                            <div
+                                key={`${setIndex}-${index}`}
+                                className="flex items-center justify-center px-12 min-w-[200px]"
+                            >
+                                <img
+                                    src={logo}
+                                    alt={`Logo ${index + 1}`}
+                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                />
+                            </div>
+                        ))}
+                    </React.Fragment>
+                ))}
+            </div>
+        </div>
+    );
+};
+
+const ReleasePage = () => {
+    return (
+        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+            <Index text={"RELEASE"} className={"mt-[8rem]"} />
+            <div className="flex justify-end mt-[2rem]">
+                <button className="text-white text-lg underline">
+                    More
+                </button>
+            </div>
+
+            <div className="flex gap-8 mt-8">
+                {[1, 2, 3].map((item) => (
+                    <div key={item} className="flex-1 flex flex-col">
+                        <div className="w-full aspect-square relative overflow-hidden">
+                            <Image src={space} alt="" className="w-full h-full object-cover" />
+                        </div>
+
+                        <div className="flex justify-between mt-[.75rem]">
+                            <span className="text-white/60 text-sm">FREE RELEASE</span>
+                            <span className="text-white/60 text-sm">2025.10.24</span>
+                        </div>
+
+                        <h3 className="text-white text-xl mt-[1.5rem]">
+                            IWC Schaffhausen and Vast Enter into a Strategic Collaboration
+                        </h3>
+                    </div>
+                ))}
+            </div>
+        </div>
+    )
+}
+
+const CompanyNewsPage = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+
+    const newsItems = [
+        {
+            id: 1,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 2,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 3,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 4,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        },
+        {
+            id: 5,
+            image: space,
+            title: "Nike N7 Collection Honors Connections to the Land with Running"
+        }
+    ];
+
+    const visibleItems = 3;
+    const maxIndex = newsItems.length - visibleItems;
+
+    const handlePrev = () => {
+        setCurrentIndex((prev) => Math.max(0, prev - 1));
+    };
+
+    const handleNext = () => {
+        setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
+    };
+
+    const handlePause = () => {
+        setIsPaused(!isPaused);
+    };
+
+    return (
+        <div className="bg-black w-full min-h-screen flex flex-col p-[1rem]">
+            <Index text={"COMPANY NEWS"} className={"mt-[8rem]"} />
+            <div className="flex justify-end gap-[2rem] mt-8 mb-8">
+                <button
+                    onClick={handlePrev}
+                    disabled={currentIndex === 0}
+                    className="text-white text-3xl disabled:opacity-30"
+                >
+                    <Image src={arrow} alt="" className="w-full h-full object-cover scale-x-[-1]" />
+                </button>
+                <button
+                    onClick={handleNext}
+                    disabled={currentIndex === maxIndex}
+                    className="text-white text-3xl disabled:opacity-30"
+                >
+                    <Image src={arrow} alt="" />
+                </button>
+            </div>
+
+            <div className="overflow-hidden  border-y-1 border-white/30">
+                <div
+                    className="flex transition-transform duration-500 ease-out"
+                    style={{ transform: `translateX(-${currentIndex * (100 / visibleItems)}%)` }}
+                >
+                    {newsItems.map((item) => (
+                        <div key={item.id} className="min-w-[calc(33.333%)] flex flex-row gap-4 items-center py-[1rem]">
+                            <div className="w-32 h-20 relative overflow-hidden flex-shrink-0">
+                                <Image src={item.image} alt="" className="w-full h-full object-cover" />
+                            </div>
+
+                            <h3 className="text-white text-base leading-tight">
+                                {item.title}
+                            </h3>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const JoinTeamPage = () => {
+    return (
+        <div className="relative w-full h-[120vh] overflow-hidden select-none">
+            {/* 배경 이미지 */}
+            <div className="absolute inset-0 w-full h-full">
+                <Image
+                    src={space}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                    priority
+                />
+            </div>
+
+            {/* 오버레이 (선택사항 - 텍스트 가독성 높이기) */}
+            <div className="absolute inset-0 bg-black/40"></div>
+
+            {/* 컨텐츠 */}
+            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
+                <h1 className="text-white text-7xl font-light mb-8">
+                    Join our<br />team
+                </h1>
+
+                <p className="text-white text-lg max-w-2xl mb-12 leading-relaxed">
+                    Join the only space station company fully funded to design,
+                    manufacture, launch, and send a crew to the world's first
+                    commercial space station.
+                </p>
+
+                <button className="px-8 py-3 bg-white/20 backdrop-blur-sm text-white border border-white/30 hover:bg-white/30 transition-all duration-300">
+                    View open positions
+                </button>
+            </div>
+        </div>
+    );
+};
+
+const FooterPage = () => {
+    return (
+        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between p-8 select-none overflow-hidden">
+            <div className="mt-[8rem]">
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    서울 금천구 디지털로9길 32 A동 1106호 <span className="text-white/20">ASDNVOI IVHOAS</span> Github<span className="text-white/20"> BJZM</span> Naver Blog <span className="text-white/20">VUIXJNOBIZBWE</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    marketing@nextfoam.co.kr <span className="text-white/20">ASDVASD K DJSOPV SDA </span>Youtube<span className="text-white/20"> ASD </span>Baram Portal<span className="text-white/20">SAIND CIASJDS</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    070-8796-3019 <span className="text-white/20">BIASNUD USDHAJW DK AKSL ASDAI </span>Linkedin<span className="text-white/20"> LUX </span>Nextfoam Blog<span className="text-white/20"> BNOAJIBXND</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    찾아오는 길 <span className="text-white/20">AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>Instagram<span className="text-white/20"> GHOQL ZLFG PQND SGJAA KJS</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGOUZ </span>Facebook<span className="text-white/20"> ZM OV HGQ JSHGAIBG PPXUSN</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    <span className="text-white/20">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
+                </div>
+                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                    Privacy Policy <span className="text-white/20">NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG</span> @Nextfoam
+                </div>
+            </div>
+            <div className="text-white text-[clamp(23vw,23vw,23vw)] absolute left-0 bottom-0 leading-[17vw]">
+                Nextfoam
+            </div>
+        </div>
+    );
+};
