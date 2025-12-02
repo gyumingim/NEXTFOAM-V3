@@ -5,6 +5,15 @@ import space from "@/public/space.png"
 import arrow from "@/public/arrow.svg"
 import news from "@/public/브릿지경제.png"
 
+import port1 from "@/public/port/port1.gif"
+import port2 from "@/public/port/port2.png"
+import port3 from "@/public/port/port3.webp"
+import port4 from "@/public/port/port4.png"
+import port5 from "@/public/port/port5.png"
+import port6 from "@/public/port/port6.png"
+import port7 from "@/public/port/port7.webp"
+import port8 from "@/public/port/port8.png"
+
 import React, { useRef, useEffect, useState } from 'react';
 // import { useDraggable } from 'react-use-draggable-scroll';
 
@@ -16,7 +25,7 @@ export default function Home() {
             <DescriptionPage />
             <PurposePage />
             <BaramPage />
-            <BaramFeaturePage />
+            {/* <BaramFeaturePage /> */}
             <PortfolioPage />
             <DocumentationPage />
             <InThePressPage />
@@ -53,10 +62,16 @@ const Index = ({ text, className }: { text: string, className?: string }) => {
 
 const DescriptionPage = () => {
     return (
-        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
             <Index text={"INTRODUCE"} className={"mt-[8rem] mb-[6rem]"} />
-            <div className="text-white text-[3.5rem] leading-[4rem]">
-                Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living and thriving in space. Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living and thriving in space. Vast is developing humanity’s most capable space stations, pioneering the next giant leap toward long-term living
+            <div className="text-white text-[3.5rem] leading-[4.3rem] text-white/60">
+                <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
+                OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
+                물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
+                이후 다양한 산업 분야의 전문 인력들이 동참하여 <span className="text-white/100">열유체 분야에서</span> <br />
+                <span className="text-white/100">국내의 대표적인 컨설팅 기업</span>으로 발전하였습니다. <br /><br />
+                <span className="text-white/100">광학 및 인공지능을 이용한 영상계측 분야</span>로 영역을 확장하여 <br />
+                현재 총 24명이 함께하고 있습니다.
             </div>
         </div>
     )
@@ -64,19 +79,21 @@ const DescriptionPage = () => {
 
 const PurposePage = () => {
     return (
-        <div className="bg-black w-full h-[190vh] flex flex-col p-[1rem]">
-            <Index text={"PURPOSE"} className={"mt-[8rem] mb-[2rem]"} />
-            <div className="flex-row flex p-[3rem] justify-between">
+        <div className="bg-black w-full h-[160vh] flex flex-col p-[1rem]">
+            <Index text={"PURPOSE"} className={"mt-[8rem]"} />
+            <div className="flex-row flex p-[3rem] justify-between pb-[1rem]">
                 <div className="text-white text-[3rem] leading-[3.5rem]">
                     Free CFD software making <br />
                     computational fluid dynamics <br />
                     accessible to everyone.
                 </div>
-                <div className="flex justify-between flex-col">
+                <div className="flex justify-between flex-col gap-[2rem]">
                     <div className="text-white">
-                        In November 2025, Haven Demo achieved mission success after deploying from <br />
-                        SpaceX’s Bandwagon-4 flight. The spacecraft captured 4K video of its solar <br />
-                        array deployment and is now power-positive.
+                        2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등<br />
+                        100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. <br />
+                        한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 <br />
+                        특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있으며, <br />
+                        국내외 학술지와 학술대회에 130편 이상의 논문을 발표하였습니다.<br />
                     </div>
                     <div className="flex flex-row items-center gap-[1rem]">
                         <Image src={arrow} alt="none" />
@@ -98,7 +115,7 @@ const BaramPage = () => {
         <div className="bg-black w-full h-[120vh] flex flex-col p-[1rem]">
             <Index text={"BARAM"} className={"mt-[8rem] mb-[8rem]"} />
             <div className="w-screen h-[50%] flex items-center justify-center">
-                <div className="text-white/30 text-[clamp(5rem,100vw,28.5rem)] left-0 absolute">
+                <div className="text-white/30 text-[clamp(5rem,100vw,30vw)] left-0 absolute">
                     BARAM
                 </div>
             </div>
@@ -201,19 +218,32 @@ const BaramFeaturePage: React.FC = () => {
 };
 
 const PortfolioPage = () => {
-    const items = [1, 2, 3, 4, 5, 6, 7, 8]; // 8개 아이템 예시
+    const items = [[port1, "CFD를 이용한 폭발(Explosion) 시뮬레이션"],
+    [port2, "대기 오염물 확산 CFD 시뮬레이션 SaaS 개발"],
+    [port3, "고속열차 전두부 형상 최적화"],
+    [port4, "비행체 CFD 해석 및 설계 통합 자동화 인터페이스 개발"],
+    [port5, "CFD Workflow 최적화"],
+    [port6, "비행체 공력 DB 구축 프레임워크 개발"],
+    [port7, "그리드 핀 공력DB 구축"],
+    [port8, "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질 확산 시뮬레이션"]]; // 8개 아이템 예시
 
     return (
         <div className="bg-black w-full h-[370vh] flex flex-col p-[1rem]">
             <Index text={"PORTFOLIO"} className={"mt-[8rem] mb-[8rem]"} />
             <div className="grid grid-cols-2 gap-4">
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((key) => (
+                {items.map((item, key) => (
                     <div key={key} className="text-white h-[35rem] relative">
-                        <Image src={space} alt="" className="w-full h-full object-cover rounded-sm" />
-                        <div className="absolute bottom-[.25rem] left-[.75rem] z-100 text-[1.5rem]">CFD를 이용한 폭발 시뮬레이션</div>
+                        <Image src={item[0]} alt="" className="w-full h-full object-cover rounded-sm" />
+                        <div className="absolute bottom-[0rem] left-[0rem] z-100 bg-black pr-[0.5rem] py-[0.25rem] text-[1.25rem] rounded-tr-[.25rem]">
+                            {item[1]}
+                        </div>
                     </div>
                 ))}
             </div>
+            <a className="hover:cursor-pointer mx-auto mt-[5rem] flex flex-row items-center gap-[2rem]">
+                <Image src={arrow} alt="" className="h-full scale-[-2]" />
+                <div className="text-white text-[1.5rem]">More Portfolio</div>
+            </a>
         </div>
     );
 };

@@ -28,24 +28,6 @@ img, a {
   -webkit-user-drag: none;
   user-drag: none;
 }
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-pretendard: var(--font-pretendard);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
 
 ::-webkit-scrollbar {
   display: none;
@@ -72,4 +54,8 @@ html.lenis {
 
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+html, body {
+  background-color: black;
 }
