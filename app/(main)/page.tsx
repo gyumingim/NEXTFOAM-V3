@@ -3,7 +3,13 @@ import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
 import space from "@/public/space.png"
 import arrow from "@/public/arrow.svg"
-import news from "@/public/브릿지경제.png"
+
+import news2 from "@/public/news/AI타임즈.png"
+import news3 from "@/public/news/경상일보.png"
+import news1 from "@/public/news/경주신문.png"
+import news6 from "@/public/news/뉴스메카.png"
+import news5 from "@/public/news/디지털타임즈.png"
+import news4 from "@/public/news/브릿지경제.png"
 
 import port1 from "@/public/port/port1.gif"
 import port2 from "@/public/port/port2.png"
@@ -299,7 +305,45 @@ const DocumentationPage = () => {
 }
 
 const InThePressPage = () => {
-    const newsItems = [1, 2, 3, 4, 5, 6, 7, 8];
+    // 기사 데이터 배열
+    const newsArticles = [
+        {
+            id: 1,
+            image: news1,
+            title: "BARAM® Announces New Partnership",
+            content: "국내 OpenFOAM 사용자들의 최대 교류 행사인 '제12회 한국 OpenFOAM 사용자 모임'이 오는 18일부터 19일까지 경주에서 열린다. 이번 행사는 넥스트폼과 한국기계연구원 주관으로 마련되며, 학계·산업계·연구기관 전문가들이 한자리에 모여 최신 전산유체역학(CFD) 기술과 오픈소스 활용 사례를 공유한다."
+        },
+        {
+            id: 2,
+            image: news2,
+            title: "Industry Recognition Award",
+            content: "국내 산업용 시뮬레이션 시장은 외산 소프트웨어 의존도가 높다. 이에 매년 수백억 원의 세금과 산업 비용이 해외로 유출되고 있다. 이 가운데 넥스트폼(Nextfoam)이 개발한 오픈소스 전산유체역학(CFD) 솔루션 '바람(BARAM)'이 주목받고 있다."
+        },
+        {
+            id: 3,
+            image: news3,
+            title: "New Release Update",
+            content: "국내 산업계가 전산유체역학(CFD) 분야에서 외산 소프트웨어에 지나치게 의존하고 있는 상황에서, 넥스트폼(Nextform Inc.)이 자체 개발한 CFD 솔버 '바람(Baram)'을 앞세워 산업용 시뮬레이션 시장에 본격 도전장을 내밀었다."
+        },
+        {
+            id: 4,
+            image: news4,
+            title: "Global Expansion News",
+            content: "전산유체역학(CFD) 전문기업 넥스트폼이 오픈소스 프리웨어 CFD 솔루션 'BARAM(바람)'을 공식 출시하고 상용화에 나섰다. CFD(Computational Fluid Dynamics)는 열·유체의 흐름을 컴퓨터를 이용해 시뮬레이션 하는 기술이다."
+        },
+        {
+            id: 5,
+            image: news5,
+            title: "Technical Innovation Spotlight",
+            content: "전산유체역학(CFD) 전문기업 넥스트폼은 국내 첫 오픈소스 프리웨어 CFD 솔루션 '바람(BARAM)'을 공식 출시한다고 17일 밝혔다. 이 솔루션은 누구나 자유롭게 사용할 수 있는 오픈소스 기반 CFD 소프트웨어(SW)다. 복잡한 명령어 입력 없이도 간편한 그래픽사용자인터페이스(GUI) 환경에서 메시 생성, 유동 해석, 결과 시각화까지 원스톱으로 수행할 수 있도록 지원한다."
+        },
+        {
+            id: 6,
+            image: news6,
+            title: "Customer Success Story",
+            content: "전산유체역학(CFD) 전문기업 ㈜넥스트폼은 오픈소스 프리웨어 CFD 솔루션 'BARAM(바람)'을 공식 출시하고 상용화에 나섰다고 16일 밝혔다. 넥스트폼이 국내 처음 개발한 'BARAM'은 오픈소스 기반의 전산유체해석(CFD) 소프트웨어이다. 복잡한 명령어 입력 없이도 간편한 GUI(그래픽유저인터페이스) 환경에서 메시지 생성에서부터 유동 해석, 결과 시각화에 이르는 일련의 작업을 원스톱으로 끝마칠 수 있다."
+        }
+    ];
 
     return (
         <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
@@ -310,62 +354,25 @@ const InThePressPage = () => {
 
             <div className="overflow-hidden">
                 <div className="flex animate-scroll">
-                    {/* 첫 번째 세트 */}
-                    {newsItems.map((key) => (
-                        <div
-                            key={`first-${key}`}
-                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
-                        >
-                            <Image src={news} alt="" />
-                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
-                                BARAM® offers software
-                                maintenance, technical support,
-                                and training services through a
-                                subscription agreement with
-                                Nextfoam. When necessary,
-                                verification can be performed When
-                                necessary, verification can be
-                                performed verification can be
+                    {/* 무한 스크롤을 위해 3번 반복 */}
+                    {[...Array(3)].map((_, setIndex) => (
+                        newsArticles.map((article) => (
+                            <div
+                                key={`set-${setIndex}-article-${article.id}`}
+                                className="w-[35rem] h-[20rem] relative min-w-[35rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                            >
+                                <div className="w-full h-[3rem] relative overflow-hidden items-center flex">
+                                    <Image 
+                                        src={article.image} 
+                                        alt={article.title}
+                                        className="w-[10rem] object-cover"
+                                    />
+                                </div>
+                                <div className="text-[1.35rem] leading-[1.875rem] text-white mt-[2rem]">
+                                    {article.content}
+                                </div>
                             </div>
-                        </div>
-                    ))}
-                    {/* 두 번째 세트 */}
-                    {newsItems.map((key) => (
-                        <div
-                            key={`second-${key}`}
-                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
-                        >
-                            <Image src={news} alt="" />
-                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
-                                BARAM® offers software
-                                maintenance, technical support,
-                                and training services through a
-                                subscription agreement with
-                                Nextfoam. When necessary,
-                                verification can be performed When
-                                necessary, verification can be
-                                performed verification can be
-                            </div>
-                        </div>
-                    ))}
-                    {/* 세 번째 세트 (더 부드러운 전환을 위해) */}
-                    {newsItems.map((key) => (
-                        <div
-                            key={`third-${key}`}
-                            className="w-[20rem] h-[17.5rem] relative min-w-[20rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
-                        >
-                            <Image src={news} alt="" />
-                            <div className="text-[1.3rem] leading-[1.5rem] text-white mt-[2rem]">
-                                BARAM® offers software
-                                maintenance, technical support,
-                                and training services through a
-                                subscription agreement with
-                                Nextfoam. When necessary,
-                                verification can be performed When
-                                necessary, verification can be
-                                performed verification can be
-                            </div>
-                        </div>
+                        ))
                     ))}
                 </div>
             </div>
@@ -376,19 +383,18 @@ const InThePressPage = () => {
                         transform: translateX(0);
                     }
                     100% {
-                        transform: translateX(calc(-100% / 3));
+                        transform: translateX(calc(-100%/3));
                     }
                 }
 
                 .animate-scroll {
-                    animation: scroll 40s linear infinite;
+                    animation: scroll 100s linear infinite;
                     width: max-content;
                 }
             `}</style>
         </div>
     );
 };
-
 
 interface LogoRow {
     logos: string[];
