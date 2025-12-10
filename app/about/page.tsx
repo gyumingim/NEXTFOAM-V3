@@ -2,8 +2,7 @@
 import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
 import space from "@/public/space.png"
-import arrow from "@/public/arrow.svg"
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 export default function AboutPage() {
     return (
@@ -21,44 +20,85 @@ export default function AboutPage() {
 }
 
 const HeroPage = () => {
-    return (
-        <div className="w-full h-[100vh] overflow-hidden relative">
-            <Image src={space} alt="Background" className="overflow-hidden object-cover" />
-            <div className="absolute bottom-[1rem] left-[1rem] text-white text-[6rem] leading-[5.875rem]">
-                About <br />
-                Nextfoam
-            </div>
-        </div>
-    )
-}
+    const [scrollY, setScrollY] = useState(0);
 
-const Index = ({ text, className }: { text: string, className?: string }) => {
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     return (
-        <div className={className}>
-            <span className="text-black bg-white px-[.5rem] py-[.25rem]">{text}</span>
-            <span className="text-white px-[.5rem]">{text}</span>
+        <div className="w-full h-[100vh] bg-black flex items-center justify-center relative overflow-hidden">
+            {/* Animated gradient background */}
+            <div className="absolute inset-0 opacity-20">
+                <div className="absolute top-0 left-0 w-[600px] h-[600px] bg-blue-500 rounded-full blur-[150px] animate-pulse"></div>
+                <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-purple-500 rounded-full blur-[200px] animate-pulse delay-1000"></div>
+            </div>
+
+            <div className="relative z-10 text-center px-[2rem]">
+                <div className="text-white/40 text-[1.5rem] mb-[2rem] tracking-[0.5rem]">SINCE 2011</div>
+                <h1 className="text-white text-[clamp(4rem,12vw,15rem)] font-[700] leading-[0.9] mb-[3rem]">
+                    NEXTFOAM
+                </h1>
+                <p className="text-white/60 text-[clamp(1.2rem,2.5vw,2rem)] max-w-[800px] mx-auto leading-[1.6]">
+                    CFD 시뮬레이션 분야의<br />패러다임을 전환하는 기업
+                </p>
+            </div>
+
+            {/* Scroll indicator */}
+            <div className="absolute bottom-[3rem] left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-[1rem] animate-bounce">
+                <div className="text-white/40 text-[0.9rem] tracking-[0.3rem]">SCROLL TO EXPLORE</div>
+                <div className="w-[1px] h-[60px] bg-gradient-to-b from-white/40 to-transparent"></div>
+            </div>
         </div>
     )
 }
 
 const CompanyIntroPage = () => {
     return (
-        <div className="bg-black w-full min-h-[140vh] flex flex-col p-[1rem]">
-            <Index text={"SINCE 2011"} className={"mt-[8rem] mb-[6rem]"} />
-            <div className="text-white text-[3.5rem] leading-[4.3rem] text-white/60">
-                <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 공개소스 CFD 코드인 <br />
-                OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
-                발전 및 물리현상 시뮬레이션 분야의 <span className="text-white/100">패러다임 전환</span>을 목표로 <br />
-                출발하였습니다. 이후 다양한 산업 분야의 전문 인력들이 동참하여 <br />
-                <span className="text-white/100">열유체 분야에서 국내의 대표적인 컨설팅 기업</span>으로 발전하였습니다. <br /><br />
-                열유체 분야 뿐만 아니라 <span className="text-white/100">광학 및 인공지능을 이용한 영상계측 분야</span>로 <br />
-                영역을 확장하여 현재 <span className="text-white/100">총 22명</span>으로 운영하고 있습니다. <br /><br />
-                2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 <br />
-                <span className="text-white/100">산업체, 연구소, 대학, 공공기관 등 100여 개의 기관</span>과 <br />
-                <span className="text-white/100">300여건의 컨설팅 프로젝트</span>를 수행하였습니다. <br /><br />
-                한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 <br />
-                특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있으며, <br />
-                국내외 학술지와 학술대회에 <span className="text-white/100">130편 이상의 논문</span>을 발표하였습니다.
+        <div className="bg-black w-full min-h-[100vh] flex items-center p-[1rem] md:p-[4rem]">
+            <div className="max-w-[1800px] mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-[4rem] lg:gap-[8rem]">
+                {/* Left: Statistics */}
+                <div className="flex flex-col justify-center space-y-[4rem]">
+                    <div className="border-l-4 border-white pl-[2rem]">
+                        <div className="text-white text-[clamp(5rem,10vw,12rem)] font-[700] leading-[1]">15</div>
+                        <div className="text-white/60 text-[1.5rem] mt-[1rem]">Years of Excellence</div>
+                    </div>
+                    <div className="border-l-4 border-white/40 pl-[2rem]">
+                        <div className="text-white text-[clamp(5rem,10vw,12rem)] font-[700] leading-[1]">24</div>
+                        <div className="text-white/60 text-[1.5rem] mt-[1rem]">전문 인력</div>
+                    </div>
+                    <div className="border-l-4 border-white/40 pl-[2rem]">
+                        <div className="text-white text-[clamp(5rem,10vw,12rem)] font-[700] leading-[1]">300+</div>
+                        <div className="text-white/60 text-[1.5rem] mt-[1rem]">프로젝트 수행</div>
+                    </div>
+                </div>
+
+                {/* Right: Story */}
+                <div className="flex flex-col justify-center">
+                    <div className="inline-block mb-[3rem]">
+                        <span className="text-black bg-white px-[1rem] py-[0.5rem] text-[1.2rem] font-[600]">OUR STORY</span>
+                    </div>
+                    <div className="text-white/70 text-[clamp(1.1rem,1.8vw,1.8rem)] leading-[1.8] space-y-[2rem]">
+                        <p>
+                            <span className="text-white font-[600]">넥스트폼</span>은 2011년 3명이 모여 공개소스 CFD 코드인
+                            OpenFOAM을 기반으로, 기술 기반의 <span className="text-white font-[600]">전문 엔지니어링 컨설팅 기업</span>으로
+                            발전 및 물리현상 시뮬레이션 분야의 <span className="text-white font-[600]">패러다임 전환</span>을 목표로 출발하였습니다.
+                        </p>
+                        <p>
+                            이후 다양한 산업 분야의 전문 인력들이 동참하여
+                            <span className="text-white font-[600]"> 열유체 분야에서 국내의 대표적인 컨설팅 기업</span>으로 발전하였습니다.
+                        </p>
+                        <p>
+                            2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지
+                            <span className="text-white font-[600]"> 산업체, 연구소, 대학, 공공기관 등 100여 개의 기관</span>과
+                            <span className="text-white font-[600]"> 300여건의 컨설팅 프로젝트</span>를 수행하였습니다.
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -74,88 +114,99 @@ const CompanyInfoPage = () => {
         { name: "신재렬", role: "엔진공력솔루션팀 기술이사", education: "부산대학교 항공우주공학 박사" }
     ];
 
+    const companyInfo = [
+        { label: "설립일", value: "2011년 01월 03일" },
+        { label: "본사", value: "서울특별시 금천구" },
+        { label: "지사", value: "부산광역시 금정구" },
+        { label: "구성원", value: "박사 5명 / 석사 17명 / 학사 2명" },
+        { label: "분류", value: "중소기업 / 벤처기업 / 병역특례 지정업체" }
+    ];
+
     return (
-        <div className="bg-black w-full min-h-[160vh] flex flex-col p-[1rem]">
-            <Index text={"COMPANY INFO"} className={"mt-[8rem] mb-[8rem]"} />
-
-            <div className="grid grid-cols-2 gap-16 mb-[8rem]">
-                <div>
-                    <h3 className="text-white text-[2.5rem] mb-[2rem]">기업 정보</h3>
-                    <div className="space-y-[1.5rem]">
-                        <InfoRow label="설립일" value="2011년 01월 03일" />
-                        <InfoRow label="위치" value="(본사) 서울특별시 금천구" />
-                        <InfoRow label="" value="(지사) 부산광역시 금정구" />
-                        <InfoRow label="기업분류" value="중소기업, 벤처기업" />
-                        <InfoRow label="" value="공학연구개발업 전문연구사업자" />
-                        <InfoRow label="" value="병역특례 지정업체" />
-                    </div>
+        <div className="bg-black w-full min-h-[100vh] flex flex-col p-[1rem] md:p-[4rem] py-[8rem]">
+            <div className="max-w-[1800px] mx-auto w-full">
+                <div className="inline-block mb-[5rem]">
+                    <span className="text-black bg-white px-[1rem] py-[0.5rem] text-[1.2rem] font-[600]">COMPANY INFO</span>
                 </div>
 
-                <div>
-                    <h3 className="text-white text-[2.5rem] mb-[2rem]">구성원</h3>
-                    <div className="text-white text-[1.5rem] leading-[2.2rem]">
-                        총원 <span className="text-white/100">24명</span><br />
-                        박사 <span className="text-white/100">5명</span>,
-                        석사 <span className="text-white/100">17명</span>,
-                        학사 <span className="text-white/100">2명</span>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <h3 className="text-white text-[2.5rem] mb-[2rem]">주요 임원</h3>
-                <div className="grid grid-cols-2 gap-8">
-                    {teamMembers.map((member, index) => (
-                        <div key={index} className="border-l-2 border-white/20 pl-[1.5rem] py-[1rem]">
-                            <h4 className="text-white text-[1.8rem] mb-[0.5rem]">{member.name}</h4>
-                            <p className="text-white/80 text-[1.2rem]">{member.role}</p>
-                            <p className="text-white/60 text-[1rem] mt-[0.5rem]">{member.education}</p>
-                            {member.additional && (
-                                <p className="text-white/60 text-[1rem]">{member.additional}</p>
-                            )}
+                {/* Company basic info cards */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1.5rem] mb-[6rem]">
+                    {companyInfo.map((info, index) => (
+                        <div
+                            key={index}
+                            className="bg-white/5 backdrop-blur-sm border border-white/10 p-[2rem] rounded-lg hover:bg-white/10 hover:border-white/30 transition-all duration-300 group"
+                        >
+                            <div className="text-white/50 text-[0.9rem] mb-[0.5rem] uppercase tracking-[0.2rem]">{info.label}</div>
+                            <div className="text-white text-[1.3rem] leading-[1.6] group-hover:text-white transition-all">{info.value}</div>
                         </div>
                     ))}
                 </div>
-            </div>
-        </div>
-    )
-}
 
-const InfoRow = ({ label, value }: { label: string, value: string }) => {
-    return (
-        <div className="flex text-white text-[1.3rem]">
-            {label && <span className="text-white/60 min-w-[8rem]">{label}</span>}
-            {!label && <span className="min-w-[8rem]"></span>}
-            <span className="text-white/100">{value}</span>
+                {/* Team members */}
+                <div className="mb-[3rem]">
+                    <h3 className="text-white text-[2.5rem] font-[600] mb-[3rem]">주요 임원</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[2rem]">
+                        {teamMembers.map((member, index) => (
+                            <div
+                                key={index}
+                                className="bg-gradient-to-br from-white/5 to-transparent border-l-4 border-white/30 pl-[1.5rem] pr-[1.5rem] py-[2rem] hover:border-white hover:from-white/10 transition-all duration-300 group"
+                            >
+                                <h4 className="text-white text-[1.8rem] font-[600] mb-[0.5rem] group-hover:text-white transition-all">{member.name}</h4>
+                                <p className="text-white/70 text-[1.1rem] mb-[0.8rem]">{member.role}</p>
+                                <p className="text-white/50 text-[0.95rem]">{member.education}</p>
+                                {member.additional && (
+                                    <p className="text-white/50 text-[0.95rem] mt-[0.3rem]">{member.additional}</p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
         </div>
     )
 }
 
 const VisionPage = () => {
     return (
-        <div className="bg-black w-full min-h-[140vh] flex flex-col p-[1rem]">
-            <Index text={"VISION"} className={"mt-[8rem] mb-[8rem]"} />
-
-            <div className="text-white text-[4.5rem] leading-[5.5rem] mb-[4rem]">
-                CFD for Everyone!
+        <div className="bg-black w-full min-h-[100vh] flex items-center justify-center p-[1rem] md:p-[4rem] relative overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute inset-0 opacity-10">
+                <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-blue-500 rounded-full blur-[150px]"></div>
             </div>
 
-            <div className="text-white text-[1.8rem] leading-[2.8rem] text-white/80 mb-[4rem]">
-                CFD는 아직 석사, 박사 학위를 소지한 소수의 전문 인력들이 활용할 수 있는 <br />
-                연구개발 도구로 연구실 밖의 제품 설계, 개발, AS 등으로 확대되지 못하고 있습니다. <br /><br />
-                이는 <span className="text-white/100">고가의 해석 프로그램 가격의 문제</span>와 함께 적절한 격자계, 경계조건, <br />
-                수치해석 기법의 사용이 결과의 정확도에 미치는 영향이 크기 때문입니다. <br /><br />
-                저희 넥스트폼은 <span className="text-white/100">공개소스 프로그램을 통해 비용의 문제를 해결</span>하고, <br />
-                <span className="text-white/100">문제별로 특화된 솔루션 제공 및 전문 컨설팅</span>을 통하여 이런 문제를 해결하려 합니다.
-            </div>
+            <div className="max-w-[1400px] mx-auto relative z-10">
+                <div className="inline-block mb-[5rem]">
+                    <span className="text-black bg-white px-[1rem] py-[0.5rem] text-[1.2rem] font-[600]">VISION</span>
+                </div>
 
-            <div className="p-[3rem] border border-white/10 rounded-lg">
-                <div className="text-white text-[1.6rem] leading-[2.5rem] text-white/80">
-                    이를 통해 열,유체 문제의 강력한 솔루션인 CFD를 필요로하는 <br />
-                    <span className="text-white/100">누구나 쉽게 활용</span>할 수 있게 하여 제품이나 시스템의 성능 향상과 <br />
-                    보다 안전하고 쾌적한 삶을 구현하려 합니다. <br /><br />
-                    또한 CFD 분야의 전문가들을 <span className="text-white/100">반복적인 모델링에서 벗어나</span> <br />
-                    보다 수준 높은 연구 개발에 집중할 수 있게 하고자 합니다.
+                <div className="text-white text-[clamp(3rem,8vw,9rem)] font-[700] leading-[1.1] mb-[5rem]">
+                    CFD for<br />
+                    <span className="bg-gradient-to-r from-white to-white/50 bg-clip-text text-transparent">Everyone!</span>
+                </div>
+
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[3rem] text-white/70 text-[clamp(1.1rem,1.5vw,1.5rem)] leading-[1.8]">
+                    <div className="space-y-[2rem]">
+                        <p>
+                            CFD는 아직 석사, 박사 학위를 소지한 소수의 전문 인력들이 활용할 수 있는
+                            연구개발 도구로 연구실 밖의 제품 설계, 개발, AS 등으로 확대되지 못하고 있습니다.
+                        </p>
+                        <p>
+                            이는 <span className="text-white font-[600]">고가의 해석 프로그램 가격의 문제</span>와 함께 적절한 격자계, 경계조건,
+                            수치해석 기법의 사용이 결과의 정확도에 미치는 영향이 크기 때문입니다.
+                        </p>
+                    </div>
+                    <div className="space-y-[2rem]">
+                        <p>
+                            저희 넥스트폼은 <span className="text-white font-[600]">공개소스 프로그램을 통해 비용의 문제를 해결</span>하고,
+                            <span className="text-white font-[600]"> 문제별로 특화된 솔루션 제공 및 전문 컨설팅</span>을 통하여 이런 문제를 해결하려 합니다.
+                        </p>
+                        <div className="bg-gradient-to-r from-white/10 to-transparent border-l-4 border-white pl-[2rem] py-[2rem]">
+                            <p className="text-white">
+                                CFD를 필요로하는 <span className="font-[600]">누구나 쉽게 활용</span>할 수 있게 하여
+                                보다 안전하고 쾌적한 삶을 구현하려 합니다.
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -164,33 +215,49 @@ const VisionPage = () => {
 
 const OpenFOAMPage = () => {
     return (
-        <div className="bg-black w-full min-h-[140vh] flex flex-col p-[1rem]">
-            <Index text={"OPENFOAM & OKUC"} className={"mt-[8rem] mb-[8rem]"} />
-
-            <div className="mb-[6rem]">
-                <h3 className="text-white text-[3.5rem] mb-[3rem]">OpenFOAM, NextFOAM</h3>
-                <div className="text-white text-[1.6rem] leading-[2.6rem] text-white/80">
-                    <span className="text-white/100">OpenFOAM®</span>(Open Field Operation and Manipulation)은 <br />
-                    공개 소스 CFD 코드입니다. <br /><br />
-                    GNU GPL(일반 공중 사용 허가서 : General Public License)을 사용하기 때문에 <br />
-                    누구나 자유롭게 다운로드 받아 사용할 수 있으며 전 세계의 많은 연구자들에 의해 <br />
-                    계속 개발되고 있습니다. <br /><br />
-                    저희들은 OpenFOAM의 발전을 위해 자체적으로 개발한 포크를 <br />
-                    <span className="text-white/100">NextFOAM</span>이란 이름으로 공개하고 있습니다.
+        <div className="bg-black w-full min-h-[100vh] flex items-center p-[1rem] md:p-[4rem]">
+            <div className="max-w-[1800px] mx-auto w-full">
+                <div className="inline-block mb-[5rem]">
+                    <span className="text-black bg-white px-[1rem] py-[0.5rem] text-[1.2rem] font-[600]">OPENFOAM & OKUC</span>
                 </div>
-            </div>
 
-            <div className="relative">
-                <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent rounded-lg"></div>
-                <div className="relative p-[3rem] border-l-4 border-white/30">
-                    <h3 className="text-white text-[3.5rem] mb-[3rem]">OKUC</h3>
-                    <div className="text-white text-[1.6rem] leading-[2.6rem] text-white/80">
-                        <span className="text-white/100">OKUC</span>는 2012년에 만들어진 국내 사용자들의 커뮤니티입니다. <br /><br />
-                        2012년에 처음 커뮤니티 모임을 가진 이래 저희는 매년 <br />
-                        <span className="text-white/100">OKUCC(OpenFOAM Korea Users' Community Conference)</span>라는 <br />
-                        커뮤니티 행사를 개최하고 있습니다. <br /><br />
-                        <span className="text-white/100">100명 이상</span>의 OpenFOAM 사용자와 관심 있는 분들이 1박 2일간 <br />
-                        서로의 사례를 공유하고 친목을 도모하는 행사입니다.
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-[4rem]">
+                    {/* OpenFOAM */}
+                    <div className="bg-gradient-to-br from-white/5 to-transparent border border-white/10 p-[3rem] rounded-2xl hover:border-white/30 transition-all duration-300">
+                        <h3 className="text-white text-[3rem] font-[600] mb-[2rem]">OpenFOAM<br />NextFOAM</h3>
+                        <div className="text-white/70 text-[1.3rem] leading-[2] space-y-[1.5rem]">
+                            <p>
+                                <span className="text-white font-[600]">OpenFOAM®</span> (Open Field Operation and Manipulation)은
+                                공개 소스 CFD 코드입니다.
+                            </p>
+                            <p>
+                                GNU GPL을 사용하기 때문에 누구나 자유롭게 다운로드 받아 사용할 수 있으며
+                                전 세계의 많은 연구자들에 의해 계속 개발되고 있습니다.
+                            </p>
+                            <p>
+                                저희들은 OpenFOAM의 발전을 위해 자체적으로 개발한 포크를
+                                <span className="text-white font-[600]"> NextFOAM</span>이란 이름으로 공개하고 있습니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* OKUC */}
+                    <div className="bg-gradient-to-br from-blue-500/10 to-transparent border border-blue-500/20 p-[3rem] rounded-2xl hover:border-blue-500/50 transition-all duration-300">
+                        <h3 className="text-white text-[3rem] font-[600] mb-[2rem]">OKUC</h3>
+                        <div className="text-white/70 text-[1.3rem] leading-[2] space-y-[1.5rem]">
+                            <p>
+                                <span className="text-white font-[600]">OKUC</span>는 2012년에 만들어진 국내 사용자들의 커뮤니티입니다.
+                            </p>
+                            <p>
+                                2012년에 처음 커뮤니티 모임을 가진 이래 저희는 매년
+                                <span className="text-white font-[600]"> OKUCC</span> (OpenFOAM Korea Users' Community Conference)라는
+                                커뮤니티 행사를 개최하고 있습니다.
+                            </p>
+                            <p>
+                                <span className="text-white font-[600]">100명 이상</span>의 OpenFOAM 사용자와 관심 있는 분들이 1박 2일간
+                                서로의 사례를 공유하고 친목을 도모하는 행사입니다.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,29 +280,46 @@ const HistoryPage = () => {
     ];
 
     return (
-        <div className="bg-black w-full min-h-[180vh] flex flex-col p-[1rem]">
-            <Index text={"HISTORY"} className={"mt-[8rem] mb-[8rem]"} />
+        <div className="bg-black w-full min-h-[100vh] flex flex-col p-[1rem] md:p-[4rem] py-[8rem]">
+            <div className="max-w-[1400px] mx-auto w-full">
+                <div className="inline-block mb-[5rem]">
+                    <span className="text-black bg-white px-[1rem] py-[0.5rem] text-[1.2rem] font-[600]">HISTORY</span>
+                </div>
 
-            <div className="space-y-[3rem]">
-                {historyItems.map((item, index) => (
-                    <div key={index} className="flex gap-8 border-b border-white/10 pb-[2rem] hover:border-white/30 transition-all duration-300">
-                        <div className="text-white text-[3rem] font-[600] min-w-[8rem]">
-                            {item.year}
-                        </div>
-                        <div className="flex-1 space-y-[1rem]">
-                            {item.events.map((event, eventIndex) => (
-                                <div key={eventIndex} className="text-white text-[1.5rem] leading-[2.2rem] text-white/80 hover:text-white/100 transition-all duration-300">
-                                    {event}
+                <div className="relative">
+                    {/* Timeline line */}
+                    <div className="absolute left-[4rem] top-0 bottom-0 w-[2px] bg-gradient-to-b from-white via-white/50 to-white/10"></div>
+
+                    <div className="space-y-[4rem]">
+                        {historyItems.map((item, index) => (
+                            <div
+                                key={index}
+                                className="relative pl-[8rem] group"
+                            >
+                                {/* Year marker */}
+                                <div className="absolute left-0 top-0 w-[4rem] h-[4rem] flex items-center justify-end pr-[1rem]">
+                                    <div className="text-white text-[2.5rem] font-[700]">{item.year}</div>
                                 </div>
-                            ))}
-                        </div>
-                    </div>
-                ))}
-            </div>
+                                <div className="absolute left-[3.5rem] top-[1.5rem] w-[1rem] h-[1rem] bg-white rounded-full group-hover:scale-150 transition-all duration-300"></div>
 
-            <div className="flex items-center gap-[1rem] mt-[8rem] mx-auto">
-                <Image src={arrow} alt="arrow" className="scale-[-1]" />
-                <div className="text-white text-[1.5rem]">Learn more about our journey</div>
+                                {/* Events */}
+                                <div className="bg-white/5 backdrop-blur-sm border border-white/10 p-[2rem] rounded-lg hover:bg-white/10 hover:border-white/30 transition-all duration-300">
+                                    <div className="space-y-[1rem]">
+                                        {item.events.map((event, eventIndex) => (
+                                            <div
+                                                key={eventIndex}
+                                                className="text-white/80 text-[1.3rem] leading-[1.8] hover:text-white transition-all duration-300 flex items-start gap-[0.5rem]"
+                                            >
+                                                <span className="text-white/40 mt-[0.5rem]">•</span>
+                                                <span>{event}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -243,35 +327,52 @@ const HistoryPage = () => {
 
 const FooterPage = () => {
     return (
-        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between p-8 select-none overflow-hidden">
-            <div className="mt-[8rem]">
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    서울 금천구 디지털로9길 32 A동 1106호 <span className="text-white/20">ASDNVOI IVHOAS</span> Github<span className="text-white/20"> BJZM</span> Naver Blog <span className="text-white/20">VUIXJNOBIZBWE</span>
+        <div className="relative w-full min-h-[60vh] bg-black flex flex-col justify-between p-[2rem] md:p-[4rem] overflow-hidden">
+            {/* Background decoration */}
+            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+
+            <div className="max-w-[1800px] mx-auto w-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[3rem] mb-[4rem]">
+                    <div>
+                        <h4 className="text-white/50 text-[0.9rem] uppercase tracking-[0.2rem] mb-[1.5rem]">Contact</h4>
+                        <div className="space-y-[0.8rem] text-white/70 text-[1.1rem]">
+                            <p>070-8796-3019</p>
+                            <p>marketing@nextfoam.co.kr</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="text-white/50 text-[0.9rem] uppercase tracking-[0.2rem] mb-[1.5rem]">Location</h4>
+                        <div className="space-y-[0.8rem] text-white/70 text-[1.1rem]">
+                            <p>서울 금천구 디지털로9길 32</p>
+                            <p>A동 1106호</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="text-white/50 text-[0.9rem] uppercase tracking-[0.2rem] mb-[1.5rem]">Social</h4>
+                        <div className="space-y-[0.8rem] text-white/70 text-[1.1rem]">
+                            <p className="hover:text-white transition-all cursor-pointer">Github</p>
+                            <p className="hover:text-white transition-all cursor-pointer">Youtube</p>
+                            <p className="hover:text-white transition-all cursor-pointer">LinkedIn</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 className="text-white/50 text-[0.9rem] uppercase tracking-[0.2rem] mb-[1.5rem]">Resources</h4>
+                        <div className="space-y-[0.8rem] text-white/70 text-[1.1rem]">
+                            <p className="hover:text-white transition-all cursor-pointer">Baram Portal</p>
+                            <p className="hover:text-white transition-all cursor-pointer">Nextfoam Blog</p>
+                            <p className="hover:text-white transition-all cursor-pointer">Privacy Policy</p>
+                        </div>
+                    </div>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    marketing@nextfoam.co.kr <span className="text-white/20">ASDVASD K DJSOPV SDA </span>Youtube<span className="text-white/20"> ASD </span>Baram Portal<span className="text-white/20">SAIND CIASJDS</span>
+
+                <div className="border-t border-white/10 pt-[3rem] flex flex-col md:flex-row justify-between items-center gap-[2rem]">
+                    <div className="text-white text-[clamp(2rem,6vw,5rem)] font-[700]">
+                        NEXTFOAM
+                    </div>
+                    <div className="text-white/40 text-[1rem]">
+                        © 2025 Nextfoam. All rights reserved.
+                    </div>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    070-8796-3019 <span className="text-white/20">BIASNUD USDHAJW DK AKSL ASDAI </span>Linkedin<span className="text-white/20"> LUX </span>Nextfoam Blog<span className="text-white/20"> BNOAJIBXND</span>
-                </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    찾아오는 길 <span className="text-white/20">AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>Instagram<span className="text-white/20"> GHOQL ZLFG PQND SGJAA KJS</span>
-                </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    <span className="text-white/20">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGOUZ </span>Facebook<span className="text-white/20"> ZM OV HGQ JSHGAIBG PPXUSN</span>
-                </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    <span className="text-white/20">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
-                </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    <span className="text-white/20">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
-                </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
-                    Privacy Policy <span className="text-white/20">NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG</span> @Nextfoam
-                </div>
-            </div>
-            <div className="text-white text-[clamp(23vw,23vw,23vw)] absolute left-0 bottom-0 leading-[17vw]">
-                Nextfoam
             </div>
         </div>
     );
