@@ -233,21 +233,21 @@ const PortfolioPage = () => {
     [port8, "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질 확산 시뮬레이션"]]; // 8개 아이템 예시
 
     return (
-        <div className="bg-black w-full h-[330vh] flex flex-col p-[1vw]">
+        <div className="bg-black w-full h-[380vh] flex flex-col p-[1vw]">
             <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[8vw]"} />
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 p-[4vw]">
                 {items.map((item, key) => (
-                    <div key={key} className="text-white h-[35vw] relative">
+                    <div key={key} className="text-white relative p-[1vw] py-[3vw] h-[39vw]">
                         <Image src={item[0]} alt="" className="w-full h-full object-cover rounded-sm" />
-                        <div className="font-[500] absolute bottom-[0vw] left-[0vw] z-100 bg-black pr-[0.5vw] py-[0.25vw] text-[1.25vw] rounded-tr-[.25vw]">
+                        <div className="font-[500] absolute pl-[1vw] bottom-[0vw] left-[0vw] z-100 bg-black pr-[0.5vw] py-[0.25vw] text-[1.4vw] rounded-tr-[.25vw]">
                             {item[1].toString()}
                         </div>
                     </div>
                 ))}
             </div>
-            <a className="hover:cursor-pointer mx-auto mt-[5vw] flex flex-row items-center hover:invert bg-black w-fit min-h-[7.2vh] min-w-[14vw] justify-center gap-[2vw]">
+            <a className="hover:cursor-pointer mx-auto mt-[1vw] flex flex-row items-center hover:invert bg-black w-fit min-h-[7.2vh] min-w-[14vw] justify-center gap-[2vw]">
                 <Image src={arrow} alt="" className="scale-[-2] h-[2vw]" />
-                <div className="text-white text-[1.5vw] ">More Portfolio</div>
+                <div className="text-white text-[1.25vw] ">More Portfolio</div>
             </a>
         </div>
     );
@@ -280,7 +280,7 @@ const DocumentationPage = () => {
         "CFD Workflow 최적화"
     ];
     return (
-        <div className="bg-black w-full h-[230vh] flex flex-col p-[1vw]">
+        <div className="bg-black w-full h-[250vh] flex flex-col p-[1vw]">
             <Index text={"DOCUMENTATION"} className={"mt-[8vw] mb-[8vw]"} />
             {documentation1.map((text) => (
                 <div className="relative">
@@ -551,7 +551,7 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
 
 const ReleasePage = () => {
     return (
-        <div className="bg-black w-full h-[90vh] flex flex-col p-[1vw]">
+        <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
             <Index text={"RELEASE"} className={"mt-[8vw]"} />
             <div className="flex justify-end mt-[2vw]">
                 <button className="text-white text-lg underline">
