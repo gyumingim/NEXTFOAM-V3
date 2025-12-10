@@ -20,6 +20,8 @@ import port6 from "@/public/port/port6.png"
 import port7 from "@/public/port/port7.webp"
 import port8 from "@/public/port/port8.png"
 
+import nextfoam from "@/public/introduce/nextfoam.jpg"
+
 import React, { useRef, useEffect, useState } from 'react';
 // import { useDraggable } from 'react-use-draggable-scroll';
 
@@ -68,16 +70,45 @@ const Index = ({ text, className }: { text: string, className?: string }) => {
 
 const DescriptionPage = () => {
     return (
-        <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
-            <Index text={"INTRODUCE"} className={"mt-[8vw] mb-[6vw]"} />
-            <div className="text-[3.25vw] leading-[3.7vw] text-white/40 font-[500]">
-                <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
-                OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
-                물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
-                이후 다양한 산업 분야의 전문 인력들이 동참하여 <span className="text-white/100">열유체 분야에서</span> <br />
-                <span className="text-white/100">국내의 대표적인 컨설팅 기업</span>으로 발전하였습니다. <br /><br />
-                <span className="text-white/100">광학 및 인공지능을 이용한 영상계측 분야</span>로 영역을 확장하여 <br />
-                현재 총 24명이 함께하고 있습니다.
+        // 1. 가장 바깥쪽 div를 relative로 설정하고 높이를 지정 (이미지의 기준)
+        <div className="w-full h-[110vh] relative p-[1vw]">
+
+            {/* 2. <Image> 컴포넌트를 배경으로 사용 */}
+            <Image
+                src={nextfoam}
+                alt="Nextfoam Background"
+                fill                // 부모 컨테이너(div)를 가득 채움
+                priority            // LCP(Largest Contentful Paint) 개선을 위해 로딩 우선순위를 높임
+                quality={80}        // 이미지 품질 조정
+                style={{
+                    objectFit: 'cover',   // 이미지가 컨테이너를 덮도록 설정 (CSS background-size: cover와 유사)
+                    zIndex: 0,            // 가장 낮은 레이어 (배경)
+                }}
+            />
+
+            {/* 3. 반투명 오버레이 추가 (가독성 유지) */}
+            {/* z-10: 이미지(z-0) 위에 배치 */}
+            <div className="absolute inset-0 bg-black/70 z-10"></div>
+
+            {/* 4. 텍스트 콘텐츠는 가장 위에 배치 */}
+            {/* z-20: 오버레이(z-10)보다 위에 배치하여 텍스트가 선명하게 보이도록 함 */}
+            <div className="relative flex flex-col z-20 items-end">
+                <Index text={"INTRODUCE"} className={"mt-[8vw] mb-[6vw] absolute left-0"} />
+
+                <div>
+                    <div className="text-[3vw] font-[600] leading-[1.5vw] text-white font-[500] mt-[30rem] mb-[2vw] pr-[4vw] pb-[.5vw]">
+                        NEXTFOAM
+                    </div>
+                    <div className="text-[1vw] leading-[1.75vw] text-white font-[500]  pr-[8vw] pl-[.25vw]">
+                        {/* p-[1vw]를 div 밖으로 옮겼기 때문에 여기서 p-[1vw]는 제거했습니다. */}
+                        넥스트폼은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
+                        OpenFOAM을 기반으로, 기술 기반의 전문 엔지니어링 컨설팅 기업으로 <br />
+                        물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
+                        이후 다양한 산업 분야의 전문 인력들이 동참하여 열유체 분야에서 <br />
+                        국내의 대표적인 컨설팅 기업으로 발전하여 <br />
+                        현재 총 24명이 함께하고 있습니다.
+                    </div>
+                </div>
             </div>
         </div>
     )
@@ -89,11 +120,13 @@ const PurposePage = () => {
             <Index text={"PURPOSE"} className={"mt-[8vw]"} />
             <div className="flex-row flex p-[3vw] justify-between pb-[1vw]">
                 <div className="text-white font-[500] text-[3vw] leading-[3.5vw]">
-                    Free CFD SOFTWARE MAKING <br />
-                    COMPUATATIONAL FLUID DYNAMICS <br />
+                    FREE CFD SOFTWARE MAKING <br />
+                    C<span className="text-white/30">ompuatational </span> 
+                    F<span className="text-white/30">luid </span> 
+                    D<span className="text-white/30">ynamics</span> <br />
                     ACCESSIBLE TO EVERYONE.
                 </div>
-                <div className="flex justify-between flex-col gap-[2vw] text-[1vw]">
+                <div className="flex justify-between flex-col gap-[2vw] text-[1vw] leading-[1.75vw]">
                     <div className="text-white">
                         2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등<br />
                         100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. <br />
@@ -101,13 +134,13 @@ const PurposePage = () => {
                         특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 <br />
                     </div>
                     <div className="flex flex-row items-center gap-[1vw] hover:invert bg-black w-fit">
-                        <Image src={arrow} alt="none"/>
+                        <Image src={arrow} alt="none" />
                         <div className="text-white">Learn more</div>
                     </div>
                 </div>
             </div>
             <div className="p-[3vw]">
-                <Image src={space} alt=""  className="min-w-[92vw]"/>
+                <Image src={space} alt="" className="min-w-[92vw]" />
                 <div className="text-white/50 text-right">Launch video Courtesy of spaceX</div>
             </div>
 
@@ -235,7 +268,7 @@ const PortfolioPage = () => {
     return (
         <div className="bg-black w-full h-[380vh] flex flex-col p-[1vw]">
             <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[8vw]"} />
-            <div className="grid grid-cols-2 gap-4 p-[4vw]">
+            <div className="grid grid-cols-2 gap-4 p-[2vw]">
                 {items.map((item, key) => (
                     <div key={key} className="text-white relative p-[1vw] py-[3vw] h-[39vw]">
                         <Image src={item[0]} alt="" className="w-full h-full object-cover rounded-sm" />
@@ -361,8 +394,8 @@ const InThePressPage = () => {
                                 className="w-[35vw] h-[20vw] relative min-w-[35vw] overflow-hidden border-l-1 border-white/20 py-[.25vw] px-[1vw] mr-8"
                             >
                                 <div className="w-full h-[3vw] relative overflow-hidden items-center flex">
-                                    <Image 
-                                        src={article.image} 
+                                    <Image
+                                        src={article.image}
                                         alt={article.title}
                                         className="w-[10vw] object-cover"
                                     />
