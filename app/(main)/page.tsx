@@ -240,7 +240,7 @@ const PortfolioPage = () => {
                     <div key={key} className="text-white h-[35rem] relative">
                         <Image src={item[0]} alt="" className="w-full h-full object-cover rounded-sm" />
                         <div className="absolute bottom-[0rem] left-[0rem] z-100 bg-black pr-[0.5rem] py-[0.25rem] text-[1.25rem] rounded-tr-[.25rem]">
-                            {item[1]}
+                            {item[1].toString()}
                         </div>
                     </div>
                 ))}
