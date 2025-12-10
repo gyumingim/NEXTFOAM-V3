@@ -48,10 +48,10 @@ const HeroPage = () => {
     return (
         <div className="w-full h-[100vh] overflow-hidden">
             <Image src={space} alt="null" className="overflow-hidden" />
-            <div className="absolute bottom-[1rem] left-[1rem] text-white text-[6rem] leading-[5.875rem]">
-                Opening <br />
-                next-generation <br />
-                CFD simulation
+            <div className="absolute bottom-[1rem] font-[500] left-[1rem] text-white text-[5rem] leading-[5rem]">
+                OPENING <br />
+                NEXT-GENERATION <br />
+                CFD SIMULATION
             </div>
         </div>
     )
@@ -70,7 +70,7 @@ const DescriptionPage = () => {
     return (
         <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
             <Index text={"INTRODUCE"} className={"mt-[8rem] mb-[6rem]"} />
-            <div className="text-white text-[3.5rem] leading-[4.3rem] text-white/60">
+            <div className="text-white text-[3.5rem] leading-[4.3rem] text-white/60 font-[500]">
                 <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
                 OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
                 물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
@@ -101,7 +101,7 @@ const PurposePage = () => {
                         특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있으며, <br />
                         국내외 학술지와 학술대회에 130편 이상의 논문을 발표하였습니다.<br />
                     </div>
-                    <div className="flex flex-row items-center gap-[1rem]">
+                    <div className="flex flex-row items-center gap-[1rem] hover:invert bg-black w-fit">
                         <Image src={arrow} alt="none" />
                         <div className="text-white">Leam more</div>
                     </div>
@@ -135,7 +135,7 @@ const BaramPage = () => {
                     2019-2025
                 </div>
             </div>
-            <div className="flex-row flex items-center p-[1rem] gap-[1rem]">
+            <div className="flex-row flex items-center m-[1rem] gap-[1rem] hover:invert bg-black w-fit">
                 <Image src={arrow} alt="" />
                 <div className="text-white">Learn more</div>
             </div>
@@ -246,9 +246,9 @@ const PortfolioPage = () => {
                     </div>
                 ))}
             </div>
-            <a className="hover:cursor-pointer mx-auto mt-[5rem] flex flex-row items-center gap-[2rem]">
+            <a className="hover:cursor-pointer mx-auto mt-[5rem] flex flex-row items-center gap-[2rem] hover:invert bg-black w-fit">
                 <Image src={arrow} alt="" className="h-full scale-[-2]" />
-                <div className="text-white text-[1.5rem]">More Portfolio</div>
+                <div className="text-white text-[1.5rem] ">More Portfolio</div>
             </a>
         </div>
     );
