@@ -121,9 +121,7 @@ const PurposePage = () => {
             <div className="flex-row flex p-[3vw] justify-between pb-[1vw]">
                 <div className="text-white font-[500] text-[3vw] leading-[3.5vw]">
                     FREE CFD SOFTWARE MAKING <br />
-                    C<span className="text-white/30">ompuatational </span> 
-                    F<span className="text-white/30">luid </span> 
-                    D<span className="text-white/30">ynamics</span> <br />
+                    CFD <span className="bg-white">MMMMMMMMMMMMM</span><br />
                     ACCESSIBLE TO EVERYONE.
                 </div>
                 <div className="flex justify-between flex-col gap-[2vw] text-[1vw] leading-[1.75vw]">
