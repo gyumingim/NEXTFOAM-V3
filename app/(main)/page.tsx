@@ -46,8 +46,8 @@ export default function Home() {
 
 const HeroPage = () => {
     return (
-        <div className="w-full h-[100vh] overflow-hidden">
-            <Image src={space} alt="null" className="overflow-hidden" />
+        <div className="w-full h-[100vh] overflow-hidden ">
+            <Image src={space} alt="null" className="overflow-hidden opacity-70" />
             <div className="absolute bottom-[1rem] font-[500] left-[1rem] text-white text-[5rem] leading-[5rem]">
                 OPENING <br />
                 NEXT-GENERATION <br />
@@ -70,7 +70,7 @@ const DescriptionPage = () => {
     return (
         <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
             <Index text={"INTRODUCE"} className={"mt-[8rem] mb-[6rem]"} />
-            <div className="text-white text-[3.5rem] leading-[4.3rem] text-white/60 font-[500]">
+            <div className="text-[3.5rem] leading-[4.3rem] text-white/40 font-[500]">
                 <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
                 OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
                 물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
@@ -88,22 +88,21 @@ const PurposePage = () => {
         <div className="bg-black w-full h-[160vh] flex flex-col p-[1rem]">
             <Index text={"PURPOSE"} className={"mt-[8rem]"} />
             <div className="flex-row flex p-[3rem] justify-between pb-[1rem]">
-                <div className="text-white text-[3rem] leading-[3.5rem]">
+                <div className="text-white font-[500] text-[3rem] leading-[3.5rem]">
                     Free CFD software making <br />
                     computational fluid dynamics <br />
                     accessible to everyone.
                 </div>
-                <div className="flex justify-between flex-col gap-[2rem]">
+                <div className="flex justify-between flex-col gap-[2rem] text-[1.125rem]">
                     <div className="text-white">
                         2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등<br />
                         100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. <br />
                         한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 <br />
-                        특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있으며, <br />
-                        국내외 학술지와 학술대회에 130편 이상의 논문을 발표하였습니다.<br />
+                        특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 <br />
                     </div>
                     <div className="flex flex-row items-center gap-[1rem] hover:invert bg-black w-fit">
                         <Image src={arrow} alt="none" />
-                        <div className="text-white">Leam more</div>
+                        <div className="text-white">Learn more</div>
                     </div>
                 </div>
             </div>
@@ -234,7 +233,7 @@ const PortfolioPage = () => {
     [port8, "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질 확산 시뮬레이션"]]; // 8개 아이템 예시
 
     return (
-        <div className="bg-black w-full h-[370vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[330vh] flex flex-col p-[1rem]">
             <Index text={"PORTFOLIO"} className={"mt-[8rem] mb-[8rem]"} />
             <div className="grid grid-cols-2 gap-4">
                 {items.map((item, key) => (
@@ -281,7 +280,7 @@ const DocumentationPage = () => {
         "CFD Workflow 최적화"
     ];
     return (
-        <div className="bg-black w-full h-[260vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[230vh] flex flex-col p-[1rem]">
             <Index text={"DOCUMENTATION"} className={"mt-[8rem] mb-[8rem]"} />
             {documentation1.map((text) => (
                 <div className="relative">
@@ -346,7 +345,7 @@ const InThePressPage = () => {
     ];
 
     return (
-        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
             <Index text={"IN THE PRESS"} className={"mt-[8rem]"} />
             <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
                 IN THE PRESS
@@ -441,7 +440,7 @@ const PartnershipPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-black w-full h-[130vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[120vh] flex flex-col p-[1rem]">
             <Index text={"PARTNERSHIP"} className={"mt-[8rem]"} />
             <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
                 CLIENT WE WORK WITH
@@ -552,7 +551,7 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
 
 const ReleasePage = () => {
     return (
-        <div className="bg-black w-full h-[110vh] flex flex-col p-[1rem]">
+        <div className="bg-black w-full h-[70vh] flex flex-col p-[1rem]">
             <Index text={"RELEASE"} className={"mt-[8rem]"} />
             <div className="flex justify-end mt-[2rem]">
                 <button className="text-white text-lg underline">
