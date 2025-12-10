@@ -47,8 +47,8 @@ export default function Home() {
 const HeroPage = () => {
     return (
         <div className="w-full h-[100vh] overflow-hidden ">
-            <Image src={space} alt="null" className="overflow-hidden opacity-70" />
-            <div className="absolute bottom-[1rem] font-[500] left-[1rem] text-white text-[5rem] leading-[5rem]">
+            <Image src={space} alt="null" className="overflow-hidden opacity-70 min-w-[100vw]" />
+            <div className="absolute bottom-[1vw] font-[500] left-[1vw] text-white text-[5vw] leading-[5vw]">
                 OPENING <br />
                 NEXT-GENERATION <br />
                 CFD SIMULATION
@@ -60,17 +60,17 @@ const HeroPage = () => {
 const Index = ({ text, className }: { text: string, className?: string }) => {
     return (
         <div className={className}>
-            <span className="text-black bg-white px-[.5rem] py-[.25rem]">{text}</span>
-            <span className="text-white px-[.5rem]">{text}</span>
+            <span className="text-black bg-white px-[.5vw] py-[.25vw]">{text}</span>
+            <span className="text-white px-[.5vw]">{text}</span>
         </div>
     )
 }
 
 const DescriptionPage = () => {
     return (
-        <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
-            <Index text={"INTRODUCE"} className={"mt-[8rem] mb-[6rem]"} />
-            <div className="text-[3.5rem] leading-[4.3rem] text-white/40 font-[500]">
+        <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
+            <Index text={"INTRODUCE"} className={"mt-[8vw] mb-[6vw]"} />
+            <div className="text-[3.25vw] leading-[3.7vw] text-white/40 font-[500]">
                 <span className="text-white/100">넥스트폼</span>은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
                 OpenFOAM을 기반으로, 기술 기반의 <span className="text-white/100">전문 엔지니어링 컨설팅 기업</span>으로 <br />
                 물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
@@ -85,29 +85,29 @@ const DescriptionPage = () => {
 
 const PurposePage = () => {
     return (
-        <div className="bg-black w-full h-[160vh] flex flex-col p-[1rem]">
-            <Index text={"PURPOSE"} className={"mt-[8rem]"} />
-            <div className="flex-row flex p-[3rem] justify-between pb-[1rem]">
-                <div className="text-white font-[500] text-[3rem] leading-[3.5rem]">
-                    Free CFD software making <br />
-                    computational fluid dynamics <br />
-                    accessible to everyone.
+        <div className="bg-black w-full h-[160vh] flex flex-col p-[1vw]">
+            <Index text={"PURPOSE"} className={"mt-[8vw]"} />
+            <div className="flex-row flex p-[3vw] justify-between pb-[1vw]">
+                <div className="text-white font-[500] text-[3vw] leading-[3.5vw]">
+                    Free CFD SOFTWARE MAKING <br />
+                    COMPUATATIONAL FLUID DYNAMICS <br />
+                    ACCESSIBLE TO EVERYONE.
                 </div>
-                <div className="flex justify-between flex-col gap-[2rem] text-[1.125rem]">
+                <div className="flex justify-between flex-col gap-[2vw] text-[1vw]">
                     <div className="text-white">
                         2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등<br />
                         100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. <br />
                         한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 <br />
                         특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 <br />
                     </div>
-                    <div className="flex flex-row items-center gap-[1rem] hover:invert bg-black w-fit">
-                        <Image src={arrow} alt="none" />
+                    <div className="flex flex-row items-center gap-[1vw] hover:invert bg-black w-fit">
+                        <Image src={arrow} alt="none"/>
                         <div className="text-white">Learn more</div>
                     </div>
                 </div>
             </div>
-            <div className="p-[3rem]">
-                <Image src={space} alt="" />
+            <div className="p-[3vw]">
+                <Image src={space} alt=""  className="min-w-[92vw]"/>
                 <div className="text-white/50 text-right">Launch video Courtesy of spaceX</div>
             </div>
 
@@ -117,15 +117,15 @@ const PurposePage = () => {
 
 const BaramPage = () => {
     return (
-        <div className="bg-black w-full h-[120vh] flex flex-col p-[1rem]">
-            <Index text={"BARAM"} className={"mt-[8rem] mb-[8rem]"} />
+        <div className="bg-black w-full h-[120vh] flex flex-col p-[1vw]">
+            <Index text={"BARAM"} className={"mt-[8vw] mb-[8vw]"} />
             <div className="w-screen h-[50%] flex items-center justify-center">
-                <div className="text-white/30 text-[clamp(5rem,100vw,30vw)] left-0 absolute">
+                <div className="text-white/30 text-[clamp(5vw,100vw,30vw)] left-0 absolute">
                     BARAM
                 </div>
             </div>
 
-            <div className="flex-row flex justify-between p-[1rem]">
+            <div className="flex-row flex justify-between p-[1vw]">
                 <div className="text-white">
                     The world’s first commercial <br />
                     space station
@@ -134,7 +134,7 @@ const BaramPage = () => {
                     2019-2025
                 </div>
             </div>
-            <div className="flex-row flex items-center m-[1rem] gap-[1rem] hover:invert bg-black w-fit">
+            <div className="flex-row flex items-center m-[1vw] gap-[1vw] hover:invert bg-black w-fit">
                 <Image src={arrow} alt="" />
                 <div className="text-white">Learn more</div>
             </div>
@@ -167,16 +167,16 @@ const BaramFeaturePage: React.FC = () => {
     }, [currentIndex, isPaused]);
 
     return (
-        <div className="bg-black w-full h-[150vh] flex flex-col p-[1rem]">
-            <Index text={"BARAM FEATURE"} className={"mt-[8rem] mb-[8rem]"} />
+        <div className="bg-black w-full h-[150vh] flex flex-col p-[1vw]">
+            <Index text={"BARAM FEATURE"} className={"mt-[8vw] mb-[8vw]"} />
             <div
                 ref={scrollRef}
                 // {...events}
                 className="flex flex-row overflow-x-auto gap-8 scrollbar-hide cursor-grab active:cursor-grabbing"
             >
                 {[1, 2, 3].map((item) => (
-                    <div key={item} className="w-[70rem] h-[40rem] relative min-w-[70rem] overflow-hidden">
-                        <div className="text-white text-[4rem] font-light mb-4">SUBSCRIPTION {item}</div>
+                    <div key={item} className="w-[70vw] h-[40vw] relative min-w-[70vw] overflow-hidden">
+                        <div className="text-white text-[4vw] font-light mb-4">SUBSCRIPTION {item}</div>
                         <Image src={space} alt="" />
                         <div className="bg-white/60 absolute z-10 bottom-0 text-xl backdrop-blur-sm px-2 py-1 ">
                             BARAM® offers software maintenance, technical <br />
@@ -233,21 +233,21 @@ const PortfolioPage = () => {
     [port8, "수치지형도를 이용한 CFD 전처리 자동화 및 오염물질 확산 시뮬레이션"]]; // 8개 아이템 예시
 
     return (
-        <div className="bg-black w-full h-[330vh] flex flex-col p-[1rem]">
-            <Index text={"PORTFOLIO"} className={"mt-[8rem] mb-[8rem]"} />
+        <div className="bg-black w-full h-[330vh] flex flex-col p-[1vw]">
+            <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[8vw]"} />
             <div className="grid grid-cols-2 gap-4">
                 {items.map((item, key) => (
-                    <div key={key} className="text-white h-[35rem] relative">
+                    <div key={key} className="text-white h-[35vw] relative">
                         <Image src={item[0]} alt="" className="w-full h-full object-cover rounded-sm" />
-                        <div className="absolute bottom-[0rem] left-[0rem] z-100 bg-black pr-[0.5rem] py-[0.25rem] text-[1.25rem] rounded-tr-[.25rem]">
+                        <div className="font-[500] absolute bottom-[0vw] left-[0vw] z-100 bg-black pr-[0.5vw] py-[0.25vw] text-[1.25vw] rounded-tr-[.25vw]">
                             {item[1].toString()}
                         </div>
                     </div>
                 ))}
             </div>
-            <a className="hover:cursor-pointer mx-auto mt-[5rem] flex flex-row items-center gap-[2rem] hover:invert bg-black w-fit">
-                <Image src={arrow} alt="" className="h-full scale-[-2]" />
-                <div className="text-white text-[1.5rem] ">More Portfolio</div>
+            <a className="hover:cursor-pointer mx-auto mt-[5vw] flex flex-row items-center hover:invert bg-black w-fit min-h-[7.2vh] min-w-[14vw] justify-center gap-[2vw]">
+                <Image src={arrow} alt="" className="scale-[-2] h-[2vw]" />
+                <div className="text-white text-[1.5vw] ">More Portfolio</div>
             </a>
         </div>
     );
@@ -280,23 +280,23 @@ const DocumentationPage = () => {
         "CFD Workflow 최적화"
     ];
     return (
-        <div className="bg-black w-full h-[230vh] flex flex-col p-[1rem]">
-            <Index text={"DOCUMENTATION"} className={"mt-[8rem] mb-[8rem]"} />
+        <div className="bg-black w-full h-[230vh] flex flex-col p-[1vw]">
+            <Index text={"DOCUMENTATION"} className={"mt-[8vw] mb-[8vw]"} />
             {documentation1.map((text) => (
                 <div className="relative">
-                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                    <div className="text-white text-[3vw] font-[500] hover:text-black hover:bg-white w-full">
                         {text}
                     </div>
-                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                    <span className="z-2 absolute text-black text-[3vw] font-[500] right-0 top-0">2025.11.21</span>
                 </div>
             ))}
-            <div className="mb-[8rem]"></div>
+            <div className="mb-[8vw]"></div>
             {documentation2.map((text) => (
                 <div className="relative">
-                    <div className="text-white text-[3rem] font-[500] hover:text-black hover:bg-white w-full">
+                    <div className="text-white text-[3vw] font-[500] hover:text-black hover:bg-white w-full">
                         {text}
                     </div>
-                    <span className="z-2 absolute text-black text-[3rem] font-[500] right-0 top-0">2025.11.21</span>
+                    <span className="z-2 absolute text-black text-[3vw] font-[500] right-0 top-0">2025.11.21</span>
                 </div>
             ))}
         </div>
@@ -345,9 +345,9 @@ const InThePressPage = () => {
     ];
 
     return (
-        <div className="bg-black w-full h-[100vh] flex flex-col p-[1rem]">
-            <Index text={"IN THE PRESS"} className={"mt-[8rem]"} />
-            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+        <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
+            <Index text={"IN THE PRESS"} className={"mt-[8vw]"} />
+            <div className="text-white text-[6vw] mt-[6vw] mb-[4vw]">
                 IN THE PRESS
             </div>
 
@@ -358,16 +358,16 @@ const InThePressPage = () => {
                         newsArticles.map((article) => (
                             <div
                                 key={`set-${setIndex}-article-${article.id}`}
-                                className="w-[35rem] h-[20rem] relative min-w-[35rem] overflow-hidden border-l-1 border-white/20 py-[.25rem] px-[1rem] mr-8"
+                                className="w-[35vw] h-[20vw] relative min-w-[35vw] overflow-hidden border-l-1 border-white/20 py-[.25vw] px-[1vw] mr-8"
                             >
-                                <div className="w-full h-[3rem] relative overflow-hidden items-center flex">
+                                <div className="w-full h-[3vw] relative overflow-hidden items-center flex">
                                     <Image 
                                         src={article.image} 
                                         alt={article.title}
-                                        className="w-[10rem] object-cover"
+                                        className="w-[10vw] object-cover"
                                     />
                                 </div>
-                                <div className="text-[1.35rem] leading-[1.875rem] text-white mt-[2rem]">
+                                <div className="text-[1.35vw] leading-[1.875vw] text-white mt-[2vw]">
                                     {article.content}
                                 </div>
                             </div>
@@ -440,9 +440,9 @@ const PartnershipPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-black w-full h-[120vh] flex flex-col p-[1rem]">
-            <Index text={"PARTNERSHIP"} className={"mt-[8rem]"} />
-            <div className="text-white text-[6rem] mt-[6rem] mb-[4rem]">
+        <div className="bg-black w-full h-[120vh] flex flex-col p-[1vw]">
+            <Index text={"PARTNERSHIP"} className={"mt-[8vw]"} />
+            <div className="text-white text-[6vw] mt-[6vw] mb-[4vw]">
                 CLIENT WE WORK WITH
             </div>
             {rows.map((row, rowIndex) => (
@@ -533,12 +533,12 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
                         {logos.map((logo, index) => (
                             <div
                                 key={`${setIndex}-${index}`}
-                                className="flex items-center justify-center px-12 min-w-[200px]"
+                                className="flex items-center justify-center px-12 min-w-[12vw]"
                             >
                                 <img
                                     src={logo}
                                     alt={`Logo ${index + 1}`}
-                                    className="h-16 w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
+                                    className="h-[4vw] w-auto object-contain filter brightness-100 hover:brightness-125 transition-all duration-300"
                                 />
                             </div>
                         ))}
@@ -551,9 +551,9 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
 
 const ReleasePage = () => {
     return (
-        <div className="bg-black w-full h-[70vh] flex flex-col p-[1rem]">
-            <Index text={"RELEASE"} className={"mt-[8rem]"} />
-            <div className="flex justify-end mt-[2rem]">
+        <div className="bg-black w-full h-[90vh] flex flex-col p-[1vw]">
+            <Index text={"RELEASE"} className={"mt-[8vw]"} />
+            <div className="flex justify-end mt-[2vw]">
                 <button className="text-white text-lg underline">
                     More
                 </button>
@@ -566,12 +566,12 @@ const ReleasePage = () => {
                             <Image src={space} alt="" className="w-full h-full object-cover" />
                         </div>
 
-                        <div className="flex justify-between mt-[.75rem]">
+                        <div className="flex justify-between mt-[.75vw]">
                             <span className="text-white/60 text-sm">FREE RELEASE</span>
                             <span className="text-white/60 text-sm">2025.10.24</span>
                         </div>
 
-                        <h3 className="text-white text-xl mt-[1.5rem]">
+                        <h3 className="text-white text-xl mt-[1.5vw] text-[1vw]">
                             IWC Schaffhausen and Vast Enter into a Strategic Collaboration
                         </h3>
                     </div>
@@ -629,9 +629,9 @@ const CompanyNewsPage = () => {
     };
 
     return (
-        <div className="bg-black w-full min-h-screen flex flex-col p-[1rem]">
-            <Index text={"COMPANY NEWS"} className={"mt-[8rem]"} />
-            <div className="flex justify-end gap-[2rem] mt-8 mb-8">
+        <div className="bg-black w-full min-h-[80vh] flex flex-col p-[1vw]">
+            <Index text={"COMPANY NEWS"} className={"mt-[8vw]"} />
+            <div className="flex justify-end gap-[2vw] mt-8 mb-8">
                 <button
                     onClick={handlePrev}
                     disabled={currentIndex === 0}
@@ -654,12 +654,12 @@ const CompanyNewsPage = () => {
                     style={{ transform: `translateX(-${currentIndex * (100 / visibleItems)}%)` }}
                 >
                     {newsItems.map((item) => (
-                        <div key={item.id} className="min-w-[calc(33.333%)] flex flex-row gap-4 items-center py-[1rem]">
+                        <div key={item.id} className="min-w-[calc(33.333%)] flex flex-row gap-4 items-center py-[1vw]">
                             <div className="w-32 h-20 relative overflow-hidden flex-shrink-0">
                                 <Image src={item.image} alt="" className="w-full h-full object-cover" />
                             </div>
 
-                            <h3 className="text-white text-base leading-tight">
+                            <h3 className="text-white text-base leading-tight text-[.8vw]">
                                 {item.title}
                             </h3>
                         </div>
@@ -709,30 +709,30 @@ const JoinTeamPage = () => {
 
 const FooterPage = () => {
     return (
-        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between p-8 select-none overflow-hidden">
-            <div className="mt-[8rem]">
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between select-none overflow-hidden">
+            <div className="mt-[8vw] text-[2.2vw]">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     서울 금천구 디지털로9길 32 A동 1106호 <span className="text-white/20">ASDNVOI IVHOAS</span> Github<span className="text-white/20"> BJZM</span> Naver Blog <span className="text-white/20">VUIXJNOBIZBWE</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     marketing@nextfoam.co.kr <span className="text-white/20">ASDVASD K DJSOPV SDA </span>Youtube<span className="text-white/20"> ASD </span>Baram Portal<span className="text-white/20">SAIND CIASJDS</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     070-8796-3019 <span className="text-white/20">BIASNUD USDHAJW DK AKSL ASDAI </span>Linkedin<span className="text-white/20"> LUX </span>Nextfoam Blog<span className="text-white/20"> BNOAJIBXND</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     찾아오는 길 <span className="text-white/20">AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>Instagram<span className="text-white/20"> GHOQL ZLFG PQND SGJAA KJS</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     <span className="text-white/20">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGOUZ </span>Facebook<span className="text-white/20"> ZM OV HGQ JSHGAIBG PPXUSN</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     <span className="text-white/20">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     <span className="text-white/20">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
                 </div>
-                <div className="text-white text-[clamp(2.12187vw,2.12187vw,2.12187vw)] font-[700] leading-[2.5rem] text-justify">
+                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     Privacy Policy <span className="text-white/20">NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG</span> @Nextfoam
                 </div>
             </div>
