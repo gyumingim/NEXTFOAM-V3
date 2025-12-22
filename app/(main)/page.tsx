@@ -293,7 +293,7 @@ const PortfolioPage = () => {
 
             {/* 그리드 영역 */}
             {/* gap-y를 넉넉하게 주어 위아래 카드 간격을 벌립니다 */}
-            <div className="grid grid-cols-2 gap-x-[2vw] gap-y-[6vw] p-[4vw]">
+            <div className="grid grid-cols-2 gap-x-[2vw] gap-y-[6vw] p-[2vw]">
                 {items.map((item, key) => (
                     <div
                         key={key}
@@ -311,7 +311,7 @@ const PortfolioPage = () => {
                         {/* 2. 텍스트 영역 (이미지 밖으로 나옴) */}
                         <div className="mt-[1.5vw] flex flex-col">
                             {/* 작은 텍스트 (날짜/카테고리 등) */}
-                            <div className="text-neutral-400 text-[1vw] font-medium mb-[0.5vw]">
+                            <div className="text-neutral-400 text-[0.875vw] font-medium mb-[0.5vw]">
                                 {item[2].toString()}
                             </div>
                             {/* 큰 타이틀 */}
