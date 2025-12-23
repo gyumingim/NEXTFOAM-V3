@@ -23,6 +23,8 @@ import port8 from "@/public/port/port8.png"
 import nextfoam from "@/public/introduce/nextfoam.jpg"
 
 import React, { useRef, useEffect, useState } from 'react';
+import { div } from "framer-motion/client";
+import next from "next";
 // import { useDraggable } from 'react-use-draggable-scroll';
 
 export default function Home() {
@@ -46,26 +48,42 @@ export default function Home() {
     );
 }
 
-const HeroPage = () => {
+const LearnMore = ({ className }: { className?: string }) => {
     return (
-        <div className="w-full h-[100vh] overflow-hidden">
-            <Image src={space} alt="null" className="overflow-hidden min-w-[100vw] opacity-70" />
-            <div className="absolute bottom-[20vh] left-[6vw] font-[600]  text-white text-[3vw] leading-[3vw]">
-                OPENING <br />
-                NEXT-GENERATION <br />
-                CFD SIMULATION
-                <div className="font-[400]  text-white text-[1vw] leading-[1.5vw] mt-[3vh]">
-                    넥스트폼은 최고의 기술력으로 여러분의 엔지니어링 문제에 대한 <br />
-                    컨설팅을 제공합니다
-                    <div className="font-[300] flex-row flex items-center mt-[8vh] gap-[1vw] bg-black w-fit border-1 border-white p-[1vw] hover:bg-white hover:text-black text-white">
-                        <div className="">→ Learn more</div>
-                    </div>
-                </div>
-            </div>
-
+        <div className={`${className} font-[300] bg-black w-fit border-1 border-white/40 rounded-[.2rem] duration-300 transition-all py-[.7vw] px-[1vw] text-[.8vw] hover:bg-white hover:text-black text-white`}>
+            <div className="">→ Learn more</div>
         </div>
     )
 }
+
+const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: any, title: any, desc:any, isLeft:any, image:any }) => {
+    return (
+        <div className={` w-full ${className} overflow-hidden relative whitespace-pre-line`}>
+            <Image src={image} alt="null" className="overflow-hidden min-w-[100vw] opacity-70" />
+            <HeroMain isLeft={isLeft}>
+                <div className="drop-shadow-[0_0_5px_rgba(0,0,0,0.2)]">
+                    {title}
+                </div>
+                <div className="font-[300] text-white text-[.9vw] leading-[1.5vw] mt-[3vh] ">
+                    <div className="drop-shadow-[0_0_3px_rgba(0,0,0,1)]">
+                        {desc}
+                    </div>
+                    <LearnMore className="mt-[4vh]" />
+                </div>
+            </HeroMain>
+        </div>
+
+    )
+}
+
+const HeroMain = ({ isLeft, children }: { isLeft?: any, children: any }) => {
+    return (
+        <div className={`absolute bottom-[28vh] ${isLeft ? "left" : "right"}-[6vw] font-[600] text-white text-[3vw] leading-[3vw]`}>
+            {children}
+        </div>
+    )
+}
+
 
 const Index = ({ text, className }: { text: string, className?: string }) => {
     return (
@@ -76,97 +94,49 @@ const Index = ({ text, className }: { text: string, className?: string }) => {
     )
 }
 
+const HeroPage = () => {
+    return (
+        <HeroContainer 
+            className="h-[100vh]" 
+            title={`OPENING \n NEXT-GENERATION \n CFD SIMULATION`}
+            desc={`넥스트폼은 최고의 기술력으로 여러분의 엔지니어링 문제에 대한 \n 컨설팅을 제공합니다`}
+            isLeft={true} 
+            image={space}
+        />
+    )
+}
+
+
 const DescriptionPage = () => {
     return (
-        // 1. 가장 바깥쪽 div를 relative로 설정하고 높이를 지정 (이미지의 기준)
-        <div className="w-full h-[110vh] relative p-[1vw]">
-
-            {/* 2. <Image> 컴포넌트를 배경으로 사용 */}
-            <Image
-                src={nextfoam}
-                alt="Nextfoam Background"
-                fill                // 부모 컨테이너(div)를 가득 채움
-                priority            // LCP(Largest Contentful Paint) 개선을 위해 로딩 우선순위를 높임
-                quality={80}        // 이미지 품질 조정
-                style={{
-                    objectFit: 'cover',   // 이미지가 컨테이너를 덮도록 설정 (CSS background-size: cover와 유사)
-                    zIndex: 0,            // 가장 낮은 레이어 (배경)
-                }}
-            />
-
-            {/* 3. 반투명 오버레이 추가 (가독성 유지) */}
-            {/* z-10: 이미지(z-0) 위에 배치 */}
-            <div className="absolute inset-0 bg-black/70 z-10"></div>
-
-            {/* 4. 텍스트 콘텐츠는 가장 위에 배치 */}
-            {/* z-20: 오버레이(z-10)보다 위에 배치하여 텍스트가 선명하게 보이도록 함 */}
-            <div className="relative flex flex-col z-20 items-end">
-                <Index text={"INTRODUCE"} className={"mt-[8vw] mb-[6vw] absolute left-0"} />
-
-                <div>
-                    <div className="text-[3vw] font-[600] leading-[1.5vw] text-white font-[500] mt-[30rem] mb-[2vw] pr-[4vw] pb-[.5vw]">
-                        NEXTFOAM
-                    </div>
-                    <div className="text-[1vw] leading-[1.75vw] text-white font-[400]  pr-[8vw] pl-[.25vw]">
-                        {/* p-[1vw]를 div 밖으로 옮겼기 때문에 여기서 p-[1vw]는 제거했습니다. */}
-                        넥스트폼은 2011년 3명이 모여 오픈소스 CFD 코드인 <br />
-                        OpenFOAM을 기반으로, 기술 기반의 전문 엔지니어링 컨설팅 기업으로 <br />
-                        물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. <br />
-                        이후 다양한 산업 분야의 전문 인력들이 동참하여 열유체 분야에서 <br />
-                        국내의 대표적인 컨설팅 기업으로 발전하여 <br />
-                        현재 총 24명이 함께하고 있습니다.
-                    </div>
-                </div>
-            </div>
-        </div>
+        <HeroContainer 
+            className="h-[120vh]" 
+            title="NEXTFOAM" 
+            desc={`넥스트폼은 2011년 3명이 모여 오픈소스 CFD 코드인 
+                  OpenFOAM을 기반으로, 기술 기반의 전문 엔지니어링 컨설팅 기업으로 
+                  물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. 
+                  이후 다양한 산업 분야의 전문 인력들이 동참하여 열유체 분야에서 
+                  국내의 대표적인 컨설팅 기업으로 발전하여 
+                  현재 총 24명이 함께하고 있습니다.`}
+            isLeft={false} 
+            image={nextfoam}
+        />
     )
 }
 
 const PurposePage = () => {
     return (
-        <div className="w-full h-[100vh] relative p-[1vw]">
-
-            {/* 2. <Image> 컴포넌트를 배경으로 사용 */}
-            <Image
-                src={space}
-                alt="Nextfoam Background"
-                fill                // 부모 컨테이너(div)를 가득 채움
-                priority            // LCP(Largest Contentful Paint) 개선을 위해 로딩 우선순위를 높임
-                quality={80}        // 이미지 품질 조정
-                style={{
-                    objectFit: 'cover',   // 이미지가 컨테이너를 덮도록 설정 (CSS background-size: cover와 유사)
-                    zIndex: 0,            // 가장 낮은 레이어 (배경)
-                }}
-            />
-
-            {/* 3. 반투명 오버레이 추가 (가독성 유지) */}
-            {/* z-10: 이미지(z-0) 위에 배치 */}
-            <div className="absolute inset-0 bg-black/30 z-10"></div>
-
-            {/* 4. 텍스트 콘텐츠는 가장 위에 배치 */}
-            {/* z-20: 오버레이(z-10)보다 위에 배치하여 텍스트가 선명하게 보이도록 함 */}
-            <div className="relative flex flex-col z-20 items-start">
-                <Index text={"PURPOSE"} className={"mt-[8vw] mb-[6vw] absolute left-0"} />
-
-                <div>
-                    <div className="text-[3vw] font-[600] leading-[3vw] text-white font-[500] mt-[20vw] mb-[2vw] pl-[4vw] pb-[.5vw]">
-                        MAKING CFD<br />
-                        FOR EVERYONE.
-                    </div>
-                    <div className="text-[1vw] leading-[1.75vw] text-white font-[400]  pl-[4vw] pl-[.25vw]">
-                        {/* p-[1vw]를 div 밖으로 옮겼기 때문에 여기서 p-[1vw]는 제거했습니다. */}
-                        2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등<br />
-                        100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. <br />
-                        한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 <br />
-                        특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 <br />
-                        <div className="font-[300] flex-row flex items-center mt-[4vh] gap-[1vw] bg-black w-fit border-1 border-white p-[1vw] hover:bg-white hover:text-black text-white">
-                            <div className="">→ Learn more</div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+        <HeroContainer 
+            className="h-[100vh]" 
+            title={`MAKING CFD 
+                    FOR EVERYONE.`}
+            desc={`2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등
+                  100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. 
+                  한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 
+                  특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 `}
+            isLeft={true} 
+            image={space}
+        />
     )
 }
 
@@ -188,9 +158,7 @@ const BaramPage = () => {
                     2019-2025
                 </div> */}
             </div>
-            <div className="flex-row flex items-center m-[1vw] gap-[1vw] bg-black w-fit border-1 border-white p-[1vw] hover:bg-white hover:text-black text-white">
-                <div className="">→ Learn more</div>
-            </div>
+            <LearnMore className="mt-[2vh] ml-[1rem]" />
 
         </div>
     )
@@ -293,11 +261,11 @@ const PortfolioPage = () => {
 
             {/* 그리드 영역 */}
             {/* gap-y를 넉넉하게 주어 위아래 카드 간격을 벌립니다 */}
-            <div className="grid grid-cols-2 gap-x-[2vw] gap-y-[6vw] p-[2vw]">
+            <div className="grid grid-cols-2 gap-x-[1vw] gap-y-[4vw]">
                 {items.map((item, key) => (
                     <div
                         key={key}
-                        className="group flex flex-col w-full cursor-pointer"
+                        className="group flex flex-col w-full cursor-pointer hover:bg-neutral-700 duration-300 transition-all p-[2rem] rounded-2xl"
                     >
                         {/* 1. 이미지 영역 (텍스트와 분리됨) */}
                         <div className="w-full h-[28vw] rounded-[1vw] overflow-hidden bg-neutral-900">
@@ -309,9 +277,9 @@ const PortfolioPage = () => {
                         </div>
 
                         {/* 2. 텍스트 영역 (이미지 밖으로 나옴) */}
-                        <div className="mt-[1.5vw] flex flex-col">
+                        <div className="mt-[.5vw] flex flex-col">
                             {/* 작은 텍스트 (날짜/카테고리 등) */}
-                            <div className="text-neutral-400 text-[0.875vw] font-medium mb-[0.5vw]">
+                            <div className="text-neutral-400 text-[0.875vw] font-medium mt-[0.2vw] mb-[0.1vw]">
                                 {item[2].toString()}
                             </div>
                             {/* 큰 타이틀 */}
@@ -324,9 +292,7 @@ const PortfolioPage = () => {
             </div>
 
             {/* 더보기 버튼 */}
-            <a className="mx-auto mt-[4vw] mb-[4vw] flex items-center justify-center gap-[1vw] px-[3vw] py-[1vw] border border-white bg-black text-white transition-all duration-300 hover:bg-white hover:text-black cursor-pointer">
-                <div className="text-[1.25vw] font-medium">→ More Portfolio</div>
-            </a>
+            <LearnMore className="mt-[8vh] mx-auto text-[1vw]" />
         </div>
     );
 };
@@ -726,7 +692,7 @@ const CompanyNewsPage = () => {
                 <div className="flex flex-col">
                     <Index text={"COMPANY NEWS"} className={"text-[0.9vw] text-neutral-500 mb-[1vw]"} />
                 </div>
-                
+
                 {/* 엔지니어링 감성의 컨트롤러 */}
                 <div className="flex items-center gap-[1.5vw] mb-[0.5vw]">
                     <div className="font-mono text-[0.8vw] text-neutral-500 tracking-widest">
@@ -758,8 +724,8 @@ const CompanyNewsPage = () => {
                     style={{ transform: `translateX(-${currentIndex * (100 / visibleItems)}%)` }}
                 >
                     {newsItems.map((item, idx) => (
-                        <div 
-                            key={item.id} 
+                        <div
+                            key={item.id}
                             className="min-w-[33.333%] flex flex-col gap-[1.5vw] p-[1.5vw] border-l border-neutral-900 group cursor-pointer hover:bg-neutral-950 transition-colors"
                         >
                             {/* 상단 메타데이터 */}
@@ -827,7 +793,7 @@ const JoinTeamPage = () => {
                 <button className="group relative px-[3vw] py-[1vw] bg-white/10 backdrop-blur-md text-white border border-white/30 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
                     {/* 호버 시 배경 차오르는 효과 */}
                     <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left ease-[cubic-bezier(0.16,1,0.3,1)]" />
-                    
+
                     <span className="relative z-10 text-[1.1vw] group-hover:text-black transition-colors duration-500 uppercase">
                         View open positions
                     </span>
