@@ -60,7 +60,7 @@ const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: 
     return (
         <div className={` w-full ${className} overflow-hidden relative whitespace-pre-line`}>
             <Image src={image} alt="null" className="overflow-hidden min-w-[100vw] opacity-70" />
-            <HeroMain isLeft={isLeft}>
+            <HeroMain className={isLeft}>
                 <div className="drop-shadow-[0_0_5px_rgba(0,0,0,0.2)]">
                     {title}
                 </div>
@@ -76,9 +76,9 @@ const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: 
     )
 }
 
-const HeroMain = ({ isLeft, children }: { isLeft?: any, children: any }) => {
+const HeroMain = ({ className, children }: { className?: any, children: any }) => {
     return (
-        <div className={`absolute bottom-[28vh] ${isLeft ? "left" : "right"}-[6vw] font-[600] text-white text-[3vw] leading-[3vw]`}>
+        <div className={`absolute bottom-[28vh] ${className} font-[600] text-white text-[3vw] leading-[3vw]`}>
             {children}
         </div>
     )
@@ -100,7 +100,7 @@ const HeroPage = () => {
             className="h-[100vh]" 
             title={`OPENING \n NEXT-GENERATION \n CFD SIMULATION`}
             desc={`넥스트폼은 최고의 기술력으로 여러분의 엔지니어링 문제에 대한 \n 컨설팅을 제공합니다`}
-            isLeft={true} 
+            isLeft={`left-[6vw]`} 
             image={space}
         />
     )
@@ -118,7 +118,7 @@ const DescriptionPage = () => {
                   이후 다양한 산업 분야의 전문 인력들이 동참하여 열유체 분야에서 
                   국내의 대표적인 컨설팅 기업으로 발전하여 
                   현재 총 24명이 함께하고 있습니다.`}
-            isLeft={false} 
+            isLeft={`right-[6vw]`} 
             image={nextfoam}
         />
     )
@@ -134,7 +134,7 @@ const PurposePage = () => {
                   100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. 
                   한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 
                   특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 `}
-            isLeft={true} 
+            isLeft={`left-[6vw]`} 
             image={space}
         />
     )
