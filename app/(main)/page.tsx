@@ -20,11 +20,16 @@ import port6 from "@/public/port/port6.png"
 import port7 from "@/public/port/port7.webp"
 import port8 from "@/public/port/port8.png"
 
+import { useThree } from "@react-three/fiber";
 import nextfoam from "@/public/introduce/nextfoam.jpg"
-
-import React, { useRef, useEffect, useState } from 'react';
+import { useGLTF } from "@react-three/drei";
+import React, { Suspense, useRef, useEffect, useState } from 'react';
 import { div } from "framer-motion/client";
 import next from "next";
+import { Canvas, useLoader, useFrame } from "@react-three/fiber";
+import { Environment, OrbitControls } from "@react-three/drei";
+import { ThreeMFLoader } from "three/examples/jsm/loaders/3MFLoader";
+import * as THREE from "three";
 // import { useDraggable } from 'react-use-draggable-scroll';
 
 export default function Home() {
@@ -56,16 +61,16 @@ const LearnMore = ({ className }: { className?: string }) => {
     )
 }
 
-const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: any, title: any, desc:any, isLeft:any, image:any }) => {
+const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: any, title: any, desc: any, isLeft: any, image: any }) => {
     return (
-        <div className={` w-full ${className} overflow-hidden relative whitespace-pre-line`}>
-            <Image src={image} alt="null" className="overflow-hidden min-w-[100vw] opacity-70" />
+        <div className={` w-full ${className} overflow-hidden relative whitespace-pre-line `}>
+            <Image src={image} alt="null" className="overflow-hidden min-w-[100vw] opacity-50" />
             <HeroMain className={isLeft}>
-                <div className="drop-shadow-[0_0_5px_rgba(0,0,0,0.2)]">
+                <div className="drop-shadow-[0_0_10px_rgba(0,0,0,0.2)]">
                     {title}
                 </div>
-                <div className="font-[300] text-white text-[.9vw] leading-[1.5vw] mt-[3vh] ">
-                    <div className="drop-shadow-[0_0_3px_rgba(0,0,0,1)]">
+                <div className="font-[300] text-white text-[1.25vw] leading-[2vw] mt-[3vh] ">
+                    <div className="drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
                         {desc}
                     </div>
                     <LearnMore className="mt-[4vh]" />
@@ -96,11 +101,11 @@ const Index = ({ text, className }: { text: string, className?: string }) => {
 
 const HeroPage = () => {
     return (
-        <HeroContainer 
-            className="h-[100vh]" 
+        <HeroContainer
+            className="h-[100vh]"
             title={`OPENING \n NEXT-GENERATION \n CFD SIMULATION`}
             desc={`넥스트폼은 최고의 기술력으로 여러분의 엔지니어링 문제에 대한 \n 컨설팅을 제공합니다`}
-            isLeft={`left-[6vw]`} 
+            isLeft={`left-[6vw]`}
             image={space}
         />
     )
@@ -109,16 +114,16 @@ const HeroPage = () => {
 
 const DescriptionPage = () => {
     return (
-        <HeroContainer 
-            className="h-[120vh]" 
-            title="NEXTFOAM" 
+        <HeroContainer
+            className="h-[120vh]"
+            title="NEXTFOAM"
             desc={`넥스트폼은 2011년 3명이 모여 오픈소스 CFD 코드인 
                   OpenFOAM을 기반으로, 기술 기반의 전문 엔지니어링 컨설팅 기업으로 
                   물리현상 시뮬레이션 분야의 패러다임 전환을 목표로 출발하였습니다. 
                   이후 다양한 산업 분야의 전문 인력들이 동참하여 열유체 분야에서 
                   국내의 대표적인 컨설팅 기업으로 발전하여 
                   현재 총 24명이 함께하고 있습니다.`}
-            isLeft={`right-[6vw]`} 
+            isLeft={`right-[6vw]`}
             image={nextfoam}
         />
     )
@@ -126,43 +131,145 @@ const DescriptionPage = () => {
 
 const PurposePage = () => {
     return (
-        <HeroContainer 
-            className="h-[100vh]" 
+        <HeroContainer
+            className="h-[100vh]"
             title={`MAKING CFD 
                     FOR EVERYONE.`}
             desc={`2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등
                   100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. 
                   한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 
                   특별세션, 후원, 전시부스 등의 학술활동을 계속해 오고 있습니다 `}
-            isLeft={`left-[6vw]`} 
+            isLeft={`left-[6vw]`}
             image={space}
         />
     )
 }
 
-const BaramPage = () => {
+
+// BaramModel - velocity 기반 동적 기울기
+function BaramModel({ scrollProgress, scrollVelocity }: { scrollProgress: number; scrollVelocity: number }) {
+    const groupRef = useRef<THREE.Group>(null);
+    const { scene } = useGLTF("/Untitled.glb");
+    const currentTilt = useRef(0); // 현재 Z 기울기 (lerp용)
+    const { viewport } = useThree();  // ← 추가
+    const scale = viewport.width * 0.04;  // 숫자 조절해서 크기 맞추기
+
+    useEffect(() => {
+        scene.traverse((child) => {
+            if ((child as THREE.Mesh).isMesh) {
+                const mesh = child as THREE.Mesh;
+                const oldMat = mesh.material as THREE.MeshStandardMaterial;
+                mesh.material = new THREE.MeshPhysicalMaterial({
+                    map: oldMat.map,
+                    normalMap: oldMat.normalMap,
+                    metalness: .5,          // 낮출수록 반사 범위 넓어짐
+                    roughness: 0.1,          // 0에 가까울수록 거울처럼 넓게 반사
+                    clearcoat: 1.0,
+                    clearcoatRoughness: 1.0, // 0으로 낮춰서 코팅 반사 극대화
+                    envMapIntensity: 3.0,    // 환경 반사 강도 올림
+                });
+            }
+        });
+    }, [scene]);
+
+    useFrame(() => {
+        if (!groupRef.current) return;
+
+        // 스크롤 속도 → Z 기울기 타겟 (최대 ±0.4 rad)
+        const targetTilt = Math.max(-0.4, Math.min(0.4, scrollVelocity * 0.03));
+
+        // 부드럽게 lerp (스크롤 멈추면 원위치)
+        currentTilt.current += (targetTilt - currentTilt.current) * 0.08;
+
+        // Y축: 스크롤 전체 진행도로 천천히 회전
+        groupRef.current.rotation.y = scrollProgress * Math.PI * 1.5;
+
+        // Z축: 스크롤 속도에 반응하는 동적 기울기
+        groupRef.current.rotation.z = currentTilt.current;
+    });
+
     return (
-        <div className="bg-black w-full h-[120vh] flex flex-col p-[1vw]">
-            <Index text={"BARAM"} className={"mt-[8vw] mb-[8vw]"} />
-            <div className="w-screen h-[50%] flex items-center justify-center">
-                <div className="text-white/30 text-[clamp(5vw,100vw,30vw)] left-0 absolute">
+        <group ref={groupRef}>
+            <primitive
+                object={scene}
+                scale={scale}
+                position={[0, 0, 0]}
+                rotation={[Math.PI, -Math.PI * 1.1, Math.PI / 2 * 1.2]}
+            />
+        </group>
+    );
+}
+
+
+// BaramPage에서 scrollVelocity도 같이 전달
+const BaramPage = () => {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const [scrollProgress, setScrollProgress] = useState(0);
+    const [scrollVelocity, setScrollVelocity] = useState(0);
+    const lastScrollY = useRef(0);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const el = containerRef.current;
+            if (!el) return;
+
+            const scrollTop = window.scrollY;
+            const velocity = scrollTop - lastScrollY.current;
+            lastScrollY.current = scrollTop;
+
+            const maxScroll = el.scrollHeight - window.innerHeight;
+            const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+            setScrollProgress(Math.min(Math.max(progress, 0), 1));
+            setScrollVelocity(velocity);
+        };
+
+        window.addEventListener("scroll", handleScroll, { passive: true });
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
+
+    return (
+        <div ref={containerRef} className="bg-black w-full flex flex-col p-[1vw]">
+            <Index text={"BARAM"} className={"mt-[8vw] mb-[3vw]"} />
+            <div className="text-white text-[6vw] mt-[6vw] mb-[2vw] leading-tight font-[700]">
+                누구나 사용할 수 있고, <br/>
+                개발에 참여할 수 있습니다.
+            </div>
+            <div className="text-white text-[1.5vw] mt-[0vw] mb-[8vw] leading-normal font-[300]">
+                우리는 스마트폰에서 필요한 앱을 그냥 설치해서 씁니다. 코딩은 공개된 코드를 내려 받아 사용합니다. <br/>
+                그런데 왜 CFD(열유동해석)는 비싼 돈을 내고 사용할까요?
+            </div>
+            {/* h-[50%] → h-[60vh] 고정값으로 */}
+            <div className="w-full h-[60vh] flex items-center justify-center relative">
+                <div className="text-white/10 text-[clamp(5vw,100vw,30vw)] absolute select-none pointer-events-none left-0 w-screen text-center">
                     BARAM
                 </div>
+
+                <div className="w-full absolute inset-0">
+                    <Canvas
+                        camera={{ position: [0, 0, 5], fov: 45 }}
+                        gl={{ alpha: true, antialias: true }}
+                        style={{ background: "transparent", width: "100%", height: "100%" }}
+                    >
+                        <ambientLight intensity={0.1} />
+                        <directionalLight position={[-5, 3, -5]} intensity={30} />
+                        <pointLight position={[0, 5, 3]} intensity={30} color="#ffffff" />
+                        <pointLight position={[3, -2, 4]} intensity={30} color="#aaddff" />
+                        <spotLight position={[0, 8, 4]} intensity={20} angle={0.6} penumbra={0.2} castShadow />
+                        <Suspense fallback={null}>
+                            <BaramModel scrollProgress={scrollProgress} scrollVelocity={scrollVelocity} />
+                            <Environment preset="studio" />
+                        </Suspense>
+                    </Canvas>
+                </div>
             </div>
 
-            <div className="flex-row flex justify-between p-[1vw] mt-[16vh]">
-                <div className="text-white">
-                    No More Pay Lincese Fee for CFD
-                </div>
-                {/* <div className="text-white">
-                    2019-2025
-                </div> */}
+            <div className="flex-row flex justify-between p-[1vw] mt-[4vh]">
+                <div className="text-white">No More Pay License Fee for CFD</div>
             </div>
             <LearnMore className="mt-[2vh] ml-[1rem]" />
-
         </div>
-    )
-}
+    );
+};
 const BaramFeaturePage: React.FC = () => {
     const scrollRef = useRef<HTMLDivElement>(null) as React.MutableRefObject<HTMLDivElement>;
     // const { events } = useDraggable(scrollRef);
@@ -257,18 +364,25 @@ const PortfolioPage = () => {
     return (
         <div className="bg-black w-full min-h-screen flex flex-col p-[1vw]">
             {/* 타이틀 */}
-            <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[8vw]"} />
-
+            <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[3vw]"} />
+            <div className="text-white text-[6vw] mt-[6vw] mb-[2vw] leading-tight font-[700]">
+                분야의 경계를 넘어,<br />
+                해답을 현실로 만듭니다.
+            </div>
+            <div className="text-white text-[1.5vw] mt-[0vw] mb-[8vw] leading-normal font-[300]">
+                넥스트폼은 항공우주, 조선해양, 자동차, 전기전자, 에너지환경, 건설토목 등 <br/>
+                300건 이상의 컨설팅 프로젝트를 수행했습니다. 주요 수행 사례를 소개합니다.
+            </div>
             {/* 그리드 영역 */}
             {/* gap-y를 넉넉하게 주어 위아래 카드 간격을 벌립니다 */}
-            <div className="grid grid-cols-2 gap-x-[1vw] gap-y-[4vw]">
+            <div className="grid grid-cols-3 gap-y-[2vw]">
                 {items.map((item, key) => (
                     <div
                         key={key}
-                        className="group flex flex-col w-full cursor-pointer hover:bg-neutral-700 duration-300 transition-all p-[2rem] rounded-2xl"
+                        className="group flex flex-col w-full cursor-pointer hover:bg-neutral-700 duration-300 transition-all p-[1rem] rounded-2xl"
                     >
                         {/* 1. 이미지 영역 (텍스트와 분리됨) */}
-                        <div className="w-full h-[28vw] rounded-[1vw] overflow-hidden bg-neutral-900">
+                        <div className="w-full h-[20vw] rounded-[1vw] overflow-hidden bg-neutral-900">
                             <Image
                                 src={item[0]}
                                 alt=""
@@ -283,7 +397,7 @@ const PortfolioPage = () => {
                                 {item[2].toString()}
                             </div>
                             {/* 큰 타이틀 */}
-                            <div className="text-white text-[2.5vw] font-[400] leading-tight decoration-white underline-offset-4">
+                            <div className="text-white text-[2vw] font-[400] leading-tight decoration-white underline-offset-4">
                                 {item[1].toString()}
                             </div>
                         </div>
@@ -328,6 +442,14 @@ const DocumentationPage = () => {
             {/* 헤더 섹션 */}
             <div className="flex justify-between items-end border-neutral-800 pb-[1vw] mb-[6vw]">
                 <Index text={"DOCUMENTATION"} className={"mt-[8vw] mb-[2vw]"} />
+            </div>
+            <div className="text-white text-[6vw] mt-[1vw] mb-[2vw] leading-tight font-[700]">
+                넥스트폼의<br />
+                새로운 콘텐츠를 만나보세요
+            </div>
+            <div className="text-white text-[1.5vw] mt-[0vw] mb-[10vw] leading-normal font-[300]">
+                한국항공우주학회, 대한조선학회 등의 여러 학회에서 학술활동을 계속해 오고 있으며, <br/>
+                국내외 학술지와 학술대회에 130편 이상의 논문을 발표하였습니다.
             </div>
 
             {/* 리스트 영역 */}
@@ -409,11 +531,10 @@ const InThePressPage = () => {
 
     return (
         <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
-            <Index text={"IN THE PRESS"} className={"mt-[8vw]"} />
-            <div className="text-white text-[6vw] mt-[6vw] mb-[8vw]">
-                IN THE PRESS
+            <Index text={"IN THE PRESS"} className={"mt-[8vw] mb-[4vw]"} />
+            <div className="text-white text-[6vw] mt-[4vw] mb-[8vw] leading-tight font-[700]">
+                언론이 주목한 넥스트폼
             </div>
-
             <div className="overflow-hidden">
                 <div className="flex animate-scroll">
                     {/* 무한 스크롤을 위해 3번 반복 */}
@@ -505,8 +626,8 @@ const PartnershipPage: React.FC = () => {
     return (
         <div className="bg-black w-full h-[120vh] flex flex-col p-[1vw]">
             <Index text={"PARTNERSHIP"} className={"mt-[8vw]"} />
-            <div className="text-white text-[6vw] mt-[6vw] mb-[4vw]">
-                CLIENT WE WORK WITH
+            <div className="text-white text-[6vw] mt-[4vw] mb-[8vw] leading-tight font-[700]">
+                넥스트폼과 함께하는 고객사
             </div>
             {rows.map((row, rowIndex) => (
                 <InfiniteScrollRow
