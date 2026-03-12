@@ -2,7 +2,6 @@
 import { Header } from "@/widgets/header/Header";
 import Image from "next/image";
 import space from "@/public/space.png"
-import arrow from "@/public/arrow.svg"
 
 import news2 from "@/public/news/AI타임즈.png"
 import news3 from "@/public/news/경상일보.png"
@@ -24,11 +23,11 @@ import { useThree } from "@react-three/fiber";
 import nextfoam from "@/public/introduce/nextfoam.jpg"
 import { useGLTF } from "@react-three/drei";
 import React, { Suspense, useRef, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { div } from "framer-motion/client";
 import next from "next";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
 import { Environment, OrbitControls } from "@react-three/drei";
-import { ThreeMFLoader } from "three/examples/jsm/loaders/3MFLoader";
 import * as THREE from "three";
 // import { useDraggable } from 'react-use-draggable-scroll';
 
@@ -45,9 +44,9 @@ export default function Home() {
             <DocumentationPage />
             <InThePressPage />
             <PartnershipPage />
-            <ReleasePage />
+            {/* <ReleasePage /> */}
             <CompanyNewsPage />
-            <JoinTeamPage />
+            {/* <JoinTeamPage /> */}
             <FooterPage />
         </div>
     );
@@ -63,27 +62,22 @@ const LearnMore = ({ className }: { className?: string }) => {
 
 const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: any, title: any, desc: any, isLeft: any, image: any }) => {
     return (
-        <div className={` w-full ${className} overflow-hidden relative whitespace-pre-line `}>
-            <Image src={image} alt="null" className="overflow-hidden min-w-[100vw] opacity-50" />
+        <div className={`w-full ${className} overflow-hidden relative`}>
+            <Image src={image} alt="" fill className="object-cover opacity-50" />
             <HeroMain className={isLeft}>
-                <div className="drop-shadow-[0_0_10px_rgba(0,0,0,0.2)]">
-                    {title}
-                </div>
-                <div className="font-[300] text-white text-[1.25vw] leading-[2vw] mt-[3vh] ">
-                    <div className="drop-shadow-[0_0_5px_rgba(0,0,0,1)]">
-                        {desc}
-                    </div>
+                <div>{title}</div>
+                <div className="font-[300] text-white text-[1.125vw] leading-[2vw] mt-[1vh]">
+                    <div>{desc}</div>
                     <LearnMore className="mt-[4vh]" />
                 </div>
             </HeroMain>
         </div>
-
     )
 }
 
 const HeroMain = ({ className, children }: { className?: any, children: any }) => {
     return (
-        <div className={`absolute bottom-[28vh] ${className} font-[600] text-white text-[3vw] leading-[3vw]`}>
+        <div className={`absolute bottom-[10%] ${className} font-[400] text-white text-[4vw] leading-[4.5vw] whitespace-pre-line`}>
             {children}
         </div>
     )
@@ -103,8 +97,8 @@ const HeroPage = () => {
     return (
         <HeroContainer
             className="h-[100vh]"
-            title={`OPENING \n NEXT-GENERATION \n CFD SIMULATION`}
-            desc={`넥스트폼은 최고의 기술력으로 여러분의 엔지니어링 문제에 대한 \n 컨설팅을 제공합니다`}
+            title={`Opening \n Next-Gen \n CFD Simulation`}
+            desc={`최고의 기술력으로 엔지니어링 컨설팅을 제공합니다`}
             isLeft={`left-[6vw]`}
             image={space}
         />
@@ -133,8 +127,8 @@ const PurposePage = () => {
     return (
         <HeroContainer
             className="h-[100vh]"
-            title={`MAKING CFD 
-                    FOR EVERYONE.`}
+            title={`Making CFD 
+                    for Everyone.`}
             desc={`2025년 현재 15년째를 맞이하는 넥스트폼은 지금까지 산업체, 공공기관 등
                   100여 개의 기관과 300여건의 컨설팅 프로젝트를 수행하였습니다. 
                   한국전산유체공학회, 한국항공우주학회, 대한조선학회 등의 여러 학회에서 
@@ -230,17 +224,16 @@ const BaramPage = () => {
     return (
         <div ref={containerRef} className="bg-black w-full flex flex-col p-[1vw]">
             <Index text={"BARAM"} className={"mt-[8vw] mb-[3vw]"} />
-            <div className="text-white text-[6vw] mt-[6vw] mb-[2vw] leading-tight font-[700]">
+            <div className="text-white text-[6vw] mt-[6vw] mb-[1vw] leading-tight font-[700]">
                 누구나 사용할 수 있고, <br/>
                 개발에 참여할 수 있습니다.
             </div>
             <div className="text-white text-[1.5vw] mt-[0vw] mb-[8vw] leading-normal font-[300]">
-                우리는 스마트폰에서 필요한 앱을 그냥 설치해서 씁니다. 코딩은 공개된 코드를 내려 받아 사용합니다. <br/>
-                그런데 왜 CFD(열유동해석)는 비싼 돈을 내고 사용할까요?
+                BARAM®은 넥스트폼이 개발/공개한 전산유체역학(CFD) 열-유동 해석 프로그램입니다.
             </div>
             {/* h-[50%] → h-[60vh] 고정값으로 */}
             <div className="w-full h-[60vh] flex items-center justify-center relative">
-                <div className="text-white/10 text-[clamp(5vw,100vw,30vw)] absolute select-none pointer-events-none left-0 w-screen text-center">
+                <div className="text-white/20 text-[clamp(5vw,100vw,30vw)] absolute select-none pointer-events-none left-0 w-screen text-center">
                     BARAM
                 </div>
 
@@ -264,7 +257,13 @@ const BaramPage = () => {
             </div>
 
             <div className="flex-row flex justify-between p-[1vw] mt-[4vh]">
-                <div className="text-white">No More Pay License Fee for CFD</div>
+                <div className="text-white text-[1vw] leading-[1.75vw]">
+                    우리는 스마트폰에서 필요한 앱을 그냥 설치해서 씁니다. <br/>
+                    그런데 왜 CFD는 비싼 돈을 내고 사용할까요? <br/>
+                    BARAM®은 누구나 자유롭게 사용할 수 있습니다. <br/>
+                    오픈 소스는 단순한 무료 대안이 아니라, <br/>
+                    CFD Workflow 자체를 혁신하는 도구입니다. <br/>
+                </div>
             </div>
             <LearnMore className="mt-[2vh] ml-[1rem]" />
         </div>
@@ -365,12 +364,11 @@ const PortfolioPage = () => {
         <div className="bg-black w-full min-h-screen flex flex-col p-[1vw]">
             {/* 타이틀 */}
             <Index text={"PORTFOLIO"} className={"mt-[8vw] mb-[3vw]"} />
-            <div className="text-white text-[6vw] mt-[6vw] mb-[2vw] leading-tight font-[700]">
+            <div className="text-white text-[6vw] mt-[6vw] mb-[1vw] leading-tight font-[700]">
                 분야의 경계를 넘어,<br />
                 해답을 현실로 만듭니다.
             </div>
-            <div className="text-white text-[1.5vw] mt-[0vw] mb-[8vw] leading-normal font-[300]">
-                넥스트폼은 항공우주, 조선해양, 자동차, 전기전자, 에너지환경, 건설토목 등 <br/>
+            <div className="text-white text-[1.5vw] mt-[0vw] mb-[10vw] leading-normal font-[300]">
                 300건 이상의 컨설팅 프로젝트를 수행했습니다. 주요 수행 사례를 소개합니다.
             </div>
             {/* 그리드 영역 */}
@@ -438,17 +436,16 @@ const DocumentationPage = () => {
         "CFD Workflow 최적화"
     ];
     return (
-        <div className="bg-black w-full min-h-screen flex flex-col p-[1vw]">
+        <div className="bg-black w-full min-h-screen flex flex-col p-[1vw] mb-[8vw]">
             {/* 헤더 섹션 */}
             <div className="flex justify-between items-end border-neutral-800 pb-[1vw] mb-[6vw]">
                 <Index text={"DOCUMENTATION"} className={"mt-[8vw] mb-[2vw]"} />
             </div>
-            <div className="text-white text-[6vw] mt-[1vw] mb-[2vw] leading-tight font-[700]">
+            <div className="text-white text-[6vw] mt-[1vw] mb-[1vw] leading-tight font-[700]">
                 넥스트폼의<br />
                 새로운 콘텐츠를 만나보세요
             </div>
             <div className="text-white text-[1.5vw] mt-[0vw] mb-[10vw] leading-normal font-[300]">
-                한국항공우주학회, 대한조선학회 등의 여러 학회에서 학술활동을 계속해 오고 있으며, <br/>
                 국내외 학술지와 학술대회에 130편 이상의 논문을 발표하였습니다.
             </div>
 
@@ -489,92 +486,118 @@ const DocumentationPage = () => {
 }
 
 const InThePressPage = () => {
-    // 기사 데이터 배열
     const newsArticles = [
         {
-            id: 1,
-            image: news1,
-            title: "BARAM® Announces New Partnership",
+            id: 1, image: news1,
             content: "국내 OpenFOAM 사용자들의 최대 교류 행사인 '제12회 한국 OpenFOAM 사용자 모임'이 오는 18일부터 19일까지 경주에서 열린다. 이번 행사는 넥스트폼과 한국기계연구원 주관으로 마련되며, 학계·산업계·연구기관 전문가들이 한자리에 모여 최신 전산유체역학(CFD) 기술과 오픈소스 활용 사례를 공유한다."
         },
         {
-            id: 2,
-            image: news2,
-            title: "Industry Recognition Award",
+            id: 2, image: news2,
             content: "국내 산업용 시뮬레이션 시장은 외산 소프트웨어 의존도가 높다. 이에 매년 수백억 원의 세금과 산업 비용이 해외로 유출되고 있다. 이 가운데 넥스트폼(Nextfoam)이 개발한 오픈소스 전산유체역학(CFD) 솔루션 '바람(BARAM)'이 주목받고 있다."
         },
         {
-            id: 3,
-            image: news3,
-            title: "New Release Update",
+            id: 3, image: news3,
             content: "국내 산업계가 전산유체역학(CFD) 분야에서 외산 소프트웨어에 지나치게 의존하고 있는 상황에서, 넥스트폼(Nextform Inc.)이 자체 개발한 CFD 솔버 '바람(Baram)'을 앞세워 산업용 시뮬레이션 시장에 본격 도전장을 내밀었다."
         },
         {
-            id: 4,
-            image: news4,
-            title: "Global Expansion News",
+            id: 4, image: news4,
             content: "전산유체역학(CFD) 전문기업 넥스트폼이 오픈소스 프리웨어 CFD 솔루션 'BARAM(바람)'을 공식 출시하고 상용화에 나섰다. CFD(Computational Fluid Dynamics)는 열·유체의 흐름을 컴퓨터를 이용해 시뮬레이션 하는 기술이다."
         },
         {
-            id: 5,
-            image: news5,
-            title: "Technical Innovation Spotlight",
-            content: "전산유체역학(CFD) 전문기업 넥스트폼은 국내 첫 오픈소스 프리웨어 CFD 솔루션 '바람(BARAM)'을 공식 출시한다고 17일 밝혔다. 이 솔루션은 누구나 자유롭게 사용할 수 있는 오픈소스 기반 CFD 소프트웨어(SW)다. 복잡한 명령어 입력 없이도 간편한 그래픽사용자인터페이스(GUI) 환경에서 메시 생성, 유동 해석, 결과 시각화까지 원스톱으로 수행할 수 있도록 지원한다."
+            id: 5, image: news5,
+            content: "전산유체역학(CFD) 전문기업 넥스트폼은 국내 첫 오픈소스 프리웨어 CFD 솔루션 '바람(BARAM)'을 공식 출시한다고 17일 밝혔다. 누구나 자유롭게 사용할 수 있는 오픈소스 기반 CFD 소프트웨어로, GUI 환경에서 메시 생성, 유동 해석, 결과 시각화까지 원스톱으로 수행할 수 있도록 지원한다."
         },
         {
-            id: 6,
-            image: news6,
-            title: "Customer Success Story",
-            content: "전산유체역학(CFD) 전문기업 ㈜넥스트폼은 오픈소스 프리웨어 CFD 솔루션 'BARAM(바람)'을 공식 출시하고 상용화에 나섰다고 16일 밝혔다. 넥스트폼이 국내 처음 개발한 'BARAM'은 오픈소스 기반의 전산유체해석(CFD) 소프트웨어이다. 복잡한 명령어 입력 없이도 간편한 GUI(그래픽유저인터페이스) 환경에서 메시지 생성에서부터 유동 해석, 결과 시각화에 이르는 일련의 작업을 원스톱으로 끝마칠 수 있다."
+            id: 6, image: news6,
+            content: "전산유체역학(CFD) 전문기업 ㈜넥스트폼은 오픈소스 프리웨어 CFD 솔루션 'BARAM(바람)'을 공식 출시하고 상용화에 나섰다고 16일 밝혔다. GUI 환경에서 메시지 생성에서부터 유동 해석, 결과 시각화에 이르는 일련의 작업을 원스톱으로 끝마칠 수 있다."
         }
     ];
 
     return (
-        <div className="bg-black w-full h-[100vh] flex flex-col p-[1vw]">
-            <Index text={"IN THE PRESS"} className={"mt-[8vw] mb-[4vw]"} />
-            <div className="text-white text-[6vw] mt-[4vw] mb-[8vw] leading-tight font-[700]">
-                언론이 주목한 넥스트폼
-            </div>
-            <div className="overflow-hidden">
-                <div className="flex animate-scroll">
-                    {/* 무한 스크롤을 위해 3번 반복 */}
-                    {[...Array(3)].map((_, setIndex) => (
-                        newsArticles.map((article) => (
-                            <div
-                                key={`set-${setIndex}-article-${article.id}`}
-                                className="w-[25vw] h-[30vw] relative min-w-[30vw] overflow-hidden border-l-1 border-white/20 py-[.25vw] px-[1vw] mr-8"
-                            >
-                                <div className="w-full h-[2vw] relative overflow-hidden items-center flex">
+        <div className="bg-white/8 w-full flex flex-col py-[8vw]">
+            <div className="w-[60%] mx-auto">
+                <Index text={"IN THE PRESS"} className={"mb-[3vw]"} />
+                <div className="flex justify-between items-end mb-[5vw]">
+                    <h2 className="text-white text-[4vw] leading-tight font-[600] tracking-tighter">
+                        언론이 주목한 넥스트폼
+                    </h2>
+                    <span className="text-neutral-600 font-mono text-[0.75vw] tracking-widest self-end pb-[0.3vw]">
+                        TOTAL {newsArticles.length} ARTICLES
+                    </span>
+                </div>
+
+                {/* 피처드 카드 2개 */}
+                <div className="grid grid-cols-2 gap-[2vw] mb-[4vw]">
+                    {newsArticles.slice(0, 2).map((article) => (
+                        <div key={article.id} className="group cursor-pointer flex flex-col">
+                            {/* 이미지 */}
+                            <div className="relative w-full h-[22vw] overflow-hidden bg-neutral-900 mb-[1.5vw]">
+                                <Image
+                                    src={space}
+                                    alt=""
+                                    fill
+                                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-700"
+                                />
+                                {/* 로고 오버레이 */}
+                                <div className="absolute bottom-[1.2vw] left-[1.2vw] h-[1.6vw] flex items-center bg-black/60 px-[0.8vw] py-[0.5vw] backdrop-blur-sm">
                                     <Image
                                         src={article.image}
-                                        alt={article.title}
-                                        className="w-[10vw] object-cover"
+                                        alt=""
+                                        className="h-full w-auto object-contain"
                                     />
                                 </div>
-                                <div className="text-[1.125vw] leading-[1.875vw] text-white mt-[2vw]">
-                                    {article.content}
-                                </div>
+                                <span className="absolute top-[1.2vw] right-[1.2vw] text-white/60 group-hover:text-white text-[1.2vw] group-hover:translate-x-[0.2vw] group-hover:-translate-y-[0.2vw] transition-all duration-300">↗</span>
                             </div>
-                        ))
+                            {/* 본문 */}
+                            <p className="text-white/50 group-hover:text-white/80 text-[1vw] leading-[1.8] transition-colors duration-300 line-clamp-3">
+                                {article.content}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
+                {/* 나머지 리스트 */}
+                <div className="flex flex-col border-t border-neutral-800">
+                    {newsArticles.slice(2).map((article, idx) => (
+                        <div
+                            key={article.id}
+                            className="group flex items-center gap-[2vw] py-[1.8vw] border-b border-neutral-800 hover:border-white/20 transition-all duration-500 cursor-pointer"
+                        >
+                            <span className="font-mono text-[0.7vw] text-neutral-600 shrink-0 w-[2vw]">
+                                {String(idx + 3).padStart(2, '0')}
+                            </span>
+
+                            {/* 썸네일 */}
+                            <div className="relative w-[7vw] h-[4.5vw] shrink-0 overflow-hidden bg-neutral-900">
+                                <Image
+                                    src={space}
+                                    alt=""
+                                    fill
+                                    className="object-cover opacity-50 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
+                                />
+                            </div>
+
+                            {/* 로고 */}
+                            <div className="h-[1.2vw] flex items-center shrink-0 w-[6vw]">
+                                <Image
+                                    src={article.image}
+                                    alt=""
+                                    className="h-full w-auto object-contain"
+                                />
+                            </div>
+
+                            {/* 본문 */}
+                            <p className="flex-1 text-white/50 group-hover:text-white/80 text-[0.95vw] leading-[1.7] transition-colors duration-300 line-clamp-2">
+                                {article.content}
+                            </p>
+
+                            <span className="text-white/20 group-hover:text-white text-[1.1vw] transition-all duration-300 group-hover:translate-x-[0.2vw] shrink-0">
+                                ↗
+                            </span>
+                        </div>
                     ))}
                 </div>
             </div>
-
-            <style jsx>{`
-                @keyframes scroll {
-                    0% {
-                        transform: translateX(0);
-                    }
-                    100% {
-                        transform: translateX(calc(-100%/3));
-                    }
-                }
-
-                .animate-scroll {
-                    animation: scroll 100s linear infinite;
-                    width: max-content;
-                }
-            `}</style>
         </div>
     );
 };
@@ -624,10 +647,12 @@ const PartnershipPage: React.FC = () => {
     ];
 
     return (
-        <div className="bg-black w-full h-[120vh] flex flex-col p-[1vw]">
-            <Index text={"PARTNERSHIP"} className={"mt-[8vw]"} />
-            <div className="text-white text-[6vw] mt-[4vw] mb-[8vw] leading-tight font-[700]">
-                넥스트폼과 함께하는 고객사
+        <div className="bg-white/8 w-full flex flex-col py-[8vw]">
+            <div className="w-[60%] mx-auto mb-[5vw]">
+                <Index text={"PARTNERSHIP"} className={"mb-[3vw]"} />
+                <h2 className="text-white text-[4vw] leading-tight  font-[600] tracking-tighter">
+                    넥스트폼과 함께하는 고객사
+                </h2>
             </div>
             {rows.map((row, rowIndex) => (
                 <InfiniteScrollRow
@@ -707,7 +732,7 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
 
     return (
         <div
-            className="overflow-hidden py-12"
+            className="overflow-hidden py-[2vw]"
             onMouseEnter={() => onHoverChange(true)}
             onMouseLeave={() => onHoverChange(false)}
         >
@@ -734,142 +759,110 @@ const InfiniteScrollRow: React.FC<InfiniteScrollRowProps> = ({
 };
 
 const ReleasePage = () => {
+    const releases = [
+        { version: "v25.3", date: "2025.11", title: "Real-Time Simulator 성능 평가 및 압력 기반 솔버 업데이트", tag: "STABLE" },
+        { version: "v25.2", date: "2025.08", title: "밀도 기반 솔버 안정성 개선 및 BaramMesh UI 개편", tag: "STABLE" },
+        { version: "v25.1", date: "2025.04", title: "BaramMesh 성능 최적화 및 OpenFOAM 호환성 향상", tag: "STABLE" },
+        { version: "v24.4", date: "2024.12", title: "다중 물리 해석 지원 및 병렬 처리 성능 개선", tag: "LTS" },
+        { version: "v24.3", date: "2024.09", title: "ParaView 연동 강화 및 후처리 워크플로우 개선", tag: "STABLE" },
+    ];
+
     return (
-        <div className="bg-black w-full min-h-screen flex flex-col p-[2vw]">
-            {/* 헤더 섹션 */}
-            <div className="flex justify-between items-end border-neutral-800 pb-[1.5vw] mt-[4vw] mb-[4vw]">
-                <div className="flex flex-col">
-                    <Index text={"RELEASE"} className={"text-[0.9vw] text-neutral-500 mb-[4vw]"} />
-                    <h2 className="text-white text-[5vw] leading-[0.9] font-light tracking-tighter uppercase">Latest Updates</h2>
-                </div>
+        <div className="bg-white/8 w-full flex flex-col py-[8vw]">
+            <div className="w-[60%] mx-auto">
+            <Index text={"RELEASE"} className={"mb-[3vw]"} />
+            <div className="flex justify-between items-end mb-[5vw]">
+                <h2 className="text-white text-[4vw] leading-tight font-light tracking-tighter uppercase">
+                    최신 업데이트
+                </h2>
+                <span className="text-neutral-600 font-mono text-[0.75vw] tracking-widest self-end pb-[0.3vw]">
+                    BARAM / OPEN-SOURCE CFD
+                </span>
             </div>
 
-            {/* 콘텐츠 그리드 */}
-            <div className="flex gap-[2vw] items-start w-full">
-                {[1, 2, 3].map((item, idx) => (
-                    <div key={item} className="flex-1 flex flex-col group cursor-pointer min-w-0">
+            <div className="flex flex-col">
+                {releases.map((release, idx) => (
+                    <div
+                        key={idx}
+                        className="group relative flex items-center gap-[2vw] py-[1.5vw] border-b border-neutral-900 hover:border-white transition-all duration-500 cursor-pointer overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-white scale-y-0 group-hover:scale-y-100 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] origin-bottom" />
 
-                        {/* 1. 이미지 박스: 4:3 비율 & 컬러 유지 */}
-                        <div className="relative w-full aspect-[4/3] overflow-hidden bg-neutral-900 rounded-[0.3vw] mb-[1.5vw]">
-                            <Image
-                                src={space}
-                                alt=""
-                                fill
-                                className="w-full h-full object-cover transition-all duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-110 group-hover:opacity-80"
-                            />
-                            {/* 우측 하단 데이터 태그 */}
-                            <div className="absolute bottom-[0.5vw] right-[0.8vw] font-mono text-[0.6vw] text-white/50 tracking-tighter bg-black/40 px-[0.4vw] py-[0.1vw] backdrop-blur-sm">
-                                LOG_UNIT_0{idx + 1}
-                            </div>
+                        <span className="relative z-10 font-mono text-[0.75vw] text-neutral-600 w-[3vw] group-hover:text-black transition-colors duration-500">
+                            {String(idx + 1).padStart(2, '0')}
+                        </span>
+
+                        <span className="relative z-10 font-mono text-[0.8vw] font-bold text-white w-[5vw] group-hover:text-black transition-colors duration-500 tracking-tight">
+                            {release.version}
+                        </span>
+
+                        <span className="relative z-10 font-mono text-[0.65vw] px-[0.5vw] py-[0.15vw] border border-neutral-700 text-neutral-500 group-hover:border-black group-hover:text-black transition-colors duration-500 w-[5vw] text-center">
+                            {release.tag}
+                        </span>
+
+                        <div className="relative z-10 flex-1 text-white text-[1.4vw] font-[400] group-hover:text-black transition-colors duration-500">
+                            {release.title}
                         </div>
 
-                        {/* 2. 메타 정보 (Thin line) */}
-                        <div className="flex justify-between items-center border-t border-neutral-800 pt-[1vw] font-mono text-neutral-400 text-[0.75vw]">
-                            <div className="flex items-center gap-[0.4vw]">
-                                {/* 상태 표시등 애니메이션 */}
-                                <div className="w-[4px] h-[4px] bg-blue-500 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.8)]" />
-                                <span className="group-hover:text-white transition-colors uppercase">System Analysis</span>
-                            </div>
-                            <span className="text-neutral-500">2025 // 10 // 24</span>
-                        </div>
-
-                        {/* 3. 타이틀: 기존 폰트 설정 유지 */}
-                        <h3 className="text-white text-[1.3vw] font-[500] mt-[1.25vw] leading-[1.3] tracking-tight group-hover:text-neutral-300 transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                            IWC Schaffhausen and Vast Enter into a Strategic Collaboration
-                        </h3>
-
-                        {/* 4. 하단 프로그레스 바 스타일 잔상 효과 */}
-                        <div className="mt-[1.5vw] w-full h-[1px] bg-neutral-900 relative">
-                            <div className="absolute top-0 left-0 h-full bg-white w-0 group-hover:w-full transition-all duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)]" />
-                        </div>
+                        <span className="relative z-10 font-mono text-[0.75vw] text-neutral-500 group-hover:text-black transition-colors duration-500">
+                            {release.date}
+                        </span>
+                        <span className="relative z-10 text-white text-[1.5vw] group-hover:text-black transform group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]">
+                            ↗
+                        </span>
                     </div>
                 ))}
+            </div>
             </div>
         </div>
     )
 }
 
 const CompanyNewsPage = () => {
-    const [currentIndex, setCurrentIndex] = useState(0);
-
     const newsItems = [
-        { id: 1, image: space, title: "NIKE N7 COLLECTION HONORS CONNECTIONS TO THE LAND WITH RUNNING", date: "2025.12.01" },
-        { id: 2, image: space, title: "NIKE N7 COLLECTION HONORS CONNECTIONS TO THE LAND WITH RUNNING", date: "2025.11.28" },
-        { id: 3, image: space, title: "NIKE N7 COLLECTION HONORS CONNECTIONS TO THE LAND WITH RUNNING", date: "2025.11.15" },
-        { id: 4, image: space, title: "NIKE N7 COLLECTION HONORS CONNECTIONS TO THE LAND WITH RUNNING", date: "2025.11.10" },
-        { id: 5, image: space, title: "NIKE N7 COLLECTION HONORS CONNECTIONS TO THE LAND WITH RUNNING", date: "2025.11.05" }
+        { id: 1, category: "EVENT", title: "제12회 한국 OpenFOAM 사용자 모임 주관", date: "2025.12.01" },
+        { id: 2, category: "RELEASE", title: "BARAM v25.3 공식 릴리즈 발표", date: "2025.11.28" },
+        { id: 3, category: "CONFERENCE", title: "한국항공우주학회 특별세션 참가 및 발표", date: "2025.11.15" },
+        { id: 4, category: "CASE STUDY", title: "공공기관 CFD 솔루션 도입 사례 공개", date: "2025.11.10" },
+        { id: 5, category: "NEWS", title: "산업통상자원부 R&D 과제 최종 선정", date: "2025.11.05" },
     ];
 
-    const visibleItems = 3;
-    const maxIndex = newsItems.length - visibleItems;
-
-    const handlePrev = () => setCurrentIndex((prev) => Math.max(0, prev - 1));
-    const handleNext = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
-
     return (
-        <div className="bg-black w-full min-h-[60vh] flex flex-col p-[2vw]">
-            {/* 상단 헤더 및 컨트롤러 */}
-            <div className="flex justify-between items-end border-b border-neutral-800 mb-[4vw]">
+        <div className="bg-white/8 w-full flex flex-col py-[8vw]">
+            <div className="w-[60%] mx-auto">
+                <Index text={"COMPANY NEWS"} className={"mb-[3vw]"} />
+                <div className="flex justify-between items-end mb-[5vw]">
+                    <h2 className="text-white text-[4vw] leading-tight font-[600] tracking-tighter">
+                        넥스트폼 소식
+                    </h2>
+                </div>
+
                 <div className="flex flex-col">
-                    <Index text={"COMPANY NEWS"} className={"text-[0.9vw] text-neutral-500 mb-[1vw]"} />
-                </div>
-
-                {/* 엔지니어링 감성의 컨트롤러 */}
-                <div className="flex items-center gap-[1.5vw] mb-[0.5vw]">
-                    <div className="font-mono text-[0.8vw] text-neutral-500 tracking-widest">
-                        {String(currentIndex + 1).padStart(2, '0')} / {String(maxIndex + 1).padStart(2, '0')}
-                    </div>
-                    <div className="flex gap-[0.5vw]">
-                        <button
-                            onClick={handlePrev}
-                            disabled={currentIndex === 0}
-                            className="group w-[3vw] h-[3vw] border border-neutral-800 flex items-center justify-center transition-all hover:border-white disabled:opacity-20"
-                        >
-                            <Image src={arrow} alt="prev" className="w-[1.2vw] scale-x-[-1] group-hover:translate-x-[-2px] transition-transform" />
-                        </button>
-                        <button
-                            onClick={handleNext}
-                            disabled={currentIndex === maxIndex}
-                            className="group w-[3vw] h-[3vw] border border-neutral-800 flex items-center justify-center transition-all hover:border-white disabled:opacity-20"
-                        >
-                            <Image src={arrow} alt="next" className="w-[1.2vw] group-hover:translate-x-[2px] transition-transform" />
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            {/* 메인 슬라이더 영역 */}
-            <div className="overflow-hidden border-b border-neutral-900">
-                <div
-                    className="flex transition-transform duration-1000 ease-[cubic-bezier(0.16,1,0.3,1)]"
-                    style={{ transform: `translateX(-${currentIndex * (100 / visibleItems)}%)` }}
-                >
                     {newsItems.map((item, idx) => (
                         <div
                             key={item.id}
-                            className="min-w-[33.333%] flex flex-col gap-[1.5vw] p-[1.5vw] border-l border-neutral-900 group cursor-pointer hover:bg-neutral-950 transition-colors"
+                            className="group relative flex items-center gap-[2vw] py-[1.5vw] border-b border-neutral-900 hover:border-white transition-all duration-500 cursor-pointer overflow-hidden"
                         >
-                            {/* 상단 메타데이터 */}
-                            <div className="flex justify-between items-center font-mono text-[0.7vw] text-neutral-500 uppercase">
-                                <span>News_feed_0{idx + 1}</span>
-                                <span className="group-hover:text-white transition-colors">{item.date}</span>
+                            <div className="absolute inset-0 bg-white scale-y-0 group-hover:scale-y-100 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] origin-bottom" />
+
+                            <span className="relative z-10 font-mono text-[0.75vw] text-neutral-600 w-[3vw] group-hover:text-black transition-colors duration-500 shrink-0">
+                                {String(idx + 1).padStart(2, '0')}
+                            </span>
+
+                            <span className="relative z-10 font-mono text-[0.65vw] px-[0.5vw] py-[0.15vw] border border-neutral-700 text-neutral-500 group-hover:border-black group-hover:text-black transition-colors duration-500 w-[7vw] text-center shrink-0">
+                                {item.category}
+                            </span>
+
+                            <div className="relative z-10 flex-1 text-white text-[1.3vw] font-normal group-hover:text-black transition-colors duration-500">
+                                {item.title}
                             </div>
 
-                            {/* 가로형 레이아웃: 이미지와 텍스트 조합 */}
-                            <div className="flex gap-[1.5vw] items-start">
-                                <div className="w-[8vw] aspect-[4/3] relative overflow-hidden flex-shrink-0 rounded-[0.2vw] border border-neutral-800">
-                                    <Image src={item.image} alt="" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-                                </div>
-
-                                <h3 className="text-neutral-400 group-hover:text-white text-[1vw] font-[500] leading-tight transition-colors duration-500 uppercase break-keep">
-                                    {item.title}
-                                </h3>
-                            </div>
-
-                            {/* 하단 진행선 가이드 */}
-                            <div className="mt-auto w-full h-[1px] bg-neutral-900 relative">
-                                <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left" />
-                            </div>
+                            <span className="relative z-10 font-mono text-[0.75vw] text-neutral-500 group-hover:text-black transition-colors duration-500 shrink-0">
+                                {item.date}
+                            </span>
+                            <span className="relative z-10 text-white text-[1.5vw] group-hover:text-black transform group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] shrink-0">
+                                ↗
+                            </span>
                         </div>
                     ))}
                 </div>
@@ -879,44 +872,66 @@ const CompanyNewsPage = () => {
 };
 
 const JoinTeamPage = () => {
+    const positions = [
+        { dept: "ENGINEERING", title: "CFD 해석 엔지니어", type: "정규직" },
+        { dept: "ENGINEERING", title: "소프트웨어 개발자 (C++ / Python)", type: "정규직" },
+        { dept: "RESEARCH", title: "수치해석 연구원", type: "정규직" },
+        { dept: "BUSINESS", title: "기술 영업 / 컨설팅", type: "정규직" },
+    ];
+
     return (
-        <div className="relative w-full h-[120vh] overflow-hidden select-none bg-black">
-            {/* 배경 이미지: 원래대로 꽉 채움 */}
-            <div className="absolute inset-0 w-full h-full">
-                <Image
-                    src={space}
-                    alt=""
-                    className="w-full h-full object-cover"
-                    draggable={false}
-                    priority
-                />
+        <div className="w-full min-h-screen flex flex-col items-center justify-center py-[8vw]" style={{ background: "#1427FF" }}>
+            {/* 상단 레이블 */}
+            <div className="text-white/50 font-mono text-[0.75vw] tracking-[0.4em] mb-[5vw] uppercase">
+                CAREERS — 함께 만들어가는 CFD의 미래
             </div>
 
-            {/* 오버레이: 텍스트 가독성 확보 */}
-            <div className="absolute inset-0 bg-black/40"></div>
+            {/* 메인 타이틀 */}
+            <div className="text-white text-[11vw] leading-[0.88] font-[700] tracking-tighter text-center mb-[3vw]">
+                Join<br />Our Team
+            </div>
 
-            {/* 컨텐츠: 원래의 중앙 정렬 구조 */}
-            <div className="relative z-10 flex flex-col items-center justify-center h-full text-center px-[2vw]">
-                {/* 타이틀: 크고 시원하게 */}
-                <h1 className="text-white text-[4vw] font-light leading-[1.1] mb-[2vw] uppercase tracking-tighter">
-                    Join our<br />
-                    team
-                </h1>
+            <div className="text-white/50 text-[1.3vw] font-[300] text-center mb-[8vw]">
+                기술로 엔지니어링 패러다임을 바꾸고 싶은 분들의 지원을 기다립니다.
+            </div>
 
-                {/* 설명 문구 */}
-                <p className="text-white text-[1.2vw] max-w-2xl mb-[4vw] leading-relaxed opacity-90 break-keep">
-                    Join the only space station company fully funded to design,
-                    manufacture, launch, and send a crew to the world's first
-                    commercial space station.
-                </p>
+            {/* 포지션 리스트 */}
+            <div className="w-[72%] flex flex-col border-t border-white/20">
+                {positions.map((pos, idx) => (
+                    <div
+                        key={idx}
+                        className="group relative flex items-center gap-[2vw] py-[1.8vw] border-b border-white/20 cursor-pointer overflow-hidden"
+                    >
+                        <div className="absolute inset-0 bg-white scale-y-0 group-hover:scale-y-100 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] origin-bottom" />
 
-                {/* 버튼: 원래 스타일 유지 + 우리가 만든 끈적한 호버 효과 */}
-                <button className="group relative px-[3vw] py-[1vw] bg-white/10 backdrop-blur-md text-white border border-white/30 overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.16,1,0.3,1)]">
-                    {/* 호버 시 배경 차오르는 효과 */}
-                    <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                        <span className="relative z-10 font-mono text-[0.7vw] text-white/30 w-[3vw] group-hover:text-[#1427FF] transition-colors duration-300 shrink-0">
+                            {String(idx + 1).padStart(2, '0')}
+                        </span>
 
-                    <span className="relative z-10 text-[1.1vw] group-hover:text-black transition-colors duration-500 uppercase">
-                        View open positions
+                        <span className="relative z-10 font-mono text-[0.65vw] px-[0.7vw] py-[0.2vw] border border-white/25 text-white/40 group-hover:border-[#1427FF] group-hover:text-[#1427FF] transition-colors duration-300 w-[10vw] text-center shrink-0">
+                            {pos.dept}
+                        </span>
+
+                        <div className="relative z-10 flex-1 text-white text-[2vw] font-[400] group-hover:text-[#1427FF] transition-colors duration-300">
+                            {pos.title}
+                        </div>
+
+                        <span className="relative z-10 font-mono text-[0.7vw] text-white/30 group-hover:text-[#1427FF] transition-colors duration-300 shrink-0">
+                            {pos.type}
+                        </span>
+                        <span className="relative z-10 text-white/40 text-[1.4vw] group-hover:text-[#1427FF] transform group-hover:rotate-45 transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] shrink-0">
+                            ↗
+                        </span>
+                    </div>
+                ))}
+            </div>
+
+            {/* CTA 버튼 */}
+            <div className="mt-[5vw]">
+                <button className="group relative px-[3.5vw] py-[1.1vw] text-white border-2 border-white overflow-hidden transition-all duration-500">
+                    <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left ease-[cubic-bezier(0.16,1,0.3,1)]" />
+                    <span className="relative z-10 text-[0.9vw] group-hover:text-[#1427FF] transition-colors duration-300 uppercase tracking-widest font-light">
+                        채용 공고 보기 ↗
                     </span>
                 </button>
             </div>
@@ -925,23 +940,61 @@ const JoinTeamPage = () => {
 };
 
 const FooterPage = () => {
+    const copyToClipboard = (text: string, label: string) => {
+        navigator.clipboard.writeText(text);
+        toast.success(`${label} 복사됨`);
+    };
+
+    const linkClass = "cursor-pointer hover:bg-white hover:text-black px-[0.2vw]";
+    const copyClass = "cursor-pointer hover:bg-white hover:text-black px-[0.2vw]";
+
     return (
         <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between select-none overflow-hidden">
             <div className="mt-[8vw] text-[2.2vw]">
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    서울 금천구 디지털로9길 32 A동 1106호 <span className="text-white/10">ASDNVOI IVHOAS</span> Github<span className="text-white/10"> BJZM</span> Naver Blog <span className="text-white/10">VUIXJNOBIZBWE</span>
+                    <span
+                        className={copyClass}
+                        onClick={() => copyToClipboard("서울 금천구 디지털로9길 32 A동 1106호", "주소")}
+                    >
+                        서울 금천구 디지털로9길 32 A동 1106호
+                    </span>
+                    <span className="text-white/10"> ASDNVOI IVHOAS </span>
+                    <a href="https://github.com/nextfoam/" target="_blank" rel="noopener noreferrer" className={linkClass}>Github</a>
+                    <span className="text-white/10"> BJZM </span>
+                    <a href="https://blog.naver.com/nextfoam7" target="_blank" rel="noopener noreferrer" className={linkClass}>Naver Blog</a>
+                    <span className="text-white/10"> VUIXJNOBIZBWE</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    marketing@nextfoam.co.kr <span className="text-white/10">ASDVASD K DJSOPV SDA </span>Youtube<span className="text-white/10"> ASD </span>Baram Portal<span className="text-white/10">SAIND CIASJDS</span>
+                    <a href="mailto:marketing@nextfoam.co.kr" className={linkClass}>marketing@nextfoam.co.kr</a>
+                    <span className="text-white/10"> ASDVASD K DJSOPV SDA </span>
+                    <a href="https://www.youtube.com/channel/UCQbWiBLTnF6JVxOcdUCXoZw" target="_blank" rel="noopener noreferrer" className={linkClass}>Youtube</a>
+                    <span className="text-white/10"> ASD </span>
+                    <a href="https://baramcfd.org/" target="_blank" rel="noopener noreferrer" className={linkClass}>Baram Portal</a>
+                    <span className="text-white/10">SAIND CIASJDS</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    070-8796-3019 <span className="text-white/10">BIASNUD USDHAJW DK AKSL ASDAI </span>Linkedin<span className="text-white/10"> LUX </span>Nextfoam Blog<span className="text-white/10"> BNOAJIBXND</span>
+                    <span
+                        className={copyClass}
+                        onClick={() => copyToClipboard("070-8796-3019", "전화번호")}
+                    >
+                        070-8796-3019
+                    </span>
+                    <span className="text-white/10"> BIASNUD USDHAJW DK AKSL ASDAI </span>
+                    <a href="https://www.linkedin.com/company/nextfoam/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className={linkClass}>Linkedin</a>
+                    <span className="text-white/10"> LUX </span>
+                    <a href="https://blog.naver.com/nextfoam7" target="_blank" rel="noopener noreferrer" className={linkClass}>Nextfoam Blog</a>
+                    <span className="text-white/10"> BNOAJIBXND</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    찾아오는 길 <span className="text-white/10">AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>Instagram<span className="text-white/10"> GHOQL ZLFG PQND SGJAA KJS</span>
+                    <a href="https://place.map.kakao.com/15865339" target="_blank" rel="noopener noreferrer" className={linkClass}>찾아오는 길</a>
+                    <span className="text-white/10"> AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>
+                    <a href="https://www.instagram.com/nextfoam/" target="_blank" rel="noopener noreferrer" className={linkClass}>Instagram</a>
+                    <span className="text-white/10"> GHOQL ZLFG PQND SGJAA KJS</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span className="text-white/10">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGOUZ </span>Facebook<span className="text-white/10"> ZM OV HGQ JSHGAIBG PPXUSN</span>
+                    <span className="text-white/10">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGIIAAI </span>
+                    <a href="https://www.facebook.com/NEXTFOAM/" target="_blank" rel="noopener noreferrer" className={linkClass}>Facebook</a>
+                    <span className="text-white/10"> ZM OV HGQ JSHGAIBG PPXUSN</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
                     <span className="text-white/10">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
@@ -950,7 +1003,9 @@ const FooterPage = () => {
                     <span className="text-white/10">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
                 </div>
                 <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    Privacy Policy <span className="text-white/10">NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG</span> @Nextfoam
+                    <a href="/privacy-policy" className={linkClass}>Privacy Policy</a>
+                    <span className="text-white/10"> NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG </span>
+                    <a href="https://x.com/baramcfd" target="_blank" rel="noopener noreferrer" className={linkClass}>@Nextfoam</a>
                 </div>
             </div>
             <div className="text-white text-[clamp(23vw,23vw,23vw)] absolute left-0 bottom-0 leading-[17vw]">
