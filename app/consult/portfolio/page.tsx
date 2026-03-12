@@ -168,7 +168,7 @@ export default function ConsultPortfolioPage() {
             <Header />
             <BackToTop />
 
-            <div className="max-w-[760px] mx-auto px-10 pt-40 pb-40">
+            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
 
                 {/* Hero */}
                 <h1 className="text-white text-[64px] font-bold tracking-tighter leading-none mb-4">

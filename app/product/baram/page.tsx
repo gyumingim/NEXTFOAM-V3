@@ -9,7 +9,7 @@ export default function BaramPage() {
             <Header />
             <BackToTop />
 
-            <div className="max-w-[720px] mx-auto px-[40px] pt-[160px] pb-[160px]">
+            <div className="max-w-[800px] mx-auto px-[40px] pt-[160px] pb-[160px]">
 
                 <h1 className="text-white text-[72px] font-[700] tracking-tighter leading-[1.0] mb-[24px]">
                     No More Pay<br />

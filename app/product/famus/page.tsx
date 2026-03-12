@@ -47,7 +47,7 @@ export default function FamusPage() {
             <Header />
             <BackToTop />
 
-            <div className="max-w-[720px] mx-auto px-[40px] pt-[160px] pb-[160px]">
+            <div className="max-w-[800px] mx-auto px-[40px] pt-[160px] pb-[160px]">
 
                 {/* Hero */}
                 <h1 className="text-white text-[72px] font-[700] tracking-tighter leading-[1.0] mb-[16px]">FAMUS</h1>

@@ -40,7 +40,7 @@ export default function BaramGisPage() {
             <Header />
             <BackToTop />
 
-            <div className="max-w-[720px] mx-auto px-10 pt-40 pb-40">
+            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
 
                 {/* Hero */}
                 <h1 className="text-white text-[72px] font-bold tracking-tighter leading-none mb-4">BaramGIS</h1>

@@ -22,7 +22,7 @@ export default function Okucc2025Page() {
             <Header />
             <BackToTop />
 
-            <div className="max-w-[720px] mx-auto px-10 pt-40 pb-40">
+            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
 
                 {/* Hero */}
                 <SectionLabel>Community · 2025</SectionLabel>
