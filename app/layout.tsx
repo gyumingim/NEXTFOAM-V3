@@ -15,8 +15,8 @@ const pretendard = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Smooth Scroll with Lenis',
-  description: 'Next.js + Lenis 부드러운 스크롤',
+  title: '넥스트폼',
+  description: '넥스트폼 — CFD 시뮬레이션 소프트웨어 및 컨설팅',
 };
 
 export default function RootLayout({
