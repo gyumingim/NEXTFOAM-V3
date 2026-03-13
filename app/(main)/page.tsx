@@ -1,5 +1,6 @@
 "use client"
 import { Header } from "@/widgets/header/Header";
+import { Footer } from "@/widgets/footer/Footer";
 import Image from "next/image";
 import space from "@/public/space.png"
 
@@ -23,7 +24,6 @@ import { useThree } from "@react-three/fiber";
 import nextfoam from "@/public/introduce/nextfoam.jpg"
 import { useGLTF } from "@react-three/drei";
 import React, { Suspense, useRef, useEffect, useState } from 'react';
-import { toast } from 'sonner';
 import { div } from "framer-motion/client";
 import next from "next";
 import { Canvas, useLoader, useFrame } from "@react-three/fiber";
@@ -47,7 +47,7 @@ export default function Home() {
             {/* <ReleasePage /> */}
             <CompanyNewsPage />
             {/* <JoinTeamPage /> */}
-            <FooterPage />
+            <Footer />
         </div>
     );
 }
@@ -63,7 +63,7 @@ const LearnMore = ({ className }: { className?: string }) => {
 const HeroContainer = ({ className, title, desc, isLeft, image }: { className?: any, title: any, desc: any, isLeft: any, image: any }) => {
     return (
         <div className={`w-full ${className} overflow-hidden relative`}>
-            <Image src={image} alt="" fill className="object-cover opacity-50" />
+            <Image src={image} alt="" fill className="object-cover opacity-40" />
             <HeroMain className={isLeft}>
                 <div>{title}</div>
                 <div className="font-[300] text-white text-[1.125vw] leading-[2vw] mt-[1vh]">
@@ -486,6 +486,8 @@ const DocumentationPage = () => {
 }
 
 const InThePressPage = () => {
+    const [hoveredId, setHoveredId] = useState<number | null>(null);
+
     const newsArticles = [
         {
             id: 1, image: news1,
@@ -513,90 +515,71 @@ const InThePressPage = () => {
         }
     ];
 
+    const rows = [
+        [newsArticles[0], newsArticles[1]],
+        [newsArticles[2], newsArticles[3]],
+        [newsArticles[4], newsArticles[5]],
+    ];
+
     return (
         <div className="bg-white/8 w-full flex flex-col py-[8vw]">
             <div className="w-[60%] mx-auto">
                 <Index text={"IN THE PRESS"} className={"mb-[3vw]"} />
-                <div className="flex justify-between items-end mb-[5vw]">
+                <div className="flex justify-between items-end mb-[3vw]">
                     <h2 className="text-white text-[4vw] leading-tight font-[600] tracking-tighter">
                         언론이 주목한 넥스트폼
                     </h2>
-                    <span className="text-neutral-600 font-mono text-[0.75vw] tracking-widest self-end pb-[0.3vw]">
-                        TOTAL {newsArticles.length} ARTICLES
-                    </span>
                 </div>
 
-                {/* 피처드 카드 2개 */}
-                <div className="grid grid-cols-2 gap-[2vw] mb-[4vw]">
-                    {newsArticles.slice(0, 2).map((article) => (
-                        <div key={article.id} className="group cursor-pointer flex flex-col">
-                            {/* 이미지 */}
-                            <div className="relative w-full h-[22vw] overflow-hidden bg-neutral-900 mb-[1.5vw]">
-                                <Image
-                                    src={space}
-                                    alt=""
-                                    fill
-                                    className="object-cover opacity-60 group-hover:scale-105 group-hover:opacity-80 transition-all duration-700"
-                                />
-                                {/* 로고 오버레이 */}
-                                <div className="absolute bottom-[1.2vw] left-[1.2vw] h-[1.6vw] flex items-center bg-black/60 px-[0.8vw] py-[0.5vw] backdrop-blur-sm">
-                                    <Image
-                                        src={article.image}
-                                        alt=""
-                                        className="h-full w-auto object-contain"
-                                    />
-                                </div>
-                                <span className="absolute top-[1.2vw] right-[1.2vw] text-white/60 group-hover:text-white text-[1.2vw] group-hover:translate-x-[0.2vw] group-hover:-translate-y-[0.2vw] transition-all duration-300">↗</span>
+                {/* 카드 3행 × 2열 — 호버 시 7:3 */}
+                <div className="flex flex-col border border-white/30">
+                    {rows.map((row, rowIdx) => {
+                        const rowHoveredId = row.find(a => a.id === hoveredId)?.id ?? null;
+                        return (
+                            <div key={rowIdx} className="flex border-b border-white/30 last:border-b-0">
+                                {row.map((article) => {
+                                    const isHovered = hoveredId === article.id;
+                                    const flex = isHovered ? '7 7 0%' : rowHoveredId ? '3 3 0%' : '1 1 0%';
+                                    return (
+                                        <div
+                                            key={article.id}
+                                            style={{ flex }}
+                                            className="group cursor-pointer flex flex-col bg-black overflow-hidden border-r border-white/30 last:border-r-0 transition-[flex] duration-700 ease-in-out"
+                                            onMouseEnter={() => setHoveredId(article.id)}
+                                            onMouseLeave={() => setHoveredId(null)}
+                                        >
+                                            {/* 이미지 */}
+                                            <div className="relative w-full h-[16vw] overflow-hidden bg-neutral-900 shrink-0">
+                                                <Image
+                                                    src={space}
+                                                    alt=""
+                                                    fill
+                                                    className="object-cover opacity-70 group-hover:scale-105 group-hover:opacity-90 transition-all duration-700"
+                                                />
+                                                <span className="absolute top-[1.2vw] right-[1.2vw] text-white group-hover:translate-x-[0.2vw] group-hover:-translate-y-[0.2vw] text-[1.2vw] transition-all duration-300">↗</span>
+                                            </div>
+                                            {/* 본문 (로고 + 텍스트) */}
+                                            <div className="px-[1.2vw] pt-[1vw] pb-[1.2vw] border-t border-white/30 flex flex-col gap-[0.7vw] min-w-0">
+                                                <div className="h-[1.4vw] flex items-center shrink-0">
+                                                    <Image
+                                                        src={article.image}
+                                                        alt=""
+                                                        className="h-full w-auto object-contain"
+                                                    />
+                                                </div>
+                                                <p className="text-white text-[0.9vw] whitespace-nowrap overflow-hidden text-ellipsis">
+                                                    {article.content}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
-                            {/* 본문 */}
-                            <p className="text-white/50 group-hover:text-white/80 text-[1vw] leading-[1.8] transition-colors duration-300 line-clamp-3">
-                                {article.content}
-                            </p>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>
 
-                {/* 나머지 리스트 */}
-                <div className="flex flex-col border-t border-neutral-800">
-                    {newsArticles.slice(2).map((article, idx) => (
-                        <div
-                            key={article.id}
-                            className="group flex items-center gap-[2vw] py-[1.8vw] border-b border-neutral-800 hover:border-white/20 transition-all duration-500 cursor-pointer"
-                        >
-                            <span className="font-mono text-[0.7vw] text-neutral-600 shrink-0 w-[2vw]">
-                                {String(idx + 3).padStart(2, '0')}
-                            </span>
-
-                            {/* 썸네일 */}
-                            <div className="relative w-[7vw] h-[4.5vw] shrink-0 overflow-hidden bg-neutral-900">
-                                <Image
-                                    src={space}
-                                    alt=""
-                                    fill
-                                    className="object-cover opacity-50 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
-                                />
-                            </div>
-
-                            {/* 로고 */}
-                            <div className="h-[1.2vw] flex items-center shrink-0 w-[6vw]">
-                                <Image
-                                    src={article.image}
-                                    alt=""
-                                    className="h-full w-auto object-contain"
-                                />
-                            </div>
-
-                            {/* 본문 */}
-                            <p className="flex-1 text-white/50 group-hover:text-white/80 text-[0.95vw] leading-[1.7] transition-colors duration-300 line-clamp-2">
-                                {article.content}
-                            </p>
-
-                            <span className="text-white/20 group-hover:text-white text-[1.1vw] transition-all duration-300 group-hover:translate-x-[0.2vw] shrink-0">
-                                ↗
-                            </span>
-                        </div>
-                    ))}
-                </div>
+                <LearnMore className="mt-[3vw] mx-auto text-[1vw]" />
             </div>
         </div>
     );
@@ -819,6 +802,8 @@ const ReleasePage = () => {
 }
 
 const CompanyNewsPage = () => {
+    const [hoveredId, setHoveredId] = useState<number | null>(1);
+
     const newsItems = [
         { id: 1, category: "EVENT", title: "제12회 한국 OpenFOAM 사용자 모임 주관", date: "2025.12.01" },
         { id: 2, category: "RELEASE", title: "BARAM v25.3 공식 릴리즈 발표", date: "2025.11.28" },
@@ -831,41 +816,67 @@ const CompanyNewsPage = () => {
         <div className="bg-white/8 w-full flex flex-col py-[8vw]">
             <div className="w-[60%] mx-auto">
                 <Index text={"COMPANY NEWS"} className={"mb-[3vw]"} />
-                <div className="flex justify-between items-end mb-[5vw]">
+                <div className="flex justify-between items-end mb-[3vw]">
                     <h2 className="text-white text-[4vw] leading-tight font-[600] tracking-tighter">
                         넥스트폼 소식
                     </h2>
                 </div>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col border border-white/30">
                     {newsItems.map((item, idx) => (
                         <div
                             key={item.id}
-                            className="group relative flex items-center gap-[2vw] py-[1.5vw] border-b border-neutral-900 hover:border-white transition-all duration-500 cursor-pointer overflow-hidden"
+                            className="cursor-pointer border-b border-white/30 last:border-b-0"
+                            onMouseEnter={() => setHoveredId(item.id)}
                         >
-                            <div className="absolute inset-0 bg-white scale-y-0 group-hover:scale-y-100 transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] origin-bottom" />
-
-                            <span className="relative z-10 font-mono text-[0.75vw] text-neutral-600 w-[3vw] group-hover:text-black transition-colors duration-500 shrink-0">
-                                {String(idx + 1).padStart(2, '0')}
-                            </span>
-
-                            <span className="relative z-10 font-mono text-[0.65vw] px-[0.5vw] py-[0.15vw] border border-neutral-700 text-neutral-500 group-hover:border-black group-hover:text-black transition-colors duration-500 w-[7vw] text-center shrink-0">
-                                {item.category}
-                            </span>
-
-                            <div className="relative z-10 flex-1 text-white text-[1.3vw] font-normal group-hover:text-black transition-colors duration-500">
-                                {item.title}
+                            {/* 텍스트 행 */}
+                            <div className="flex items-center gap-[2vw] px-[1vw] py-[1.5vw]">
+                                <span className="font-mono text-[0.75vw] text-white/60 w-[2.5vw] shrink-0">
+                                    {String(idx + 1).padStart(2, '0')}
+                                </span>
+                                <span className="font-mono text-[0.65vw] px-[0.5vw] py-[0.2vw] border border-white/40 text-white/80 w-[7vw] text-center shrink-0">
+                                    {item.category}
+                                </span>
+                                <div className="flex-1 text-white text-[1.3vw] font-normal">
+                                    {item.title}
+                                </div>
+                                <span className="font-mono text-[0.75vw] text-white/60 shrink-0">
+                                    {item.date}
+                                </span>
+                                <span
+                                    className="text-white text-[1.2vw] shrink-0 transition-transform duration-500 ease-in-out"
+                                    style={{ transform: hoveredId === item.id ? 'translate(0.2vw, -0.2vw)' : 'none' }}
+                                >
+                                    ↗
+                                </span>
                             </div>
 
-                            <span className="relative z-10 font-mono text-[0.75vw] text-neutral-500 group-hover:text-black transition-colors duration-500 shrink-0">
-                                {item.date}
-                            </span>
-                            <span className="relative z-10 text-white text-[1.5vw] group-hover:text-black transform group-hover:rotate-45 transition-all duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)] shrink-0">
-                                ↗
-                            </span>
+                            {/* 이미지 — 호버 시 펼쳐짐 */}
+                            <div
+                                className="overflow-hidden transition-[max-height] duration-700 ease-in-out"
+                                style={{ maxHeight: hoveredId === item.id ? '18vw' : '0' }}
+                            >
+                                <div className="relative w-full h-[18vw] border-t border-white/30">
+                                    <Image
+                                        src={space}
+                                        alt={item.title}
+                                        fill
+                                        className="object-cover opacity-80"
+                                    />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black/60 to-transparent" />
+                                    <div className="absolute bottom-[1.5vw] left-[1.5vw]">
+                                        <span className="font-mono text-[0.65vw] px-[0.5vw] py-[0.2vw] border border-white/50 text-white/80">
+                                            {item.category}
+                                        </span>
+                                        <p className="text-white text-[1.1vw] font-medium mt-[0.5vw]">{item.title}</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </div>
+
+                <LearnMore className="mt-[3vw] mx-auto text-[1vw]" />
             </div>
         </div>
     );
@@ -880,7 +891,7 @@ const JoinTeamPage = () => {
     ];
 
     return (
-        <div className="w-full min-h-screen flex flex-col items-center justify-center py-[8vw]" style={{ background: "#1427FF" }}>
+        <div className="w-full min-h-screen flex flex-col items-center justify-center py-[8vw]" style={{ background: "#1427FF", "--color-white": "#ffffff", "--color-black": "#000000" } as React.CSSProperties}>
             {/* 상단 레이블 */}
             <div className="text-white/50 font-mono text-[0.75vw] tracking-[0.4em] mb-[5vw] uppercase">
                 CAREERS — 함께 만들어가는 CFD의 미래
@@ -939,78 +950,3 @@ const JoinTeamPage = () => {
     );
 };
 
-const FooterPage = () => {
-    const copyToClipboard = (text: string, label: string) => {
-        navigator.clipboard.writeText(text);
-        toast.success(`${label} 복사됨`);
-    };
-
-    const linkClass = "cursor-pointer hover:bg-white hover:text-black px-[0.2vw]";
-    const copyClass = "cursor-pointer hover:bg-white hover:text-black px-[0.2vw]";
-
-    return (
-        <div className="relative w-full h-[110vh] bg-black flex flex-col justify-between select-none overflow-hidden">
-            <div className="mt-[8vw] text-[2.2vw]">
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span
-                        className={copyClass}
-                        onClick={() => copyToClipboard("서울 금천구 디지털로9길 32 A동 1106호", "주소")}
-                    >
-                        서울 금천구 디지털로9길 32 A동 1106호
-                    </span>
-                    <span className="text-white/10"> ASDNVOI IVHOAS </span>
-                    <a href="https://github.com/nextfoam/" target="_blank" rel="noopener noreferrer" className={linkClass}>Github</a>
-                    <span className="text-white/10"> BJZM </span>
-                    <a href="https://blog.naver.com/nextfoam7" target="_blank" rel="noopener noreferrer" className={linkClass}>Naver Blog</a>
-                    <span className="text-white/10"> VUIXJNOBIZBWE</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <a href="mailto:marketing@nextfoam.co.kr" className={linkClass}>marketing@nextfoam.co.kr</a>
-                    <span className="text-white/10"> ASDVASD K DJSOPV SDA </span>
-                    <a href="https://www.youtube.com/channel/UCQbWiBLTnF6JVxOcdUCXoZw" target="_blank" rel="noopener noreferrer" className={linkClass}>Youtube</a>
-                    <span className="text-white/10"> ASD </span>
-                    <a href="https://baramcfd.org/" target="_blank" rel="noopener noreferrer" className={linkClass}>Baram Portal</a>
-                    <span className="text-white/10">SAIND CIASJDS</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span
-                        className={copyClass}
-                        onClick={() => copyToClipboard("070-8796-3019", "전화번호")}
-                    >
-                        070-8796-3019
-                    </span>
-                    <span className="text-white/10"> BIASNUD USDHAJW DK AKSL ASDAI </span>
-                    <a href="https://www.linkedin.com/company/nextfoam/?viewAsMember=true" target="_blank" rel="noopener noreferrer" className={linkClass}>Linkedin</a>
-                    <span className="text-white/10"> LUX </span>
-                    <a href="https://blog.naver.com/nextfoam7" target="_blank" rel="noopener noreferrer" className={linkClass}>Nextfoam Blog</a>
-                    <span className="text-white/10"> BNOAJIBXND</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <a href="https://place.map.kakao.com/15865339" target="_blank" rel="noopener noreferrer" className={linkClass}>찾아오는 길</a>
-                    <span className="text-white/10"> AGLI PAISD LKQ JSGI ANWJGVB QKSD HGL </span>
-                    <a href="https://www.instagram.com/nextfoam/" target="_blank" rel="noopener noreferrer" className={linkClass}>Instagram</a>
-                    <span className="text-white/10"> GHOQL ZLFG PQND SGJAA KJS</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span className="text-white/10">AOBXH QKXGHAOHBN UHDAJ KBFIUASHDA BFGIIAAI </span>
-                    <a href="https://www.facebook.com/NEXTFOAM/" target="_blank" rel="noopener noreferrer" className={linkClass}>Facebook</a>
-                    <span className="text-white/10"> ZM OV HGQ JSHGAIBG PPXUSN</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span className="text-white/10">BHOA HQNP BSAUD JZHXGUOIQMZ PQASIFHQEU HZNCM BVHFHASG ZHUFQH WFOUA SHAGM</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <span className="text-white/10">JSIDFJIAJ GZPUJQWNTNSJA HZXUHVKMZ VIHWHASK HDIUHABG UYHIOAYUDNI DQIUA IMLYA</span>
-                </div>
-                <div className="text-white font-[700] whitespace-nowrap leading-[2.5vw] text-justify">
-                    <a href="/privacy-policy" className={linkClass}>Privacy Policy</a>
-                    <span className="text-white/10"> NBAIOSH DBQUGASKJG HBA SUN ZKNQKJWHRIUASHGAUSNFUIASG </span>
-                    <a href="https://x.com/baramcfd" target="_blank" rel="noopener noreferrer" className={linkClass}>@Nextfoam</a>
-                </div>
-            </div>
-            <div className="text-white text-[clamp(23vw,23vw,23vw)] absolute left-0 bottom-0 leading-[17vw]">
-                Nextfoam
-            </div>
-        </div>
-    );
-};

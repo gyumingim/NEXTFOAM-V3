@@ -1,15 +1,10 @@
 "use client"
-import { Header } from "@/widgets/header/Header";
-import { BackToTop } from "@/shared/ui/BackToTop";
+import {
+    PageLayout, SectionLabel, CtaButton,
+    PageHero, ProductImage, BodyText,
+    FeatureList, KeyValueTable, BulletPanel,
+} from "@/shared/ui/page";
 import Image from "next/image";
-import Link from "next/link";
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-[12px] mb-[32px]">
-        <div className="w-[24px] h-[1px] bg-white/40" />
-        <span className="text-white/60 text-[11px] tracking-[0.2em] uppercase">{children}</span>
-    </div>
-);
 
 export default function FamusPage() {
     const features = [
@@ -21,13 +16,20 @@ export default function FamusPage() {
     ];
 
     const numerics = [
-        { label: "solver", value: "Meshless CFD solver" },
-        { label: "기법", value: "Geometric Conservation Least Squares Method" },
+        { label: "Solver", value: "Meshless CFD Solver" },
+        { label: "기법", value: "Geometric Conservation Least Squares Method (GC-LSM)" },
         { label: "수치기법", value: "AUSMPW+, LU-SGS, Dual time stepping" },
-        { label: "전처리", value: "CAD clean up, 표면격자" },
+        { label: "공간정확도", value: "3차 MLP3 — 초음속 충격파 해석" },
+        { label: "전처리", value: "CAD clean up, 표면격자 (Netgen)" },
     ];
 
-    const cadFormats = ["IGES", "STL", "STEP"];
+    const cadFormats = ["IGES", "STL", "STEP", "NASTRAN"];
+
+    const formatItems = [
+        "Netgen을 이용한 표면 형상 구현",
+        "NASTRAN 포맷 import",
+        "3차원 질점 자동 생성",
+    ];
 
     const motionFeatures = [
         "6DoF 운동 해석",
@@ -36,141 +38,101 @@ export default function FamusPage() {
         "이동물체 궤적 및 자세각 출력",
     ];
 
-    const validations = [
-        { title: "EGLIN 외장 분리 문제", desc: "분리체 다물체 해석", img: "/famus/famus1.jpg" },
-        { title: "Sparrow III 미사일", desc: "초음속 유동", img: "/famus/famus2.jpg" },
-        { title: "ONERA M6 날개", desc: "천음속 유동 해석", img: "/famus/famus3.jpg" },
+    const validationCases = [
+        { title: "EGLIN 외장 분리 문제", desc: "분리체 다물체 해석", img: "/famus/famus3.jpg" },
+        { title: "Sparrow III 미사일", desc: "초음속 유동", img: "/famus/famus4.webp" },
+        { title: "Sparrow III 미사일", desc: "초음속 유동", img: "/famus/famus5.jpg" },
     ];
 
     return (
-        <div className="w-full bg-black">
-            <Header />
-            <BackToTop />
+        <PageLayout>
 
-            <div className="max-w-[800px] mx-auto px-[40px] pt-[160px] pb-[160px]">
+            {/* Hero */}
+            <PageHero title="FAMUS" subtitle="Fully Automated Multi-physics Simulator" />
 
-                {/* Hero */}
-                <h1 className="text-white text-[72px] font-[700] tracking-tighter leading-[1.0] mb-[16px]">FAMUS</h1>
-                <p className="text-white/50 text-[13px] tracking-[0.2em] uppercase mb-[56px]">
-                    Fully Automated Multi-physics Simulator
-                </p>
+            {/* 메인 이미지 */}
+            <ProductImage src="/famus/famus1.jpg" alt="FAMUS simulation" height={500} />
 
-                <p className="text-white text-[17px] leading-[1.9] mb-[20px]">
+            {/* 제품 소개 */}
+            <div className="flex flex-col gap-5 mb-14">
+                <BodyText>
                     FAMUS는 무격자 계산 기법을 사용하여 공간 격자 생성이 필요 없는 압축성 CFD 해석 프로그램입니다.
                     국방과학연구소의 압축성 무격자 기술을 이전 받아 넥스트폼과 서울대 극초음속연구실에서 공동 개발하였습니다.
-                </p>
-                <p className="text-white/80 text-[16px] leading-[1.9] mb-[20px]">
-                    공간상에 분포된 질점만을 사용하여 유한체적법과 유사한 방법으로 계산하기 때문에
-                    입자를 라그랑지안 기법으로 계산하거나 Lattice Boltzmann Method를 사용하는 기존 프로그램과는 완전히 다릅니다.
-                </p>
-                <p className="text-white/80 text-[16px] leading-[1.9] mb-[20px]">
-                    기존 무격자 기법의 한계인 비보존성을 FVM 수준으로 개선한 GC-LSM 기법으로 정확성을 확보하였습니다.
-                    AUSMPW+, 3차 공간 정확도의 MLP3 사용을 통해 충격파에서 수치적 불안정성을 극복하고
-                    초음속 영역에서도 고차 정확도의 유동 해석이 가능합니다.
-                </p>
-                <p className="text-white/80 text-[16px] leading-[1.9] mb-[48px]">
-                    압축성 유동 뿐 아니라 플라즈마 현상을 해석할 수 있는 다물리 해석 프로그램입니다.
-                    NASA Glenn Research Center의 CEA를 활용하여 2000종 이상의 기체에 대해 평형 상태 물성치 테이블을 구현합니다.
-                </p>
+                </BodyText>
 
-                <div className="flex flex-col gap-[8px] mb-[64px]">
-                    <div className="relative w-full h-[380px] overflow-hidden">
-                        <Image src="/famus/famus4.webp" alt="FAMUS simulation" fill className="object-cover" />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
-                    </div>
-                    <div className="relative w-full h-[200px] overflow-hidden">
-                        <Image src="/famus/famus5.jpg" alt="FAMUS simulation result" fill className="object-cover" />
-                        <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
-                    </div>
-                </div>
+            
+                <BodyText>
+                    FAMUS는 공간상에 분포된 질점만을 사용하여 유한체적법과 유사한 방법으로 계산하기 때문에 입자를 라그랑지안 기법으로 계산하거나 Lattice Boltzmann Method 를 사용하는 기존 프로그램과는 완전히 다릅니다.
+                    FAMUS는 기존 무격자 기법의 한계인 비보존성을 FVM 수준으로 개선한 GC-LSM 기법을 사용하여 정확성을 확보하였습니다. AUSMPW+, 3차 공간 정확도의 MLP3 사용을 통해 충격파에서 수치적 불안정성을극복했고 초음속 영역에서도 고차 정확도의 유동 해석이 가능합니다.
+                </BodyText>
 
-                <Link
-                    href="/contact"
-                    className="group relative inline-flex items-center gap-[12px] overflow-hidden border border-white px-[32px] py-[14px] text-[13px] font-medium tracking-widest mb-[80px]"
-                >
-                    <span className="relative z-10 text-white group-hover:text-black transition-colors duration-300">for more information, contact us</span>
-                    <span className="relative z-10 text-white/50 group-hover:text-black transition-colors duration-300 text-[16px] leading-none">→</span>
-                    <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
-                </Link>
+                <ProductImage src="/famus/famus2.jpg" alt="FAMUS simulation result" height={400} className="mb-14 border-white/20 mt-14" />
 
-                {/* 기능 + 수치해석 */}
-                <div className="border-t border-white/20 pt-[56px] mb-[64px]">
-                    <div className="grid grid-cols-2 gap-[48px]">
-                        <div>
-                            <SectionLabel>FAMUS의 기능</SectionLabel>
-                            <div className="flex flex-col">
-                                {features.map((f, i) => (
-                                    <div key={i} className="flex items-center gap-[16px] py-[14px] border-b border-white/10">
-                                        <span className="text-white/30 text-[11px] tracking-widest w-[24px] shrink-0">{String(i + 1).padStart(2, "0")}</span>
-                                        <span className="text-white text-[15px]">{f}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div>
-                            <SectionLabel>수치해석 기법</SectionLabel>
-                            <div className="flex flex-col gap-[24px]">
-                                {numerics.map((n, i) => (
-                                    <div key={i}>
-                                        <span className="text-white/40 text-[11px] tracking-[0.15em] uppercase block mb-[4px]">{n.label}</span>
-                                        <span className="text-white text-[15px]">{n.value}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <BodyText>
+                    공간격자 없이 질점만을 이용하기 때문에 기존 격자 기법 방법에서 발생하는 과도한 전처리 작업시간을 줄일 수 있으며 격자 상태에 의한 솔버의 불안정성 및 해의 부정확성에 관한 문제가 없습니다. 또한 물체의 복잡한 운동, 다물체간 상대운동, 물체의 변형 등을 격자의 재생성 없이 쉽게 구현할 수 있는 획기적인 방법입니다.
+                </BodyText>
 
-                {/* 지원 포맷 + 이동물체 */}
-                <div className="border-t border-white/20 pt-[56px] mb-[64px]">
-                    <div className="grid grid-cols-2 gap-[48px]">
-                        <div>
-                            <SectionLabel>지원 포맷</SectionLabel>
-                            <div className="flex gap-[10px] mb-[20px]">
-                                {cadFormats.map((f) => (
-                                    <span key={f} className="border border-white/30 text-white text-[13px] tracking-widest px-[14px] py-[6px]">{f}</span>
-                                ))}
-                            </div>
-                            <p className="text-white/70 text-[15px] leading-[1.9]">
-                                Netgen을 이용한 표면 형상 구현<br />
-                                NASTRAN 포맷 import<br />
-                                3차원 질점 자동 생성
-                            </p>
-                        </div>
-                        <div>
-                            <SectionLabel>이동물체 해석</SectionLabel>
-                            <div className="flex flex-col">
-                                {motionFeatures.map((f, i) => (
-                                    <div key={i} className="flex items-center gap-[12px] py-[12px] border-b border-white/10">
-                                        <span className="w-[4px] h-[4px] bg-white/40 rounded-full shrink-0" />
-                                        <span className="text-white text-[15px]">{f}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Validation Cases */}
-                <div className="border-t border-white/20 pt-[56px]">
-                    <SectionLabel>Validation Cases</SectionLabel>
-                    <div className="grid grid-cols-3 gap-[1px] bg-white/15">
-                        {validations.map((v) => (
-                            <div key={v.title} className="bg-black flex flex-col">
-                                <div className="relative w-full h-[180px] overflow-hidden">
-                                    <Image src={v.img} alt={v.title} fill className="object-cover" />
-                                    <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-transparent" />
-                                </div>
-                                <div className="px-[20px] py-[20px] flex flex-col gap-[6px]">
-                                    <span className="text-white text-[14px] font-medium leading-tight">{v.title}</span>
-                                    <span className="text-white/50 text-[12px] tracking-wide">{v.desc}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
+                <ProductImage src="/famus/famus3.jpg" alt="FAMUS simulation result" height={400} className="mb-14 border-white/20 mt-14" />
+                
+                <BodyText>
+                    또한, 압축성 유동 뿐 아니라 플라즈마 현상을 해석할 수 있는 다물리 해석 프로그램입니다. NASA Glenn Research Center의 CEA(Chemical Equilibrium with Application)를 활용하여 2000종 이상의 기체에 대해 평형 상태 물성치 테이블을 구현할 수 있습니다.
+                </BodyText>
             </div>
-        </div>
+
+            <div className="grid grid-cols-2 gap-8 mb-14 items-center">
+                <div className="border border-white/60">
+                    <div className="px-6 py-4 border-b border-white/60">
+                        <span className="text-white/80 text-[11px] tracking-[0.2em] uppercase">FAMUS의 기능</span>
+                    </div>
+                    {features.map((item, i) => (
+                        <div key={i} className="flex items-center gap-5 px-6 py-4 border-b border-white/60 last:border-b-0">
+                            <span className="text-white/60 text-[12px] font-mono w-6 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                            <span className="text-white text-[15px]">{item}</span>
+                        </div>
+                    ))}
+                </div>
+                <div className="relative w-full aspect-video border border-white/20 overflow-hidden">
+                    <Image
+                        src="/famus/famus4.webp"
+                        alt="FAMUS software screenshot"
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+            </div>
+
+            {/* 수치해석 기법 / CAD clean up / 이동물체 해석 */}
+            <div className="grid grid-cols-3 gap-px bg-white/25 border border-white/25 mb-14">
+                <BulletPanel
+                    title="수치해석 기법"
+                    items={[
+                        "Meshless CFD solver",
+                        "Geometric Conservation Least Squares Method",
+                        "AUSMPW+, LU-SGS, Dual time stepping",
+                    ]}
+                />
+                <BulletPanel
+                    title="CAD clean up, 표면격자"
+                    tags={["IGES", "STL", "STEP"]}
+                    items={[
+                        "Netgen 을 이용한 표면 형상 구현",
+                        "NASTRAN 포맷 import",
+                        "3차원 질점 자동 생성",
+                    ]}
+                />
+                <BulletPanel
+                    title="이동물체 해석"
+                    items={[
+                        "6DoF 운동 해석",
+                        "외력 작용 물체 / 추진 물체 해석",
+                        "강제 운동(Prescribed motion) 입력",
+                        "이동물체 궤적 및 자세각 출력",
+                    ]}
+                />
+            </div>
+
+            <CtaButton href="/contact" variant="blue">도입 문의하기</CtaButton>
+
+        </PageLayout>
     );
 }

@@ -1,15 +1,7 @@
 "use client"
-import { Header } from "@/widgets/header/Header";
-import { BackToTop } from "@/shared/ui/BackToTop";
+import { PageLayout, SectionLabel, CtaButton } from "@/shared/ui/page";
 import Image from "next/image";
 import Link from "next/link";
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-3 mb-8">
-        <div className="w-6 h-px bg-white/40" />
-        <span className="text-white/60 text-[11px] tracking-[0.2em] uppercase">{children}</span>
-    </div>
-);
 
 const goals = [
     "항공기, 드론 등의 고정익 및 회전익 비행체의 공력 설계 및 성능 평가 방법에 대한 이론과 전산유체역학(CFD)의 기본 이론을 이해한다.",
@@ -84,11 +76,7 @@ const day2 = [
 
 export default function EducationAeroPage() {
     return (
-        <div className="w-full bg-black">
-            <Header />
-            <BackToTop />
-
-            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
+        <PageLayout>
 
                 {/* Hero */}
                 <h1 className="text-white text-[56px] font-bold tracking-tighter leading-[1.05] mb-4">
@@ -98,7 +86,7 @@ export default function EducationAeroPage() {
                     오픈 소스 SW를 이용한 실무 중심의 2일 집중 교육
                 </p>
 
-                <div className="relative w-full h-[380px] overflow-hidden border border-white/10 mb-14">
+                <div className="relative w-full h-[380px] overflow-hidden border border-white/35 mb-14">
                     <Image src="/edu/drone.png" alt="비행체 공력 성능 평가 교육" fill className="object-cover" />
                     <div className="absolute inset-0 bg-linear-to-t from-black/50 to-transparent" />
                 </div>
@@ -107,35 +95,28 @@ export default function EducationAeroPage() {
                 <p className="text-white text-[17px] leading-[1.9] mb-5">
                     항공기(고정익/회전익)나 드론의 성능 경쟁력은 공력 설계와 해석 기술에서 시작됩니다. 이런 문제 해결을 위해 비행체 설계를 위한 공기역학적 성능 분석에 대한 교육 과정을 개설하였습니다.
                 </p>
-                <p className="text-white/80 text-[16px] leading-[1.9] mb-5">
+                <p className="text-white/90 text-[16px] leading-[1.9] mb-5">
                     비행체의 공기역학적 설계 및 성능 평가 방법과 전산유체역학에 대한 기본 이론 강의와 실습으로 구성됩니다. 형상 모델링은 NASA의 OpenVSP를, CFD는 OpenFOAM 기반의 BARAM을 사용합니다.
                 </p>
-                <p className="text-white/80 text-[16px] leading-[1.9] mb-10">
+                <p className="text-white/90 text-[16px] leading-[1.9] mb-10">
                     CFD 입문자부터 실무 엔지니어까지, <span className="text-white">"무엇을 계산해야 하고, 결과를 어떻게 해석해야 하는지"</span>에 집중합니다.
                 </p>
 
                 <div className="flex flex-col gap-2 mb-16">
                     {highlights.map((h, i) => (
-                        <div key={i} className="flex items-start gap-3 py-3 border-b border-white/10">
-                            <span className="text-white/30 text-[11px] tracking-widest w-5 pt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                        <div key={i} className="flex items-start gap-3 py-3">
+                            <span className="text-white/55 text-[11px] tracking-widest w-5 pt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                             <span className="text-white/90 text-[15px] leading-[1.7]">{h}</span>
                         </div>
                     ))}
                 </div>
 
-                <Link
-                    href="/education/schedule"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden border border-white px-8 py-3.5 text-[13px] font-medium tracking-widest mb-20"
-                >
-                    <span className="relative z-10 text-white group-hover:text-black transition-colors duration-300">교육 신청하기</span>
-                    <span className="relative z-10 text-white/50 group-hover:text-black transition-colors duration-300 text-[16px] leading-none">→</span>
-                    <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
-                </Link>
+                <CtaButton href="/education/schedule">교육 신청하기</CtaButton>
 
                 {/* 교육 종류 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Course Type</SectionLabel>
-                    <div className="grid grid-cols-2 gap-px bg-white/10">
+                    <div className="grid grid-cols-2 border border-white/25">
                         {[
                             {
                                 type: "넥스트폼 정규 교육",
@@ -156,12 +137,12 @@ export default function EducationAeroPage() {
                                 ],
                             },
                         ].map((col, ci) => (
-                            <div key={ci} className="bg-black px-6 py-8">
+                            <div key={ci} className={`px-6 py-8 ${ci === 0 ? "border-r border-white/25" : ""}`}>
                                 <p className="text-white text-[15px] font-medium mb-6">{col.type}</p>
                                 <div className="flex flex-col gap-4">
                                     {col.items.map((item, ii) => (
                                         <div key={ii}>
-                                            <span className="text-white/40 text-[11px] tracking-[0.15em] uppercase block mb-1">{item.label}</span>
+                                            <span className="text-white/60 text-[11px] tracking-[0.15em] uppercase block mb-1">{item.label}</span>
                                             <span className="text-white/90 text-[14px] leading-[1.6]">{item.value}</span>
                                         </div>
                                     ))}
@@ -172,16 +153,16 @@ export default function EducationAeroPage() {
                 </div>
 
                 {/* 교육 목표 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Objectives</SectionLabel>
-                    <div className="relative w-full h-[220px] overflow-hidden border border-white/10 mb-10">
+                    <div className="relative w-full h-[220px] overflow-hidden border border-white/35 mb-10">
                         <Image src="/edu/design.png" alt="비행체 설계 프로세스" fill className="object-cover" />
                         <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                     </div>
                     <div className="flex flex-col">
                         {goals.map((g, i) => (
-                            <div key={i} className="flex items-start gap-4 py-4 border-b border-white/10">
-                                <span className="text-white/30 text-[11px] tracking-widest w-6 pt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                            <div key={i} className="flex items-start gap-4 py-4">
+                                <span className="text-white/55 text-[11px] tracking-widest w-6 pt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
                                 <span className="text-white/90 text-[15px] leading-[1.8]">{g}</span>
                             </div>
                         ))}
@@ -189,7 +170,7 @@ export default function EducationAeroPage() {
                 </div>
 
                 {/* 수강 대상 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Target Audience</SectionLabel>
                     <div className="flex flex-col gap-2">
                         {[
@@ -197,21 +178,21 @@ export default function EducationAeroPage() {
                             "대학교 1학년 수준의 일반 물리 지식만 있으면 수강 가능하며, 대학 학부 전공과 관련 없습니다.",
                         ].map((item, i) => (
                             <div key={i} className="flex items-start gap-3">
-                                <span className="text-white/30 text-[10px] mt-1.5">●</span>
-                                <span className="text-white/80 text-[15px] leading-[1.8]">{item}</span>
+                                <span className="text-white/55 text-[10px] mt-1.5">●</span>
+                                <span className="text-white/90 text-[15px] leading-[1.8]">{item}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* 1일차 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Day 1</SectionLabel>
                     <h2 className="text-white text-[20px] font-medium tracking-tight mb-8">
                         공기역학적 힘과 공력 성능 도출, 전산유체역학 이론
                     </h2>
 
-                    <div className="relative w-full h-[200px] overflow-hidden border border-white/10 mb-10">
+                    <div className="relative w-full h-[200px] overflow-hidden border border-white/35 mb-10">
                         <Image src="/edu/force-1-768x238.webp" alt="공기역학적 힘" fill className="object-cover" />
                         <span className="absolute bottom-3 left-4 text-white/50 text-[11px] tracking-[0.15em] uppercase">Aerodynamic Forces & CFD Theory</span>
                     </div>
@@ -223,8 +204,8 @@ export default function EducationAeroPage() {
                                 <div className="flex flex-col gap-1.5">
                                     {section.items.map((item, ii) => (
                                         <div key={ii} className="flex items-start gap-3">
-                                            <span className="text-white/30 text-[10px] mt-1.5">●</span>
-                                            <span className="text-white/80 text-[14px] leading-[1.8]">{item}</span>
+                                            <span className="text-white/55 text-[10px] mt-1.5">●</span>
+                                            <span className="text-white/90 text-[14px] leading-[1.8]">{item}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -232,14 +213,14 @@ export default function EducationAeroPage() {
                         ))}
                     </div>
 
-                    <div className="relative w-full h-[260px] overflow-hidden border border-white/10 mt-10">
+                    <div className="relative w-full h-[260px] overflow-hidden border border-white/35 mt-10">
                         <Image src="/edu/vspAero-768x324.webp" alt="OpenVSP & VSPAero" fill className="object-cover" />
                         <span className="absolute bottom-3 left-4 text-white/50 text-[11px] tracking-[0.15em] uppercase">OpenVSP & VSPAero</span>
                     </div>
                 </div>
 
                 {/* 2일차 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Day 2</SectionLabel>
                     <h2 className="text-white text-[20px] font-medium tracking-tight mb-8">
                         BARAM을 이용한 고정익 비행체 해석
@@ -252,8 +233,8 @@ export default function EducationAeroPage() {
                                 <div className="flex flex-col gap-1.5">
                                     {section.items.map((item, ii) => (
                                         <div key={ii} className="flex items-start gap-3">
-                                            <span className="text-white/30 text-[10px] mt-1.5">●</span>
-                                            <span className="text-white/80 text-[14px] leading-[1.8]">{item}</span>
+                                            <span className="text-white/55 text-[10px] mt-1.5">●</span>
+                                            <span className="text-white/90 text-[14px] leading-[1.8]">{item}</span>
                                         </div>
                                     ))}
                                 </div>
@@ -261,38 +242,30 @@ export default function EducationAeroPage() {
                         ))}
                     </div>
 
-                    <div className="relative w-full h-[300px] overflow-hidden border border-white/10">
+                    <div className="relative w-full h-[300px] overflow-hidden border border-white/35">
                         <Image src="/edu/dronecfd-768x427.webp" alt="드론 CFD 해석" fill className="object-cover" />
                         <span className="absolute bottom-3 left-4 text-white/50 text-[11px] tracking-[0.15em] uppercase">Rotary-wing CFD Simulation</span>
                     </div>
                 </div>
 
                 {/* CTA */}
-                <div className="border-t border-white/20 pt-14">
+                <div className="pt-14">
                     <SectionLabel>Registration</SectionLabel>
                     <p className="text-white/80 text-[15px] leading-[1.9] mb-6">
                         교육 문의 : <span className="text-white">marketing@nextfoam.co.kr</span> &nbsp;|&nbsp; 070-8796-3025 이혜진 부장
                     </p>
                     <div className="flex gap-3">
-                        <Link
-                            href="/education/schedule"
-                            className="group relative inline-flex items-center gap-3 overflow-hidden border border-white px-8 py-3.5 text-[13px] font-medium tracking-widest"
-                        >
-                            <span className="relative z-10 text-white group-hover:text-black transition-colors duration-300">정규 교육 신청</span>
-                            <span className="relative z-10 text-white/50 group-hover:text-black transition-colors duration-300 text-[16px] leading-none">→</span>
-                            <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
-                        </Link>
+                        <CtaButton href="/education/schedule" className="">정규 교육 신청</CtaButton>
                         <Link
                             href="/contact"
-                            className="group relative inline-flex items-center gap-3 overflow-hidden border border-white/30 px-8 py-3.5 text-[13px] font-medium tracking-widest"
+                            className="group relative inline-flex items-center gap-3 overflow-hidden border border-white/40 px-8 py-3.5 text-[13px] font-medium tracking-widest"
                         >
-                            <span className="relative z-10 text-white/60 group-hover:text-black transition-colors duration-300">온사이트 교육 문의</span>
+                            <span className="relative z-10 text-white/70 group-hover:text-black transition-colors duration-300">온사이트 교육 문의</span>
                             <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
                         </Link>
                     </div>
                 </div>
 
-            </div>
-        </div>
+        </PageLayout>
     );
 }

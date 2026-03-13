@@ -2,6 +2,7 @@
 import { Header } from "@/widgets/header/Header";
 import { BackToTop } from "@/shared/ui/BackToTop";
 import Image, { StaticImageData } from "next/image";
+import { Footer } from "@/widgets/footer/Footer";
 import { useRef } from "react";
 
 import img12 from "@/public/okucc/kakaotalk_20250923_172004431_15.jpg";
@@ -407,6 +408,7 @@ export default function OkuccPage() {
                 ))}
 
             </div>
+            <Footer />
         </div>
     );
 }

@@ -1,14 +1,5 @@
 "use client"
-import { Header } from "@/widgets/header/Header";
-import { BackToTop } from "@/shared/ui/BackToTop";
-import Link from "next/link";
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-3 mb-8">
-        <div className="w-6 h-px bg-white/40" />
-        <span className="text-white/60 text-[11px] tracking-[0.2em] uppercase">{children}</span>
-    </div>
-);
+import { PageLayout, SectionLabel, CtaButton } from "@/shared/ui/page";
 
 type DaySchedule = { day: string; items: string[] };
 
@@ -222,11 +213,7 @@ const courses: Course[] = [
 
 export default function EducationOverviewPage() {
     return (
-        <div className="w-full bg-black">
-            <Header />
-            <BackToTop />
-
-            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
+        <PageLayout>
 
                 {/* Hero */}
                 <h1 className="text-white text-[64px] font-bold tracking-tighter leading-none mb-4">
@@ -242,51 +229,44 @@ export default function EducationOverviewPage() {
                     교육 문의 및 기술지원 : <span className="text-white/80">edusupport@nextfoam.co.kr</span>
                 </p>
 
-                <Link
-                    href="/contact"
-                    className="group relative inline-flex items-center gap-3 overflow-hidden border border-white px-8 py-3.5 text-[13px] font-medium tracking-widest mb-20"
-                >
-                    <span className="relative z-10 text-white group-hover:text-black transition-colors duration-300">교육 신청 / 문의하기</span>
-                    <span className="relative z-10 text-white/50 group-hover:text-black transition-colors duration-300 text-[16px] leading-none">→</span>
-                    <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] origin-left" />
-                </Link>
+                <CtaButton href="/contact">교육 신청 / 문의하기</CtaButton>
 
                 {/* 과정 목록 */}
                 {courses.map((course, ci) => (
-                    <div key={ci} className="border-t border-white/20 pt-14 mb-16">
+                    <div key={ci} className="border-t-2 border-white/50 pt-14 mb-16">
                         <SectionLabel>Course {course.id}</SectionLabel>
 
                         <div className="flex items-start justify-between gap-4 mb-3">
-                            <h2 className="text-white text-[22px] font-medium tracking-tight leading-snug flex-1">
+                            <h2 className="text-white text-[28px] font-semibold tracking-tight leading-snug flex-1">
                                 {course.title}
                             </h2>
                             {course.onsite && (
-                                <span className="shrink-0 border border-white/30 text-white/50 text-[11px] tracking-widest px-3 py-1 mt-1">
+                                <span className="shrink-0 border border-white/60 text-white/80 text-[12px] tracking-widest px-3 py-1 mt-1">
                                     ON-SITE
                                 </span>
                             )}
                         </div>
 
                         {course.subtitle && (
-                            <p className="text-white/50 text-[13px] tracking-wide mb-6">{course.subtitle}</p>
+                            <p className="text-white/70 text-[14px] tracking-wide mb-6">{course.subtitle}</p>
                         )}
 
                         <div className="flex flex-col gap-3 mb-10">
                             {course.desc.map((d, di) => (
-                                <p key={di} className="text-white/80 text-[15px] leading-[1.9]">{d}</p>
+                                <p key={di} className="text-white/90 text-[16px] leading-[1.9]">{d}</p>
                             ))}
                         </div>
 
                         {/* 일정 */}
-                        <div className="flex flex-col gap-px bg-white/10 mb-8">
+                        <div className="border border-white/40 mb-8">
                             {course.schedule.map((day, di) => (
-                                <div key={di} className="bg-black flex gap-6 px-6 py-5">
-                                    <span className="text-white/40 text-[12px] tracking-widest w-12 shrink-0 pt-0.5">{day.day}</span>
+                                <div key={di} className={`flex gap-6 px-6 py-5 bg-white/12 ${di < course.schedule.length - 1 ? "border-b border-white/40" : ""}`}>
+                                    <span className="text-white/70 text-[13px] font-medium tracking-widest w-12 shrink-0 pt-0.5">{day.day}</span>
                                     <ul className="flex flex-col gap-2">
                                         {day.items.map((item, ii) => (
                                             <li key={ii} className="flex items-start gap-2.5">
-                                                <span className="text-white/25 mt-1.5 text-[6px]">●</span>
-                                                <span className="text-white/90 text-[14px] leading-[1.75]">{item}</span>
+                                                <span className="text-white/50 mt-1.5 text-[6px]">●</span>
+                                                <span className="text-white text-[15px] leading-[1.75]">{item}</span>
                                             </li>
                                         ))}
                                     </ul>
@@ -295,18 +275,17 @@ export default function EducationOverviewPage() {
                         </div>
 
                         {/* 교육비 */}
-                        <div className="border border-white/15 px-6 py-5">
-                            <span className="text-white/40 text-[11px] tracking-[0.2em] uppercase block mb-3">교육비</span>
+                        <div className="border border-white/40 bg-white/12 px-6 py-5">
+                            <span className="text-white/60 text-[12px] tracking-[0.2em] uppercase block mb-3">교육비</span>
                             <div className="flex flex-col gap-1.5">
                                 {course.fee.map((f, fi) => (
-                                    <span key={fi} className="text-white text-[14px] leading-[1.7]">{f}</span>
+                                    <span key={fi} className="text-white text-[15px] leading-[1.7]">{f}</span>
                                 ))}
                             </div>
                         </div>
                     </div>
                 ))}
 
-            </div>
-        </div>
+        </PageLayout>
     );
 }

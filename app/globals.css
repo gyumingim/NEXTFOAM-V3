@@ -63,4 +63,16 @@ html.lenis {
 
 html, body {
   background-color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 라이트모드: Tailwind CSS 변수를 뒤집어 모든 컴포넌트에 자동 적용 */
+html.light {
+  --color-black: #f0f0f0;
+  --color-white: #171717;
+  background-color: #f0f0f0;
+}
+
+html.light body {
+  background-color: #f0f0f0;
 }

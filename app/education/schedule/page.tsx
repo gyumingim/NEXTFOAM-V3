@@ -1,33 +1,25 @@
 "use client"
-import { Header } from "@/widgets/header/Header";
-import { BackToTop } from "@/shared/ui/BackToTop";
+import { PageLayout, SectionLabel } from "@/shared/ui/page";
 import React, { useState } from "react";
-
-const SectionLabel = ({ children }: { children: React.ReactNode }) => (
-    <div className="flex items-center gap-3 mb-8">
-        <div className="w-6 h-px bg-white/40" />
-        <span className="text-white/60 text-[11px] tracking-[0.2em] uppercase">{children}</span>
-    </div>
-);
 
 const schedule = [
     {
         course: "CFD 실전교육 BARAM",
         days: "2일",
         fee: "80만원",
-        dates: ["1/29~30", "", "3/23~24", "", "6/23~24", "", "8/19~20", ""],
+        dates: ["1/29~30", "", "3/23~24", "", "6/23~24", "", "8/19~20"],
     },
     {
         course: "OpenFOAM 사용자 교육",
         days: "3일",
         fee: "120만원",
-        dates: ["1/21~23", "3/25~27", "", "4/24~26", "", "7/26~28", "8/25~27", ""],
+        dates: ["1/21~23", "3/25~27", "", "4/24~26", "", "7/26~28", "8/25~27"],
     },
     {
         course: "비행체 공력성능 평가 교육",
         days: "2일",
         fee: "80만원",
-        dates: ["", "", "4/09~10", "", "", "", "", ""],
+        dates: ["", "", "4/09~10", "", "", "", ""],
     },
 ];
 
@@ -69,11 +61,7 @@ export default function EducationSchedulePage() {
     const dateOptions = selectedCourse ? (scheduleByCourse[selectedCourse] ?? ["On-site 교육 — 일정 협의"]) : [];
 
     return (
-        <div className="w-full bg-black">
-            <Header />
-            <BackToTop />
-
-            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
+        <PageLayout>
 
                 {/* Hero */}
                 <h1 className="text-white text-[64px] font-bold tracking-tighter leading-none mb-4">
@@ -87,39 +75,39 @@ export default function EducationSchedulePage() {
                 </p>
 
                 {/* 일정표 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>2026 Schedule</SectionLabel>
 
                     {/* 테이블 헤더 */}
                     <div className="overflow-x-auto">
                         <table className="w-full border-collapse text-[13px]">
                             <thead>
-                                <tr className="border-b border-white/20">
-                                    <th className="text-left text-white/40 font-normal tracking-widest text-[11px] uppercase pb-3 pr-4 min-w-[180px]">과정</th>
+                                <tr className="border-b-2 border-white/50">
+                                    <th className="text-left text-white/70 font-medium tracking-widest text-[12px] uppercase pb-3 pr-4 min-w-[180px]">과정</th>
                                     {months.map((m) => (
-                                        <th key={m} className="text-center text-white/40 font-normal tracking-widest text-[11px] uppercase pb-3 px-2 min-w-14">{m}</th>
+                                        <th key={m} className="text-center text-white/70 font-medium tracking-widest text-[12px] uppercase pb-3 px-2 min-w-14">{m}</th>
                                     ))}
-                                    <th className="text-right text-white/40 font-normal tracking-widest text-[11px] uppercase pb-3 pl-4 min-w-20">교육비</th>
+                                    <th className="text-right text-white/70 font-medium tracking-widest text-[12px] uppercase pb-3 pl-4 min-w-20">교육비</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {schedule.map((row, ri) => (
-                                    <tr key={ri} className="border-b border-white/10">
+                                    <tr key={ri}>
                                         <td className="py-4 pr-4">
-                                            <div className="text-white text-[14px] font-medium leading-snug">{row.course}</div>
-                                            <div className="text-white/40 text-[11px] mt-0.5">{row.days} 과정</div>
+                                            <div className="text-white text-[15px] font-medium leading-snug">{row.course}</div>
+                                            <div className="text-white/60 text-[12px] mt-0.5">{row.days} 과정</div>
                                         </td>
                                         {row.dates.map((d, di) => (
                                             <td key={di} className="text-center py-4 px-2">
                                                 {d ? (
-                                                    <span className="text-white/80 text-[12px] whitespace-nowrap">{d}</span>
+                                                    <span className="text-white text-[13px] whitespace-nowrap">{d}</span>
                                                 ) : (
-                                                    <span className="text-white/15 text-[11px]">—</span>
+                                                    <span className="text-white/30 text-[11px]">—</span>
                                                 )}
                                             </td>
                                         ))}
                                         <td className="text-right py-4 pl-4">
-                                            <span className="text-white text-[13px] font-medium whitespace-nowrap">{row.fee}</span>
+                                            <span className="text-white text-[14px] font-medium whitespace-nowrap">{row.fee}</span>
                                         </td>
                                     </tr>
                                 ))}
@@ -136,17 +124,17 @@ export default function EducationSchedulePage() {
                             "교육 수강 후 한달 동안 무상 기술지원 (edusupport@nextfoam.co.kr).",
                         ].map((note, i) => (
                             <div key={i} className="flex items-start gap-2.5">
-                                <span className="text-white/30 text-[10px] mt-[5px]">●</span>
-                                <span className="text-white/60 text-[13px] leading-[1.7]">{note}</span>
+                                <span className="text-white/55 text-[10px] mt-[5px]">●</span>
+                                <span className="text-white/85 text-[14px] leading-[1.7]">{note}</span>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* On-site 교육 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>On-Site Education</SectionLabel>
-                    <h2 className="text-white text-[20px] font-medium tracking-tight mb-6">On-Site 교육</h2>
+                    <h2 className="text-white text-[26px] font-semibold tracking-tight mb-6">On-Site 교육</h2>
                     <div className="flex flex-col gap-1.5 mb-8">
                         {[
                             "교육을 희망하시는 개인이나 단체에서 신청이 가능합니다.",
@@ -154,36 +142,36 @@ export default function EducationSchedulePage() {
                             "교육장, 실습 PC 제공 혹은 개별 노트북 지참",
                         ].map((item, i) => (
                             <div key={i} className="flex items-start gap-2.5">
-                                <span className="text-white/30 text-[10px] mt-[5px]">●</span>
-                                <span className="text-white/80 text-[15px] leading-[1.7]">{item}</span>
+                                <span className="text-white/55 text-[10px] mt-[5px]">●</span>
+                                <span className="text-white/90 text-[15px] leading-[1.7]">{item}</span>
                             </div>
                         ))}
                     </div>
-                    <div className="border border-white/15 px-6 py-4">
-                        <span className="text-white/40 text-[11px] tracking-[0.2em] uppercase block mb-2">상담 문의</span>
-                        <span className="text-white text-[14px]">오광호 책임 &nbsp;|&nbsp; 070-8796-3019 &nbsp;·&nbsp; 010-4602-0316 &nbsp;·&nbsp; gwangeo@nextfoam.co.kr</span>
+                    <div className="border border-white/40 bg-white/12 px-6 py-4">
+                        <span className="text-white/65 text-[12px] tracking-[0.2em] uppercase block mb-2">상담 문의</span>
+                        <span className="text-white text-[15px]">오광호 책임 &nbsp;|&nbsp; 070-8796-3019 &nbsp;·&nbsp; 010-4602-0316 &nbsp;·&nbsp; gwangeo@nextfoam.co.kr</span>
                     </div>
                 </div>
 
                 {/* 교육 안내 */}
-                <div className="border-t border-white/20 pt-14 mb-16">
+                <div className="pt-14 mb-16">
                     <SectionLabel>Education Info</SectionLabel>
-                    <h2 className="text-white text-[20px] font-medium tracking-tight mb-8">교육 안내</h2>
+                    <h2 className="text-white text-[26px] font-semibold tracking-tight mb-8">교육 안내</h2>
 
                     <div className="flex flex-col gap-10">
                         {/* 시간 및 장소 */}
                         <div>
-                            <p className="text-white/60 text-[12px] tracking-[0.15em] uppercase mb-3">시간 및 장소</p>
+                            <p className="text-white/75 text-[13px] tracking-[0.15em] uppercase mb-3">시간 및 장소</p>
                             <div className="flex flex-col gap-1.5">
-                                <span className="text-white/80 text-[15px]">오전 10:00 ~ 오후 5:00</span>
-                                <span className="text-white/80 text-[15px]">[서울] 서울특별시 금천구 디지털로9길 32, A동 1106호</span>
-                                <span className="text-white/50 text-[13px]">주차지원이 되지 않습니다. 대중교통 이용을 부탁드립니다.</span>
+                                <span className="text-white/90 text-[15px]">오전 10:00 ~ 오후 5:00</span>
+                                <span className="text-white/90 text-[15px]">[서울] 서울특별시 금천구 디지털로9길 32, A동 1106호</span>
+                                <span className="text-white/65 text-[14px]">주차지원이 되지 않습니다. 대중교통 이용을 부탁드립니다.</span>
                             </div>
                         </div>
 
                         {/* 준비물 */}
                         <div>
-                            <p className="text-white/60 text-[12px] tracking-[0.15em] uppercase mb-3">교육 준비물</p>
+                            <p className="text-white/75 text-[13px] tracking-[0.15em] uppercase mb-3">교육 준비물</p>
                             <div className="flex flex-col gap-1.5">
                                 {[
                                     "실습용 노트북 (운영체제 무관)",
@@ -191,8 +179,8 @@ export default function EducationSchedulePage() {
                                     "Windows OS 사용자는 WSL(Windows Subsystem for Linux) 환경으로 실습을 진행하오니 미리 설치해오셔도 됩니다.",
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-start gap-2.5">
-                                        <span className="text-white/30 text-[10px] mt-[5px]">●</span>
-                                        <span className="text-white/80 text-[14px] leading-[1.7]">{item}</span>
+                                        <span className="text-white/55 text-[10px] mt-[5px]">●</span>
+                                        <span className="text-white/90 text-[15px] leading-[1.7]">{item}</span>
                                     </div>
                                 ))}
                             </div>
@@ -200,7 +188,7 @@ export default function EducationSchedulePage() {
 
                         {/* 신청 및 취소 */}
                         <div>
-                            <p className="text-white/60 text-[12px] tracking-[0.15em] uppercase mb-3">신청 및 취소</p>
+                            <p className="text-white/75 text-[13px] tracking-[0.15em] uppercase mb-3">신청 및 취소</p>
                             <div className="flex flex-col gap-1.5">
                                 {[
                                     "신청 : 교육일 1주 전까지 온라인이나 전화, 메일로 가능",
@@ -209,8 +197,8 @@ export default function EducationSchedulePage() {
                                     "각 교육은 선착순 마감됩니다.",
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-start gap-2.5">
-                                        <span className="text-white/30 text-[10px] mt-[5px]">●</span>
-                                        <span className="text-white/80 text-[14px] leading-[1.7]">{item}</span>
+                                        <span className="text-white/55 text-[10px] mt-[5px]">●</span>
+                                        <span className="text-white/90 text-[15px] leading-[1.7]">{item}</span>
                                     </div>
                                 ))}
                             </div>
@@ -218,7 +206,7 @@ export default function EducationSchedulePage() {
 
                         {/* 결제 */}
                         <div>
-                            <p className="text-white/60 text-[12px] tracking-[0.15em] uppercase mb-3">교육비 결제</p>
+                            <p className="text-white/75 text-[13px] tracking-[0.15em] uppercase mb-3">교육비 결제</p>
                             <div className="flex flex-col gap-1.5">
                                 {[
                                     "세금계산서, 카드결제 가능",
@@ -226,36 +214,36 @@ export default function EducationSchedulePage() {
                                     "교재/중식 제공",
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-start gap-2.5">
-                                        <span className="text-white/30 text-[10px] mt-[5px]">●</span>
-                                        <span className="text-white/80 text-[14px] leading-[1.7]">{item}</span>
+                                        <span className="text-white/55 text-[10px] mt-[5px]">●</span>
+                                        <span className="text-white/90 text-[15px] leading-[1.7]">{item}</span>
                                     </div>
                                 ))}
                             </div>
                         </div>
 
                         {/* 담당자 */}
-                        <div className="border border-white/15 px-6 py-4">
-                            <span className="text-white/40 text-[11px] tracking-[0.2em] uppercase block mb-2">담당자</span>
-                            <span className="text-white text-[14px]">이혜진 부장 &nbsp;|&nbsp; 070-8796-3025 &nbsp;·&nbsp; hjlee@nextfoam.co.kr</span>
+                        <div className="border border-white/40 bg-white/12 px-6 py-4">
+                            <span className="text-white/65 text-[12px] tracking-[0.2em] uppercase block mb-2">담당자</span>
+                            <span className="text-white text-[15px]">이혜진 부장 &nbsp;|&nbsp; 070-8796-3025 &nbsp;·&nbsp; hjlee@nextfoam.co.kr</span>
                         </div>
                     </div>
                 </div>
 
                 {/* 교육 신청 폼 */}
-                <div className="border-t border-white/20 pt-14">
+                <div className="pt-14">
                     <SectionLabel>Registration</SectionLabel>
-                    <h2 className="text-white text-[20px] font-medium tracking-tight mb-8">교육 신청</h2>
+                    <h2 className="text-white text-[26px] font-semibold tracking-tight mb-8">교육 신청</h2>
 
                     <div className="flex flex-col gap-6">
                         {/* 과정 선택 */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-white/60 text-[11px] tracking-[0.15em] uppercase">
-                                교육 과정 <span className="text-white/30 ml-1">*</span>
+                            <label className="text-white/75 text-[12px] tracking-[0.15em] uppercase">
+                                교육 과정 <span className="text-white/50 ml-1">*</span>
                             </label>
                             <select
                                 value={selectedCourse}
                                 onChange={(e) => { setSelectedCourse(e.target.value); setSelectedDate(""); }}
-                                className="bg-white/5 border border-white/20 text-white text-[14px] outline-none px-4 py-3 focus:border-white/50 transition-colors duration-200 appearance-none cursor-pointer"
+                                className="bg-white/12 border border-white/40 text-white text-[14px] outline-none px-4 py-3 focus:border-white/70 transition-colors duration-200 appearance-none cursor-pointer"
                             >
                                 <option value="" className="bg-black">교육 과정을 선택하세요.</option>
                                 {courseOptions.map((opt) => (
@@ -266,14 +254,14 @@ export default function EducationSchedulePage() {
 
                         {/* 일정 선택 */}
                         <div className="flex flex-col gap-2">
-                            <label className="text-white/60 text-[11px] tracking-[0.15em] uppercase">
-                                교육 일정 <span className="text-white/30 ml-1">*</span>
+                            <label className="text-white/75 text-[12px] tracking-[0.15em] uppercase">
+                                교육 일정 <span className="text-white/50 ml-1">*</span>
                             </label>
                             <select
                                 value={selectedDate}
                                 onChange={(e) => setSelectedDate(e.target.value)}
                                 disabled={!selectedCourse}
-                                className="bg-white/5 border border-white/20 text-white text-[14px] outline-none px-4 py-3 focus:border-white/50 transition-colors duration-200 appearance-none cursor-pointer disabled:text-white/30 disabled:cursor-not-allowed"
+                                className="bg-white/12 border border-white/40 text-white text-[14px] outline-none px-4 py-3 focus:border-white/70 transition-colors duration-200 appearance-none cursor-pointer disabled:text-white/40 disabled:cursor-not-allowed"
                             >
                                 <option value="" className="bg-black">교육 일정을 선택해 주세요.</option>
                                 {dateOptions.map((opt) => (
@@ -291,13 +279,13 @@ export default function EducationSchedulePage() {
                             { label: "연구분야 / 코멘트", placeholder: "연구 분야나 문의 사항을 입력해 주세요", required: false },
                         ].map((field) => (
                             <div key={field.label} className="flex flex-col gap-2">
-                                <label className="text-white/60 text-[11px] tracking-[0.15em] uppercase">
-                                    {field.label} {field.required && <span className="text-white/30 ml-1">*</span>}
+                                <label className="text-white/75 text-[12px] tracking-[0.15em] uppercase">
+                                    {field.label} {field.required && <span className="text-white/50 ml-1">*</span>}
                                 </label>
                                 <input
                                     type="text"
                                     placeholder={field.placeholder}
-                                    className="bg-white/5 border border-white/20 text-white text-[14px] placeholder:text-white/25 outline-none px-4 py-3 focus:border-white/50 transition-colors duration-200"
+                                    className="bg-white/12 border border-white/40 text-white text-[14px] placeholder:text-white/40 outline-none px-4 py-3 focus:border-white/70 transition-colors duration-200"
                                 />
                             </div>
                         ))}
@@ -307,24 +295,24 @@ export default function EducationSchedulePage() {
                             <div className="flex items-center gap-3">
                                 <button
                                     onClick={() => setAgreed(!agreed)}
-                                    className={`w-5 h-5 border flex items-center justify-center transition-colors duration-200 shrink-0 ${agreed ? "bg-white border-white" : "bg-transparent border-white/30"}`}
+                                    className={`w-5 h-5 border flex items-center justify-center transition-colors duration-200 shrink-0 ${agreed ? "bg-white border-white" : "bg-transparent border-white/55"}`}
                                 >
                                     {agreed && <span className="text-black text-[11px] leading-none font-bold">✓</span>}
                                 </button>
-                                <span className="text-white/70 text-[14px]">
+                                <span className="text-white/85 text-[14px]">
                                     개인정보 취급 방침에 동의합니다.
-                                    <span className="text-white/30"> (필수)</span>
+                                    <span className="text-white/55"> (필수)</span>
                                 </span>
                                 <button
                                     onClick={() => setShowPolicy(!showPolicy)}
-                                    className="text-white/30 text-[12px] underline underline-offset-2 hover:text-white transition-colors duration-200 ml-auto shrink-0"
+                                    className="text-white/55 text-[12px] underline underline-offset-2 hover:text-white transition-colors duration-200 ml-auto shrink-0"
                                 >
                                     {showPolicy ? "닫기" : "내용 보기"}
                                 </button>
                             </div>
 
                             {showPolicy && (
-                                <div className="border border-white/10 bg-white/5 p-5 text-white/50 text-[13px] leading-[1.8] max-h-60 overflow-y-auto whitespace-pre-line">
+                                <div className="border border-white/35 bg-white/12 p-5 text-white/70 text-[13px] leading-[1.8] max-h-60 overflow-y-auto whitespace-pre-line">
                                     {privacyText}
                                 </div>
                             )}
@@ -337,7 +325,7 @@ export default function EducationSchedulePage() {
                                 className={`group relative px-10 py-3.5 border text-[13px] tracking-widest uppercase overflow-hidden transition-all duration-500
                                     ${agreed
                                         ? "border-white text-white hover:text-black cursor-pointer"
-                                        : "border-white/20 text-white/20 cursor-not-allowed"
+                                        : "border-white/35 text-white/35 cursor-not-allowed"
                                     }`}
                             >
                                 {agreed && (
@@ -349,7 +337,6 @@ export default function EducationSchedulePage() {
                     </div>
                 </div>
 
-            </div>
-        </div>
+        </PageLayout>
     );
 }

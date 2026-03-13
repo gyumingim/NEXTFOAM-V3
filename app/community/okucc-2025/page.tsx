@@ -2,6 +2,7 @@
 import { Header } from "@/widgets/header/Header";
 import { BackToTop } from "@/shared/ui/BackToTop";
 import Image from "next/image";
+import { Footer } from "@/widgets/footer/Footer";
 
 import img1 from "@/public/okucc_2025/okucc1.png";
 import img2 from "@/public/okucc_2025/kakaotalk_20250923_172004431-2.jpg";
@@ -25,7 +26,6 @@ export default function Okucc2025Page() {
             <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
 
                 {/* Hero */}
-                <SectionLabel>Community · 2025</SectionLabel>
                 <h1 className="text-white text-[56px] font-bold tracking-tighter leading-none mb-4">
                     제12회 OKUCC
                 </h1>
@@ -96,6 +96,7 @@ export default function Okucc2025Page() {
                 </div>
 
             </div>
+            <Footer />
         </div>
     );
 }

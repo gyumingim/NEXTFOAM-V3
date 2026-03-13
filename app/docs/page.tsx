@@ -1,7 +1,6 @@
 "use client"
 import React, { useRef } from "react";
-import { Header } from "@/widgets/header/Header";
-import { BackToTop } from "@/shared/ui/BackToTop";
+import { PageLayout } from "@/shared/ui/page";
 
 type Paper = { title: string; author?: string; venue: string; hasLink?: boolean };
 type YearGroup = { year: number; items: Paper[] };
@@ -231,11 +230,7 @@ export default function DocsPage() {
     };
 
     return (
-        <div className="w-full bg-black">
-            <Header />
-            <BackToTop />
-
-            <div className="max-w-[800px] mx-auto px-10 pt-40 pb-40">
+        <PageLayout>
 
                 {/* Hero */}
                 <div className="flex items-end justify-between mb-6">
@@ -257,7 +252,7 @@ export default function DocsPage() {
                         <button
                             key={year}
                             onClick={() => scrollToYear(year)}
-                            className="group flex items-center gap-2 px-4 py-2 border border-white/20 text-white/60 text-[13px] hover:bg-white hover:text-black hover:border-white transition-all duration-200"
+                            className="group flex items-center gap-2 px-4 py-2 border border-white/40 text-white/80 text-[13px] hover:bg-white hover:text-black hover:border-white transition-all duration-200"
                         >
                             {year}
                             <span className="text-white/30 group-hover:text-black/40 text-[11px]">{items.length}</span>
@@ -273,29 +268,29 @@ export default function DocsPage() {
                             ref={el => { yearRefs.current[year] = el; }}
                             className="scroll-mt-32"
                         >
-                            <div className="flex items-baseline gap-4 mb-6 border-b border-white/20 pb-4">
+                            <div className="flex items-baseline gap-4 mb-6 border-b border-white/40 pb-4">
                                 <span className="text-white text-[36px] font-bold leading-none tracking-tighter">{year}</span>
-                                <span className="text-white/30 text-[12px] tracking-widest">{items.length} papers</span>
+                                <span className="text-white/55 text-[12px] tracking-widest">{items.length} papers</span>
                             </div>
 
                             <div className="flex flex-col">
                                 {items.map((item, idx) => (
                                     <div
                                         key={idx}
-                                        className="group flex items-start justify-between gap-4 py-4 border-b border-white/10 hover:border-white/30 transition-all duration-200"
+                                        className="group flex items-start justify-between gap-4 py-4 px-3 -mx-3 border-b border-white/30 hover:border-white/50 hover:bg-white/5 transition-all duration-200"
                                     >
                                         <div className="flex gap-5 items-start flex-1">
-                                            <span className="text-white/25 text-[11px] tracking-widest w-5 pt-0.5 shrink-0">
+                                            <span className="text-white/55 text-[11px] tracking-widest w-5 pt-0.5 shrink-0">
                                                 {String(idx + 1).padStart(2, "0")}
                                             </span>
                                             <div className="flex flex-col gap-1">
                                                 <span className="text-white text-[14px] font-medium leading-snug">{item.title}</span>
-                                                <span className="text-white/50 text-[12px] leading-relaxed">
+                                                <span className="text-white/70 text-[12px] leading-relaxed">
                                                     {item.author && `${item.author} · `}{item.venue}
                                                 </span>
                                             </div>
                                         </div>
-                                        <span className="text-white/25 group-hover:text-white text-[14px] transition-colors duration-200 shrink-0 pt-0.5">
+                                        <span className="text-white/50 group-hover:text-white text-[14px] transition-colors duration-200 shrink-0 pt-0.5">
                                             {item.hasLink ? "↗" : "→"}
                                         </span>
                                     </div>
@@ -305,7 +300,6 @@ export default function DocsPage() {
                     ))}
                 </div>
 
-            </div>
-        </div>
+        </PageLayout>
     );
 }

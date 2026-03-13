@@ -1,4 +1,7 @@
+"use client"
+
 import Link from 'next/link';
+import { useTheme } from '@/shared/providers/ThemeProvider';
 
 const dropdownMenus: Record<string, { name: string; href: string }[]> = {
     PRODUCT: [
@@ -32,9 +35,33 @@ const navItems = [
     { name: "CONTACT US", href: "/contact" },
 ];
 
+const SunIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+);
+
+const MoonIcon = () => (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+);
+
 export const Header = () => {
+    const { theme, toggleTheme } = useTheme();
+    const isDark = theme === "dark";
+
     return (
-        <header className="flex w-full bg-black text-white justify-between items-center py-[0.3vw] px-[1vw] fixed top-0 left-0 z-[10000] border-b border-white/10 backdrop-blur-md bg-black/80">
+        /* bg-black/80 → 라이트모드에서 CSS 변수에 의해 bg-[#f0f0f0]/80 으로 자동 전환 */
+        <header className="flex w-full bg-black/80 text-white justify-between items-center py-[0.3vw] px-[1vw] fixed top-0 left-0 z-[10000] border-b border-white/10 backdrop-blur-md transition-colors duration-300">
             {/* 로고 */}
             <Link href="/" className="text-[1.25vw] font-[500] tracking-tighter hover:opacity-70 transition-opacity">
                 NEXTFOAM
@@ -90,6 +117,15 @@ export const Header = () => {
                         </Link>
                     );
                 })}
+
+                {/* 테마 토글 버튼 */}
+                <button
+                    onClick={toggleTheme}
+                    aria-label={isDark ? "라이트모드로 전환" : "다크모드로 전환"}
+                    className="ml-[1.75vw] flex items-center justify-center w-[2vw] h-[2vw] min-w-[28px] min-h-[28px] border border-white/30 text-white hover:bg-white hover:text-black transition-all duration-300 cursor-pointer"
+                >
+                    {isDark ? <SunIcon /> : <MoonIcon />}
+                </button>
             </nav>
         </header>
     );
